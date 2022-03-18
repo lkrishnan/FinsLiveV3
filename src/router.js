@@ -12,28 +12,43 @@ const routes = [
 			component: EsriMap
 
 		}, {
-			path: "/:gauges/:period",
+			path: "/period/:gauges/:period",
 			name: "AllPeriod",
 			component: EsriMap
 
 		}, {
-			path: "/:gauges/:startdate/:enddate",
+			path: "/range/:gauges/:startdate/:enddate",
 			name: "AllRange",
 			component: EsriMap
 
 		}, {
-			path: "/:gauges/:period/:site",
+			path: "/dateperiod/:gauges/:enddate/:period",
+			name: "AllDatePeriod",
+			component: EsriMap
+
+		}, {
+			path: "/period/:gauges/:period/:site",
 			name: "SelectedPeriod",
 			component: EsriMap
 
 		}, {
-			path: "/:gauges/:startdate/:enddate/:site",
+			path: "/range/:gauges/:startdate/:enddate/:site",
 			name: "SelectedRange",
 			component: EsriMap
 
 		}, {
+			path: "/dateperiod/:gauges/:enddate/:period/:site",
+			name: "SelectedDatePeriod",
+			component: EsriMap
+
+		}, {
 			path: "/camera",
-			name: "Camera",
+			name: "AllCamera",
+			component: EsriMap
+
+		}, {
+			path: "/camera/:site",
+			name: "SelectedCamera",
 			component: EsriMap
 
 		}, {
@@ -68,7 +83,7 @@ router.beforeEach( ( to, from, next ) => {
 			} )
 			break
 
-		case "AllPeriod":
+		case "AllPeriod": case "AllRange": case "AllDatePeriod":
 			let found_match = false
 
 			store.getters[ "tabs" ].forEach( ( tab, idx ) => {
@@ -84,17 +99,35 @@ router.beforeEach( ( to, from, next ) => {
 			} )
 
 			if( !found_match ){
+				const getParams = ( route_name, gauges ) => {
+					let params
+			
+					switch( route_name ){
+						case "AllPeriod": 
+							params = { gauges: gauges, period: to.params.period } 
+							break 
+			
+						case "AllRange":
+							params = { gauges: gauges, startdate: to.params.startdate, enddate: to.params.enddate } 
+							break
+
+						case "AllDatePeriod":
+							params = { gauges: gauges, enddate: to.params.enddate, period: to.params.period } 
+							break
+			
+					}
+
+					return params
+			
+				}
+
 				store.getters[ "tabs" ].forEach( ( tab, idx ) => {
 					//check if some gauges are included in the URL
 					if( tab.gauges.some( r => to.params.gauges.split( "," ).includes( r ) ) ){
 						//rewite the URL to include all gauges
 						next( {	
-							name: "AllPeriod", 
-							params: { 
-								gauges: tab.gauges.join( "," ), 
-								period: to.params.period
-			
-							} 
+							name: to.name, 
+							params: getParams( to.name, tab.gauges.join( "," ) ) 
 			
 						} )
 

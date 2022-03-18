@@ -9,6 +9,7 @@
   "dependencies": {
     "@arcgis/core": "^4.22.2",
     "@mdi/font": "^6.5.95",
+    "@turf/interpolate": "^6.5.0",
     "axios": "^0.26.0",
     "core-js": "^3.6.5",
     "fast-xml-parser": "^4.0.3",

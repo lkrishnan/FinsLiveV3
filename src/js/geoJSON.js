@@ -5,8 +5,8 @@ import StageIcon from "../assets/stage.png"
 import LakeIcon from "../assets/lake.png"
 import NoReadingIcon from "../assets/noreading.png"
 import CamIcon from "../assets/cam.png"
-import ImageMediaInfo from "@arcgis/core/popup/content/ImageMediaInfo"
-import MediaContent from "@arcgis/core/popup/content/MediaContent"
+import Interpolate from "@turf/interpolate"
+import UniqueValueRenderer from "@arcgis/core/renderers/UniqueValueRenderer"
 
 export function FormatAsGeoJSON( gauge_arr, data_arr ){
 	let geojson = { type: "FeatureCollection", features: [ ] }
@@ -77,7 +77,7 @@ export function FormatAsGeoJSON( gauge_arr, data_arr ){
 				if( site_obj.hasOwnProperty( site.site_id ) ){
 					if( site.hasOwnProperty( "raw_value" ) ){
 						site_obj[ site.site_id ].measure_unit = site.units,
-						site_obj[ site.site_id ].lastreading_epoch =  Moment( site.data_time ).valueOf( )
+						site_obj[ site.site_id ].lastreading_epoch = Moment( site.data_time ).valueOf( )
 						site_obj[ site.site_id ].reading = ( isNaN( parseFloat( site.raw_value ) ) ? "" : parseFloat( site.raw_value ).toFixed( 2 ) )
 						site_obj[ site.site_id ].icon = "stage" 
 
@@ -206,7 +206,7 @@ export function GetGeoJSONTemplate( gauge ){
 					actions: [ 
 							{
 								title: "View Snapshot",
-								id: "view-snapshot",
+								id: "cam_snapshot",
 								image: NoReadingIcon
 					  		} 
 
@@ -328,5 +328,104 @@ export function GetGeoJSONLabelInfo( gauge ){
 	}
 
 	return labelClass[ gauge ]
+
+}
+
+export function InterpolatePrcp( pt_geojson ){
+	const _this = this,
+		getClassBreak = ( min, max ) => {
+			let brks 
+
+			if( min > 2 ){
+				const inc = parseFloat( ( max - min / 4 ).toFixed( 2 ) )
+		
+				brks = [ 
+					{ lower: min, upper: ( min + inc ) - 0.01, color: "#8dd5fc" }, 
+					{ lower: ( min + inc ), upper: ( min + 2*inc ) - 0.01, color: "#4791fb" }, 
+					{ lower: ( min + 2*inc ), upper: ( min + 3*inc ) - 0.01, color: "#4559bd" }, 
+					{ lower: ( min + 3*inc ), upper: ( min + 4*inc ) - 0.01, color: "#0000ff" }, 
+					{ lower: ( min + 4*inc ), upper: ( max > ( min + 5*inc ) - 0.01 ? max : ( min + 5*inc ) - 0.01 ), color: "#970002" }, 
+					
+				]
+		
+			}else{
+				brks = [ 
+					{ lower: 0.01, upper: 1.99, color: "#8dd5fc" }, 
+					{ lower: 2.00, upper: 2.99, color: "#4791fb" }, 
+					{ lower: 3.00, upper: 3.99, color: "#4559bd" }, 
+					{ lower: 4.00, upper: 4.99, color: "#0000ff" }, 
+					{ lower: 5.00, upper: ( max > 5.99 ? max : 5.99 ), color: "#970002" }, 
+					
+				]
+		
+			}
+
+			return brks.map( brk => {
+				return {
+						minValue: brk.lower,
+						maxValue: brk.upper,
+						symbol: {
+							type: "simple-fill",  // autocasts as new SimpleFillSymbol()
+							color: brk.color,
+							outline: { width: 0 }, // remove outlines
+							style: "solid",
+	
+						}
+
+					}
+
+			} )
+
+		}
+
+	let geojson = Interpolate( pt_geojson, 1, { 
+			gridType: "hex", 
+			property: "reading", 
+			units: "miles" 
+
+		} ),
+		min = 0, 
+		max = 0
+				
+	geojson.features.forEach( feature => {
+		feature.properties.reading = parseFloat( feature.properties.reading.toFixed( 2 ) )
+
+		if( feature.properties.reading > 0 ){
+			max = ( feature.properties.reading > max ? feature.properties.reading : max )
+			min = ( min == 0 ? feature.properties.reading : ( feature.properties.reading < min ? feature.properties.reading : min ) )
+
+		}
+
+	} )
+
+	return { 
+			geojson: geojson, 
+			renderer: {
+				type: "class-breaks",  // autocasts as new UniqueValueRenderer()
+				field: "reading",
+				defaultSymbol: { 
+					type: "simple-fill", 
+					color: "#ffffff",
+					outline: { width: 0 },
+					style: "none",
+
+				},  // autocasts as new SimpleFillSymbol()
+				classBreakInfos: getClassBreak( min, max )
+
+		}
+
+	}
+
+}
+
+export function GetGeoJSONURL( geojson ){
+ 	// create a new blob from geojson featurecollection
+ 	const blob = new Blob( [ JSON.stringify( geojson ) ], {
+			type: "application/json"
+		} ),
+		// URL reference to the blob
+		url = URL.createObjectURL( blob )
+
+	return url
 
 }

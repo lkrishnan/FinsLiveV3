@@ -2,7 +2,7 @@
 	<v-app>
 		<v-container 
   			fluid
-			style="margin: 0; position: absolute; left: 0px; top: 0px; z-index: 1;"
+			style="margin: 0; position: absolute; left: 0px; top: 0px; z-index: 7;"
 			class="pa-0"
 		>
 			<v-card
@@ -43,7 +43,7 @@
 							color="primary"
 							background-color="transparent"
 							light
-							@change="takeAction('TopTab')"
+							@change="takeAction('Tab')"
 						>
 							<v-tab
 								v-for="(tab, i) in tabs"
@@ -104,7 +104,7 @@
 			v-model="nav_drawer"
       		absolute
       		temporary
-			style="z-index: 7 !important;"
+			style="z-index: 8 !important;"
 			width="280"
     	>
 			<v-row 
@@ -166,6 +166,8 @@
 			color="secondary"
 			class="d-flex d-sm-none"
 			fixed
+			v-model="top_tab"
+			@change="takeAction('Tab')"
 		>
 			<v-btn>
 				Rain Gauge
@@ -188,11 +190,23 @@
 </template>
 
 <script>
+import GetNewRoute from "./js/getNewRoute"
 
 export default {
   	name: "App",
 
 	computed: {
+		nav_drawer: {
+			set( nav_drawer ){
+				this.$store.commit( "nav_drawer", nav_drawer )
+				
+			},
+			get( ){
+				return this.$store.state.nav_drawer
+			
+			}
+
+		},
 		top_tab: {
 			set( top_tab ){
 				this.$store.commit( "top_tab", top_tab )
@@ -218,8 +232,7 @@ export default {
 
   	data: ( ) => ( {
 		//hamburger menu navigation menu
-		nav_drawer: false,
-	  	nav_items: [
+		nav_items: [
 				{ text: "Help", icon: "mdi-help", action: "Help" },
 				{ text: "About", icon: "mdi-information-variant", action: "About" },
         		{ text: "Data Download", icon: "mdi-download", action: "Download" },
@@ -245,20 +258,8 @@ export default {
 
 					break
 
-				case "TopTab":
-					switch( _this.top_tab ){
-						case 0: case 1:
-							_this.$router.push( { name: "AllPeriod", params: { 
-									gauges: _this.tabs[ _this.top_tab ].gauges.join( "," ), 
-									period: "P1D"
-								} } )
-							break
-						case 2:
-							_this.$router.push( { name: "Camera" } )
-							break
-
-					}
-										
+				case "Tab":
+					_this.$router.push( GetNewRoute( { gauges: _this.tabs[ _this.top_tab ].gauges.join( "," ) } ) )
 					break
 
 				default:
@@ -275,5 +276,5 @@ export default {
 </script>
 
 <style>
-	
+	html { overflow-y: auto; }
 </style>

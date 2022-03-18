@@ -13,7 +13,7 @@ export default new Vuetify( {
                 accent: colors.grey,
                 info: colors.grey.white,
                 error: colors.red.accent3,
-                background: colors.blue.lighten4
+                background: colors.white
             },
             dark: {
                 primary: colors.blue.lighten3,

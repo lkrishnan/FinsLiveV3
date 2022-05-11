@@ -404,16 +404,13 @@
 
 			quick_selection( ){
 				if( this.chg_route ){
-					console.log( "change route" )
 					this.doFilter( "quick" )
 					
 				}else{
-					console.log( "dont change route" )
 					this.chg_route = true
+
 				}
 				
-				
-
 			},
 
 			start_date( val ){

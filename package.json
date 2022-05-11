@@ -1,38 +1,45 @@
 {
-  "name": "finslive3",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
-  },
-  "dependencies": {
-    "@arcgis/core": "^4.22.2",
-    "@mdi/font": "^6.5.95",
-    "@turf/interpolate": "^6.5.0",
-    "axios": "^0.26.0",
-    "core-js": "^3.6.5",
-    "fast-xml-parser": "^4.0.3",
-    "fontsource-roboto": "^4.0.0",
-    "iso8601-duration": "^1.3.0",
-    "moment": "^2.29.1",
-    "register-service-worker": "^1.7.1",
-    "txml": "^5.1.1",
-    "vue": "^2.6.11",
-    "vue-router": "^3.2.0",
-    "vuetify": "^2.4.0",
-    "vuex": "^3.4.0"
-  },
-  "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-pwa": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-plugin-vuex": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "sass": "~1.32.0",
-    "sass-loader": "^10.0.0",
-    "vue-cli-plugin-vuetify": "~2.4.5",
-    "vue-template-compiler": "^2.6.11",
-    "vuetify-loader": "^1.7.0"
-  }
+  	"name": "finslive3",
+  	"version": "0.1.0",
+  	"private": true,
+  	"scripts": {
+  	  	"serve": "vue-cli-service serve",
+  	  	"build": "vue-cli-service build --modern",
+  	  	"prod": "powershell Remove-Item //gisags2v/c$/inetpub/wwwroot/finslive/* -Recurse -Force && powershell Copy-Item –Path dist/* –Destination //gisags2v/c$/inetpub/wwwroot/finslive -Recurse -Force",
+  	  	"zipnodelete": "powershell Compress-Archive -Path dist/* -DestinationPath finslive_bundle.zip",
+  	  	"zip": "powershell Remove-Item finslive_bundle.zip -Recurse -Force && powershell Compress-Archive -Path dist/* -DestinationPath finslive_bundle.zip",
+  	  	"copy": "powershell Copy-Item –Path finslive_bundle.zip –Destination //gisags2v/c$/temp",
+  	  	"publish": "npm run build && npm run zip && npm run copy"
+  	},
+  	"dependencies": {
+  	  	"@arcgis/core": "^4.23.0",
+  	  	"@mdi/font": "^6.5.95",
+  	  	"@turf/interpolate": "^6.5.0",
+  	  	"axios": "^0.26.0",
+  	  	"core-js": "^3.6.5",
+  	  	"d3": "^7.3.0",
+  	  	"fast-xml-parser": "^4.0.3",
+  	  	"fontsource-roboto": "^4.0.0",
+  	  	"iso8601-duration": "^1.3.0",
+  	  	"moment": "^2.29.1",
+  	  	"register-service-worker": "^1.7.1",
+  	  	"txml": "^5.1.1",
+  	  	"vue": "^2.6.11",
+  	  	"vue-router": "^3.2.0",
+  	  	"vuelidate": "^0.7.7",
+  	  	"vuetify": "^2.4.0",
+  	  	"vuex": "^3.4.0"
+  	},
+  	"devDependencies": {
+  	  	"@vue/cli-plugin-babel": "~4.5.0",
+  	  	"@vue/cli-plugin-pwa": "~4.5.0",
+  	  	"@vue/cli-plugin-router": "~4.5.0",
+  	  	"@vue/cli-plugin-vuex": "~4.5.0",
+  	  	"@vue/cli-service": "~4.5.0",
+  	  	"sass": "~1.32.0",
+  	  	"sass-loader": "^10.0.0",
+  	  	"vue-cli-plugin-vuetify": "~2.4.5",
+  	  	"vue-template-compiler": "^2.6.11",
+  	  	"vuetify-loader": "^1.7.0"
+  	}
 }

@@ -134,8 +134,7 @@
                     //start 1 second loop
                     _this.radar_loop = self.setInterval( ( ) => {
                         _this.radar_tick = ( _this.radar_tick < 12 ? ( _this.radar_tick + 1 ) : 0 )
-                        console.log( _this.radar_tick )
-
+                        
 				    }, 1500 )
 
                 }

@@ -1,45 +1,245 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
 import EsriMap from "./components/EsriMap.vue"
+import Moment from "moment"
 import store from "./store"
+import ValidateString from "./js/validateString"
 
 Vue.use( VueRouter )
 
-const routes = [
+const getGauges = ( input_list) => {
+		let amended_list = "rain"
+
+		store.getters[ "tabs" ].forEach( ( tab, idx ) => {
+			if( tab.gauges.some( r => input_list.split( "," ).includes( r ) ) ){
+				amended_list = tab.gauges.join( "," )
+			}
+
+		} )
+
+		return amended_list 
+
+	},
+	getRangeDate = ( startdate, enddate ) => {
+		const inpt = {
+			startdate: Moment( startdate, "YYYY-MM-DDTHH:mmZ", true ),
+			enddate: Moment( enddate, "YYYY-MM-DDTHH:mmZ", true ),
+
+		}
+
+		if( inpt.startdate.isValid( ) && inpt.enddate.isValid( ) && inpt.enddate.diff( inpt.startdate, "seconds" ) > 0 ){
+			return { startdate: startdate, enddate: enddate, }
+
+		}else{
+			return {
+				startdate: Moment( new Date( ) ).subtract( 1, "d" ).format( "YYYY-MM-DDTHH:mmZ" ),
+				enddate: Moment( new Date( ) ).format( "YYYY-MM-DDTHH:mmZ" ),
+	
+			}
+
+		}
+
+	},
+	getEndDate = ( enddate ) => {
+		const inpt_enddate = Moment( enddate, "YYYY-MM-DDTHH:mmZ", true ) 
+
+		if( inpt_enddate.isValid( ) ){
+			return enddate
+
+		}else{
+			return Moment( new Date( ) ).format( "YYYY-MM-DDTHH:mmZ" )
+	
+		}
+
+	},
+	getSite = ( gauges, site ) => {
+		let ret_site = null
+
+		gauges.split( "," ).every( gauge => {
+			switch( gauge ){
+				case "rain":
+					ret_site = ( ValidateString( site, "isRainGauge" ) ? site : null ) 
+					break
+
+				case "stage":
+					ret_site = ( ValidateString( site, "isStageGauge" ) ? site : null ) 
+					break
+
+				case "lcs":
+					ret_site = ( ValidateString( site, "isLCSGauge" ) ? site : null ) 
+					break
+
+				case "lake":
+					ret_site = ( ValidateString( site, "isLakeGauge" ) ? site : null ) 
+					break
+
+			}
+
+			//do this to break the every loop one a match is found
+			return ( ret_site ? false : true )
+
+		} )
+
+		return ret_site
+
+	},
+	routes = [
 		{
 			path: "/",
 			name: "Home",
-			component: EsriMap
+			component: EsriMap,
+			beforeEnter( to, from, next ){
+				next( {	name: "AllPeriod", params: { gauges: "rain", period: "P1D" } } )
+				
+			},
 
 		}, {
 			path: "/period/:gauges/:period",
 			name: "AllPeriod",
-			component: EsriMap
+			component: EsriMap,
+			beforeEnter( to, from, next ){
+				const valid = {
+					gauges: getGauges( to.params.gauges ),
+					period: ( ValidateString( to.params.period, "isISO8601" ) ? to.params.period : "P1D" )
+
+				}
+
+				if( valid.gauges == to.params.gauges && valid.period == to.params.period ){
+					next( )
+					
+				}else{
+					//use adjusted period
+					next( {	name: "AllPeriod", params: { gauges: valid.gauges, period: valid.period } } )
+					
+				}
+
+			},
 
 		}, {
 			path: "/range/:gauges/:startdate/:enddate",
 			name: "AllRange",
-			component: EsriMap
+			component: EsriMap,
+			beforeEnter( to, from, next ){
+				const valid = {
+					gauges: getGauges( to.params.gauges ),
+					...getRangeDate( to.params.startdate, to.params.enddate )
+					
+				}
+
+				if( valid.gauges == to.params.gauges && valid.startdate == to.params.startdate && valid.enddate == to.params.enddate ){
+					next( )
+
+				}else{
+					//use adjusted range
+					next( {	name: "AllRange", params: { gauges: valid.gauges, startdate: valid.startdate, enddate: valid.enddate } } )
+
+				}
+
+			},
 
 		}, {
 			path: "/dateperiod/:gauges/:enddate/:period",
 			name: "AllDatePeriod",
-			component: EsriMap
+			component: EsriMap,
+			beforeEnter( to, from, next ){
+				const valid = {
+					gauges: getGauges( to.params.gauges ),
+					enddate: getEndDate( to.params.enddate ),
+					period: ( ValidateString( to.params.period, "isISO8601" ) ? to.params.period : "P1D" ),
+					
+				}
+
+				if( valid.gauges == to.params.gauges && valid.enddate == to.params.enddate && valid.period == to.params.period ){
+					next( )
+
+				}else{
+					//use adjusted date period
+					next( {	name: "AllDatePeriod", params: { gauges: valid.gauges, enddate: valid.enddate, period: valid.period } } )
+
+				}
+
+			},
 
 		}, {
 			path: "/period/:gauges/:period/:site",
 			name: "SelectedPeriod",
-			component: EsriMap
+			component: EsriMap,
+			beforeEnter( to, from, next ){
+				const valid = {
+					gauges: getGauges( to.params.gauges ),
+					period: ( ValidateString( to.params.period, "isISO8601" ) ? to.params.period : "P1D" ),
+										
+				}
+
+				valid.site = getSite( valid.gauges, to.params.site )
+
+				console.log( valid )
+
+				if( valid.gauges == to.params.gauges && valid.period == to.params.period && valid.site == to.params.site ){
+					next( )
+					
+				}else{
+					//use adjusted period
+					next( {	name: "AllPeriod", params: { gauges: valid.gauges, period: valid.period } } )
+					
+				}
+
+			},
 
 		}, {
 			path: "/range/:gauges/:startdate/:enddate/:site",
 			name: "SelectedRange",
-			component: EsriMap
+			component: EsriMap,
+			beforeEnter( to, from, next ){
+				const valid = {
+					gauges: getGauges( to.params.gauges ),
+					...getRangeDate( to.params.startdate, to.params.enddate ),
+					
+				}
+
+				valid.site = getSite( valid.gauges, to.params.site )
+
+				if( valid.gauges == to.params.gauges && 
+						valid.startdate == to.params.startdate && 
+						valid.enddate == to.params.enddate &&
+						valid.site == to.params.site ){
+					next( )
+
+				}else{
+					//use adjusted range
+					next( {	name: "AllRange", params: { gauges: valid.gauges, startdate: valid.startdate, enddate: valid.enddate } } )
+
+				}
+
+			},
 
 		}, {
 			path: "/dateperiod/:gauges/:enddate/:period/:site",
 			name: "SelectedDatePeriod",
-			component: EsriMap
+			component: EsriMap,
+			beforeEnter( to, from, next ){
+				const valid = {
+					gauges: getGauges( to.params.gauges ),
+					enddate: getEndDate( to.params.enddate ),
+					period: ( ValidateString( to.params.period, "isISO8601" ) ? to.params.period : "P1D" ),
+					
+				}
+
+				valid.site = getSite( valid.gauges, to.params.site )
+
+				if( valid.gauges == to.params.gauges && 
+						valid.enddate == to.params.enddate && 
+						valid.period == to.params.period &&
+						valid.site == to.params.site ){
+					next( )
+
+				}else{
+					//use adjusted date period
+					next( {	name: "AllDatePeriod", params: { gauges: valid.gauges, enddate: valid.enddate, period: valid.period } } )
+
+				}
+
+			},
 
 		}, {
 			path: "/camera",
@@ -49,7 +249,18 @@ const routes = [
 		}, {
 			path: "/camera/:site",
 			name: "SelectedCamera",
-			component: EsriMap
+			component: EsriMap,
+			beforeEnter( to, from, next ){
+				if( ValidateString( to.params.site, "isCamera" ) ){
+					next( )
+
+				}else{
+					//show all cameras
+					next( {	name: "AllCamera" } )
+
+				}
+
+			},
 
 		}, {
 			path: "/about",
@@ -57,118 +268,24 @@ const routes = [
 			// which is lazy-loaded when the route is visited.
 			component: ( ) => import( /* webpackChunkName: "about" */ "./components/About.vue" )
 
+		}, {
+			path: "/login",
+			name: "Login",
+			// which is lazy-loaded when the route is visited.
+			component: ( ) => import( /* webpackChunkName: "about" */ "./components/Login.vue" )
+
 		}
 
 	],
 
 	router = new VueRouter( {
+		routes,
 		mode: "history",
-		//base: "/finslive3/",
-		base: "/",
-		routes
-
+		//base: "/finslive/"
+		base: "/"
+		
 	} )
 
-router.beforeEach( ( to, from, next ) => {
-	switch( to.name ){
-		case "Home":
-			next( {	
-				name: "AllPeriod", 
-				params: { 
-					gauges: "rain", 
-					period: "P1D"
 
-				} 
-
-			} )
-			break
-
-		case "AllPeriod": case "AllRange": case "AllDatePeriod":
-			let found_match = false
-
-			store.getters[ "tabs" ].forEach( ( tab, idx ) => {
-				//check if all gauges are included in the URL
-				if( tab.gauges.every( r => to.params.gauges.split( "," ).includes( r ) ) ){
-					//
-					next( )
-					store.commit( "top_tab", idx )
-					found_match = true
-				}
-
-
-			} )
-
-			if( !found_match ){
-				const getParams = ( route_name, gauges ) => {
-					let params
-			
-					switch( route_name ){
-						case "AllPeriod": 
-							params = { gauges: gauges, period: to.params.period } 
-							break 
-			
-						case "AllRange":
-							params = { gauges: gauges, startdate: to.params.startdate, enddate: to.params.enddate } 
-							break
-
-						case "AllDatePeriod":
-							params = { gauges: gauges, enddate: to.params.enddate, period: to.params.period } 
-							break
-			
-					}
-
-					return params
-			
-				}
-
-				store.getters[ "tabs" ].forEach( ( tab, idx ) => {
-					//check if some gauges are included in the URL
-					if( tab.gauges.some( r => to.params.gauges.split( "," ).includes( r ) ) ){
-						//rewite the URL to include all gauges
-						next( {	
-							name: to.name, 
-							params: getParams( to.name, tab.gauges.join( "," ) ) 
-			
-						} )
-
-						store.commit( "top_tab", idx )
-						found_match = true
-	
-					}
-	
-	
-				} )
-
-			}
-
-			if( !found_match ){
-				//bad URL fallback to default
-				next( {	
-					name: "AllPeriod", 
-					params: { 
-						gauges: "rain", 
-						period: "P1D"
-
-					} 
-
-				} )
-				store.commit( "top_tab", 0 )
-
-			}
-			break
-
-		case "Camera":
-			next( )
-			store.commit( "top_tab", 2 )
-			break
-
-		default: 
-			next( )
-
-			break
-	
-	}	
-
-} )
 
 export default router

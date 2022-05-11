@@ -7,7 +7,7 @@
 		>
 			<v-card
 				color="background"
-				class="d-none d-sm-flex"
+				class="d-none d-md-flex"
 			>
 				<v-row
 					no-gutters
@@ -62,6 +62,8 @@
 							outlined
 							class="ma-2 d-none d-lg-flex" 
 							color="primary"
+							v-if="( top_tab !== 2 )"
+							@click="takeAction('DownloadData')"
 						>
 								<v-icon>mdi-download</v-icon>
 								Data
@@ -89,10 +91,24 @@
 							outlined
 							class="ma-2 d-none d-lg-flex"  
 							color="primary"
+							@click="takeAction('Login')"
+							v-if="( auth === '' )"
 						>
 								<v-icon>mdi-login</v-icon>
 								Login
 						</v-btn>
+
+						<v-btn 
+							outlined
+							class="ma-2 d-none d-lg-flex"  
+							color="primary"
+							@click="takeAction('Logout')"
+							v-if="( auth !== '' )"
+						>
+								<v-icon>mdi-login</v-icon>
+								Logout
+						</v-btn>
+						
 					</v-col>
 				</v-row>
 				
@@ -162,38 +178,28 @@
 			<router-view/>
 		</v-main>
 
-		<v-bottom-navigation
-			color="secondary"
-			class="d-flex d-sm-none"
-			fixed
-			v-model="top_tab"
-			@change="takeAction('Tab')"
-		>
-			<v-btn>
-				Rain Gauge
-				<v-icon>mdi-weather-rainy</v-icon>
-			</v-btn>
+		<v-snackbar bottom right :value="updateExists" :timeout="-1" color="primary">
+    		An update is available
+    		<v-btn text @click="refreshApp">Update</v-btn>
+  		</v-snackbar>  
 
-			<v-btn>
-				<span>Stage Gauge</span>
-				<v-icon>mdi-wave</v-icon>
-			</v-btn>
-
-			<v-btn>
-				<span>Creek Cam</span>
-				<v-icon>mdi-camera-enhance-outline</v-icon>
-			</v-btn>
-
-  		</v-bottom-navigation>
-		
 	</v-app>
+
 </template>
 
 <script>
 import GetNewRoute from "./js/getNewRoute"
+import CSVMaker from "./js/csvMaker"
+import DownloadData from "./js/downloadData"
 
 export default {
   	name: "App",
+
+	mounted: function( ){
+            //set the tab selectipn basedon the route
+            this.parseRoute( )
+        
+        },
 
 	computed: {
 		nav_drawer: {
@@ -221,12 +227,54 @@ export default {
 		tabs( ){
 			return this.$store.state.tabs
 			
+		},
+
+		//map
+		gauge_data( ){
+			return this.$store.state.gauge_data
+
+		},
+
+		//login
+		auth: {
+			set( token ){
+                this.$store.commit( "auth", token )
+                    
+            },
+            get( ){
+            	return this.$store.state.token
+            }
+
+		},
+
+	},
+
+	created( ){
+		// Listen for our custom event from the SW registration
+		document.addEventListener( "swUpdated", this.updateAvailable, { once: true } )
+		
+		// Prevent multiple refreshes
+		if( "serviceWorker" in navigator ){
+			navigator.serviceWorker.addEventListener( "controllerchange", ( ) => {
+				if( this.refreshing ) 
+					return
+				this.refreshing = true
+				// Here the actual reload of the page occurs
+				window.location.reload( )
+		
+			} )
 		}
 
 	},
 
 	watch: {
+		 //custom
+		route_path( ){ //change in query string
+			const _this = this
+
+			//_this.parseRoute( )
 		
+		},
 
     },  
 
@@ -239,11 +287,53 @@ export default {
         		{ text: "Login", icon: "mdi-login", action: "Login" },
 						      	
 		],
-		nav_item: -1
-    
+		nav_item: -1,
+
+		// refresh variables
+		refreshing: false,
+		registration: null,
+		updateExists: false,
+
   	} ),
 
   	methods: {
+		 parseRoute( ){
+                const _this = this,
+                    name = _this.$router.currentRoute.name,
+                    params = _this.$router.currentRoute.params
+
+				let temp_tab = -1
+
+				switch( name ){
+                   	case "AllPeriod": case "SelectedPeriod": 
+				   	case "AllRange": case "SelectedRange": 
+				   	case "AllDatePeriod": case "SelectedDatePeriod":
+						_this.tabs.forEach( ( tab, idx ) => {
+							//check if all gauges included in the URL are in the acceptable tabs
+							if( tab.gauges.every( r => params.gauges.split( "," ).includes( r ) ) ){
+								temp_tab = idx
+
+							}
+
+						} )
+						break
+
+					case "AllCamera": case "SelectedCamera":
+						if( _this.top_tab != 2 ){
+							temp_tab = 2
+
+						}
+						break
+
+                }
+
+				if( temp_tab > 0 && temp_tab != _this.top_tab ){
+					_this.top_tab = temp_tab
+
+				}
+
+        },
+
         takeAction( action ){
           	const _this = this
 			  
@@ -253,9 +343,32 @@ export default {
 
 					break
 
+				case "DownloadData":
+					const data = {
+        					id: 1,
+        					name: "Geeks",
+        					profession: "developer"
+    					},
+						csvdata = CSVMaker( _this.gauge_data )
+    
+					DownloadData( csvdata,  Math.floor( Math.random( ) * 100000 ) + ".csv" )
+
+					break
+
 				case "About":
 					console.log( action )
 
+					break
+
+				case "Login":
+					_this.$router.push( { name: action } )
+
+					break
+
+				case "Logout":
+					localStorage.removeItem( "token" )
+          			_this.auth = ""
+											
 					break
 
 				case "Tab":
@@ -268,6 +381,28 @@ export default {
 
 			}
  
+		},
+
+		// Store the SW registration so we can send it a message
+		// We use `updateExists` to control whatever alert, toast, dialog, etc we want to use
+		// To alert the user there is an update they need to refresh for
+		updateAvailable( event ){
+			this.registration = event.detail
+			this.updateExists = true
+		
+		},
+		
+		// Called when the user accepts the update
+		refreshApp( ){
+			console.debug("refreshing app")
+			this.updateExists = false
+
+			// Make sure we only send a 'skip waiting' message if the SW is waiting
+			if( !this.registration || !this.registration.waiting ) 
+				return
+			// send message to SW to skip the waiting and activate the new SW
+			this.registration.waiting.postMessage( { type: 'SKIP_WAITING' } )
+
 		},
 		
     }

@@ -95,6 +95,19 @@
 			
 			},
 
+			//map
+			zoom_to_gauge: {
+                set( payload ){
+                    this.$store.commit( "zoom_to_gauge", payload )
+					
+				},
+      			get( ){
+					return this.$store.state.zoom_to_gauge
+      			
+				}
+
+            },
+
 			//toggles
 			info_drawer: {
 				set( payload ){
@@ -168,19 +181,13 @@
 
 		watch: {
             //change in query string
-            route_path( ){
-                const _this = this
-
-            },
-
-			sel_gauge_cam( new_val, old_val ){
+            sel_gauge_cam( new_val, old_val ){
 				const _this = this,
 					new_route = GetNewRoute( { site: new_val.value.site_id, } )
 
-				console.log( new_route )
-
 				//go to new route
 				if( new_route ){
+					 _this.zoom_to_gauge = true
 					_this.$router.push( new_route )
 
 				}

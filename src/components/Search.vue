@@ -115,10 +115,6 @@
       
       	computed: {
 			//app
-			is_mobile( ){
-				return this.$store.state.is_mobile
-      			
-			},
 			top_tab( ){
 				return this.$store.state.top_tab
 			
@@ -172,6 +168,17 @@
 				return this.$store.state.map_sources
       			
 			},
+			last_search_result: {
+				set( payload ){
+                    this.$store.commit( "last_search_result", payload )
+					
+				},
+      			get( ){
+					return this.$store.state.last_search_result
+      			
+				}
+
+			},
 
 			//query control
 			curr_qry_ctrl: {
@@ -201,7 +208,15 @@
 
 				}
 				
-			}
+			},
+			is_mobile( ){
+                switch( this.$vuetify.breakpoint.name ){
+                    case "xs": case "sm": return true
+                    default: return false
+
+                }
+
+            },
 			
       	},
       
@@ -227,7 +242,8 @@
 
 				if( _this.srch_selection ){
 					document.activeElement.blur( )
-													
+					console.log( _this.srch_selection )			
+					_this.last_search_result = _this.srch_selection
 				}
 				
 			},

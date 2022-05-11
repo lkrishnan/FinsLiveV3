@@ -136,6 +136,36 @@ export default function validateString( str, type ){
 				
 			return retval
 			
+		},
+
+		isRainGauge: str => {
+			return ( str.match( /^[4][5]\d{2}?$/ ) ? true : false ) 
+
+		},
+
+		isStageGauge: str => {
+			return ( str.match( /^[6][5]\d{2}?$/ ) ? true : false ) 
+
+		},
+
+		isLCSGauge: str => {
+			return ( str.match( /^[0]\d+?$/ ) ? true : false ) 
+
+		},
+
+		isLakeGauge: str => {
+			return ( str.match( /^[8][5][9]\d{1}?$/ ) ? true : false ) 
+
+		},
+
+		isCamera: str => {
+			return ( str.match( /(^[1-9][0-4]?$|\bM([C|Y]|OBILE))/ ) ? true : false ) 
+
+		},
+
+		isISO8601: str => {
+			return ( str.match( /^(-?)P(?=\d|T\d)(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)([DW]))?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?)?$/ ) ? true : false )
+			
 		}
 		
 	}

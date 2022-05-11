@@ -16,7 +16,6 @@ export default function getNewRoute( chg_params ){
 				new_params = { ...chg_params, ...keep_params }
 
 			}else{ //filter change
-				//console.log( chg_params )
 				const { period, startdate, enddate, ...keep_params } = old_params
 				new_params = { ...chg_params, ...keep_params }
 

@@ -7,71 +7,59 @@ import NoReadingIcon from "../assets/noreading.png"
 import CamIcon from "../assets/cam.png"
 import Interpolate from "@turf/interpolate"
 import UniqueValueRenderer from "@arcgis/core/renderers/UniqueValueRenderer"
+import store from "../store"
 
-export function FormatAsGeoJSON( gauge_arr, data_arr ){
-	let geojson = { type: "FeatureCollection", features: [ ] }
+export function FormatAsGeoJSON( gauge_arr, data_arr, gauge_info ){
+	let geojson = { type: "FeatureCollection", features: [ ] },
+		gauge_data = [ ],
+		site_obj = { }
 
+	//initiate site_obj array using the gauge information from the locally stored json file
+	gauge_info.forEach( site => { 
+		site_obj[ site.site_id ] = {
+			unique_id: site.unique_id,  
+			gauge: site.gauge_type,
+			site_id: site.site_id,
+			latitude: site.lat,
+			longitude: site.lon,
+			site_name: site.site_name,
+			measure_unit: null,
+			lastreading_epoch: null,
+			reading: "",
+			icon: "nr", 
+
+			}
+
+	} )
+
+	//loop through gauge data consumed through APIs
 	gauge_arr.forEach( ( gauge, idx ) => {
-		if( [ "rain", "stage", "lake" ].includes( gauge ) ){
+		if( [ "rain", "stage", "lake" ].includes( gauge ) ){ //USGS gauges
+			const allowed = [ "precipitation", "stream_level", "lake_level", "lastreading_epoch", "measure_unit" ]
 
 			data_arr[ idx ].forEach( row => {
-				//const allowed = [ "site_id", "site_name", "gauge", "precipitation", "stream_level", 
-				//	"lake_level", "lastreading_time", "lastreading_epoch", "usgs_id", "shef_id", "measure_unit" ],
-				const allowed = [ "site_id", "site_name", "gauge", "precipitation", "stream_level", "lake_level", "lastreading_epoch", "measure_unit" ],
-					prop = Object.keys( row )
-							.filter( key => allowed.includes( key ) )
-							.reduce( ( obj, key ) => {
-								if( key === "lastreading_epoch" ){
-									obj[ key ] = parseInt( row[ key ] )	 
-		
-								}else if( [ "precipitation", "stream_level", "lake_level" ].includes( key ) ){
-									obj[ "reading" ] = ( isNaN( parseFloat( row[ key ] ) ) ? "" : parseFloat( row[ key ] ).toFixed( 2 ) )
-									console.log( )
-									obj[ "icon" ] = ( isNaN( parseFloat( row[ key ] ) ) ? "nr" : row.gauge )
+				allowed.forEach( key => {
+					if( key === "lastreading_epoch" ){
+						site_obj[ row.site_id ][ key ] = parseInt( row[ key ] )	 
 
-								}else{
-									obj[ key ] = row[ key ]
+					}else if( [ "precipitation", "stream_level", "lake_level" ].includes( key ) ){
+						if( row.hasOwnProperty( key ) ){
+							site_obj[ row.site_id ][ "reading" ] = ( isNaN( parseFloat( row[ key ] ) ) ? "" : parseFloat( row[ key ] ).toFixed( 2 ) )
+							site_obj[ row.site_id ][ "icon" ] = ( isNaN( parseFloat( row[ key ] ) ) ? "nr" : row.gauge )
 
-								}
-					
-								return obj
+						}
+						
+					}else{
+						site_obj[ row.site_id ][ key ] = row[ key ]
 
-							}, { } )
-		
-				//Push features into the geojson layer
-				geojson.features.push( {
-					type: "Feature",
-					geometry: {
-						type: "Point",
-						coordinates: [ parseFloat( row.longitude ), parseFloat( row.latitude ) ]
-
-					},
-					properties: prop
+					}
 
 				} )
-		
-			} )
-
-		}else if( gauge === "lcs" ){
-			let site_obj = { }
-
-			//parse lcs meta and store in an object based on site_id
-			data_arr[ idx ].meta.forEach( site => {
-				site_obj[ site.site_id ] = { 
-						gauge: "lcs",
-						site_id: site.site_id,
-						latitude: parseFloat( site.latitude_dec ),
-						longitude: parseFloat( site.longitude_dec ),
-						site_name: site.location,
-						measure_unit: null,
-						lastreading_epoch: null,
-						reading: "",
-						icon: "nr", 
-
-				  	}
 
 			} )
 
+			
+		}else if( gauge === "lcs" ){ //low cost gauges
 			//parse lcs data and store in an object based on site_id
 			data_arr[ idx ].data.forEach( site => {
 				if( site_obj.hasOwnProperty( site.site_id ) ){
@@ -87,30 +75,36 @@ export function FormatAsGeoJSON( gauge_arr, data_arr ){
 				
 			} )
 
-			for( let site in site_obj ){
-				const { longitude, latitude, ...prop } = site_obj[ site ]
-
-				//Push features into the geojson layer
-				geojson.features.push( {
-					type: "Feature",
-					geometry: {
-						type: "Point",
-						coordinates: [ longitude, latitude ]
-
-					},
-					properties: prop
-					
-				} )
-				
-			}
-
 		}
-
+		
 	} )
+
+	//push features into the geojson feature collection
+	for( let site in site_obj ){
+		const { longitude, latitude, ...prop } = site_obj[ site ]
+
+		//Push features into the geojson layer
+		geojson.features.push( {
+			type: "Feature",
+			geometry: {
+				type: "Point",
+				coordinates: [ longitude, latitude ]
+
+			},
+			properties: prop
+			
+		} )
+
+		gauge_data.push( site_obj[ site ] )
+		
+	}
+
+	store.commit( "gauge_data", gauge_data )
 
 	return geojson
 
 }
+
 
 export function GetGeoJSONTemplate( gauge ){
 	const getPopupContent = ( lastreading_epoch, reading, measure_unit ) =>{
@@ -182,7 +176,17 @@ export function GetGeoJSONTemplate( gauge ){
 								dateFormat: "short-date-short-time"
 							}
 						}
+
+					],
+					actions: [ 
+						{
+							title: "View Details",
+							id: "gauge_detail",
+							image: NoReadingIcon
+						} 
+	
 					]
+
 				},
 
 			"stage,lcs,lake": {

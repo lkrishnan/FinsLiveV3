@@ -1,47 +1,57 @@
 import Moment from "moment"
 import LabelClass from "@arcgis/core/layers/support/LabelClass"
+import Interpolate from "@turf/interpolate"
 import RainIcon from "../assets/rain.png"
-import StageIcon from "../assets/stage.png"
-import LakeIcon from "../assets/lake.png"
 import NoReadingIcon from "../assets/noreading.png"
 import CamIcon from "../assets/cam.png"
-import Interpolate from "@turf/interpolate"
-import UniqueValueRenderer from "@arcgis/core/renderers/UniqueValueRenderer"
+import DetailsIcon from "../assets/tablelarge.png"
 import store from "../store"
 
 export function FormatAsGeoJSON( gauge_arr, data_arr, gauge_info ){
 	let geojson = { type: "FeatureCollection", features: [ ] },
 		gauge_data = [ ],
-		site_obj = { }
+		site_obj = { },
+		last_five = { },
+		storeLastFive = ( unique_id, reading ) => {
+			if( last_five.hasOwnProperty( unique_id ) )
+				last_five[ unique_id ].push( reading )
+			else
+				last_five[ unique_id ] = [ reading ]
+
+		}
 
 	//initiate site_obj array using the gauge information from the locally stored json file
 	gauge_info.forEach( site => { 
-		site_obj[ site.site_id ] = {
+		site_obj[ site.unique_id ] = {
 			unique_id: site.unique_id,  
 			gauge: site.gauge_type,
 			site_id: site.site_id,
 			latitude: site.lat,
 			longitude: site.lon,
 			site_name: site.site_name,
+			label: site.label,
 			measure_unit: null,
 			lastreading_epoch: null,
 			reading: "",
 			icon: "nr", 
+			site_trend: "na"
 
-			}
+		}
 
 	} )
 
+	
+
 	//loop through gauge data consumed through APIs
 	gauge_arr.forEach( ( gauge, idx ) => {
-		if( [ "rain", "stage", "lake" ].includes( gauge ) ){ //USGS gauges
+		if( [ "rain" ].includes( gauge ) ){ //USGS gauges site_id is used as the unique id
 			const allowed = [ "precipitation", "stream_level", "lake_level", "lastreading_epoch", "measure_unit" ]
 
 			data_arr[ idx ].forEach( row => {
 				allowed.forEach( key => {
 					if( key === "lastreading_epoch" ){
 						site_obj[ row.site_id ][ key ] = parseInt( row[ key ] )	 
-
+				
 					}else if( [ "precipitation", "stream_level", "lake_level" ].includes( key ) ){
 						if( row.hasOwnProperty( key ) ){
 							site_obj[ row.site_id ][ "reading" ] = ( isNaN( parseFloat( row[ key ] ) ) ? "" : parseFloat( row[ key ] ).toFixed( 2 ) )
@@ -51,37 +61,66 @@ export function FormatAsGeoJSON( gauge_arr, data_arr, gauge_info ){
 						
 					}else{
 						site_obj[ row.site_id ][ key ] = row[ key ]
-
+				
 					}
-
+				
 				} )
 
 			} )
 
-			
-		}else if( gauge === "lcs" ){ //low cost gauges
-			//parse lcs data and store in an object based on site_id
-			data_arr[ idx ].data.forEach( site => {
-				if( site_obj.hasOwnProperty( site.site_id ) ){
-					if( site.hasOwnProperty( "raw_value" ) ){
-						site_obj[ site.site_id ].measure_unit = site.units,
-						site_obj[ site.site_id ].lastreading_epoch = Moment( site.data_time ).valueOf( )
-						site_obj[ site.site_id ].reading = ( isNaN( parseFloat( site.raw_value ) ) ? "" : parseFloat( site.raw_value ).toFixed( 2 ) )
-						site_obj[ site.site_id ].icon = "stage" 
+		}else if( [ "stage", "lcs", "lake" ].includes( gauge ) ){
+			data_arr[ idx ].forEach( site=> {
+				const unique_id = ( gauge === "lcs" ? site.or_site_id : site.site_id ),
+					site_info = gauge_info.filter( row => row.unique_id === unique_id )[ 0 ]
+				
+				if( parseInt( site.rank ) === 1 ){
+					site_obj[ unique_id ].measure_unit = "ft"
+					site_obj[ unique_id ].lastreading_epoch = Moment( site.data_time ).valueOf( )
+					site_obj[ unique_id ].reading = ( isNaN( parseFloat( site.reading ) ) ? "" : parseFloat( site.reading ).toFixed( 2 ) )
+					site_obj[ unique_id ][ "icon" ] = ( isNaN( parseFloat( site.reading ) ) ? "nr" : ( gauge === "lcs" ? "stage_emergency" : gauge  ) ) 
 
+					if( site_info.hasOwnProperty( "alarms" ) ){
+						site_info.alarms.forEach( alarm => {
+							if( parseFloat( site.reading ) > alarm.value ){
+								site_obj[ unique_id ].icon += "_" + alarm.label
+
+							}
+						} )
+						
 					}
 
 				}
-				
+
+				if( !isNaN( parseFloat( site.reading ) ) )
+					storeLastFive( unique_id, parseFloat( site.reading ) )
+
 			} )
 
 		}
 		
 	} )
 
+	//store trend for stage gauges in the icon property
+	for( let unique_id in last_five ){
+		const max = Math.max( ...last_five[ unique_id ] ), 
+			min = Math.min( ...last_five[ unique_id ] )
+
+		if( max - min > 0.1 ){
+			site_obj[ unique_id ].site_trend = "rising"
+
+		}else if( Math.abs( min - max ) > 0.1 ){
+			site_obj[ unique_id ].site_trend = "falling"
+
+		}else{
+			site_obj[ unique_id ].site_trend = "steady"
+
+		}
+
+	}
+	
 	//push features into the geojson feature collection
-	for( let site in site_obj ){
-		const { longitude, latitude, ...prop } = site_obj[ site ]
+	for( let unique_id in site_obj ){
+		const { longitude, latitude, ...prop } = site_obj[ unique_id ]
 
 		//Push features into the geojson layer
 		geojson.features.push( {
@@ -95,16 +134,16 @@ export function FormatAsGeoJSON( gauge_arr, data_arr, gauge_info ){
 			
 		} )
 
-		gauge_data.push( site_obj[ site ] )
+		gauge_data.push( site_obj[ unique_id ] )
 		
 	}
 
+	//store gauge data in the store for CSV data download
 	store.commit( "gauge_data", gauge_data )
 
 	return geojson
 
 }
-
 
 export function GetGeoJSONTemplate( gauge ){
 	const getPopupContent = ( lastreading_epoch, reading, measure_unit ) =>{
@@ -152,11 +191,11 @@ export function GetGeoJSONTemplate( gauge ){
 					txt = ( attrib.reading.length > 0 ? "Last reported lake level on<br/>{lastreading_epoch} was {reading} {measure_unit}." : "No readings were reported." )
 					break
 
-				case "cam":
+				/*case "cam":
 					const img_url = ( attrib.key ? `https://maps.mecklenburgcountync.gov/api/camera?method=image&camera=${attrib.key}&api_key=55dcad90-e3ec-4954-b882-384bfd3bb9dd` : `http://maps.co.mecklenburg.nc.us/rest/v1/ws_fins_creekcam.php?camid=${attrib.site_id}&cachebuster=${new Date( ).getTime( )}` )
 
 					txt = `<img src='${img_url}&cachebuster=${new Date( ).getTime( )} width='400' height='180'/>`
-					break
+					break*/
 	
 
 			}
@@ -166,55 +205,65 @@ export function GetGeoJSONTemplate( gauge ){
 		},
 		templates = {
 			"rain": {
-					title: "{site_id}: {site_name}",
-					outFields: [ "*" ],
-					content: getContentText,
-					fieldInfos: [
-						{
-							fieldName: "lastreading_epoch",
-							format: {
-								dateFormat: "short-date-short-time"
-							}
+				title: "{label}",
+				outFields: [ "*" ],
+				content: getContentText,
+				fieldInfos: [
+					{
+						fieldName: "lastreading_epoch",
+						format: {
+							dateFormat: "short-date-short-time"
 						}
+					}
 
-					],
-					actions: [ 
-						{
-							title: "View Details",
-							id: "gauge_detail",
-							image: NoReadingIcon
-						} 
-	
-					]
+				],
+				actions: [ 
+					{
+						title: "View Details",
+						id: "gauge_detail",
+						image: DetailsIcon
+					} 
 
-				},
+				],
+
+			},
 
 			"stage,lcs,lake": {
-					title: "{site_id}: {site_name}",
-					outFields: [ "*" ],
-					content: getContentText,
-					fieldInfos: [
-						{
-							fieldName: "lastreading_epoch",
-							format: {
-								dateFormat: "short-date-short-time"
-							}
+				title: "{label}",
+				outFields: [ "*" ],
+				content: getContentText,
+				fieldInfos: [
+					{
+						fieldName: "lastreading_epoch",
+						format: {
+							dateFormat: "short-date-short-time"
 						}
-					]
-				},
+					}
+
+				],
+				actions: [ 
+					{
+						title: "View Details",
+						id: "gauge_detail",
+						image: DetailsIcon
+					} 
+
+				],
+
+			},
 
 			"cam": {
-					title: "{site_id}: {name}",
+				title: "{name}",
 					outFields: [ "*" ],
 					content: getContentText,
 					actions: [ 
-							{
-								title: "View Snapshot",
-								id: "cam_snapshot",
-								image: NoReadingIcon
-					  		} 
+						{
+							title: "View Snapshot",
+							id: "cam_snapshot",
+							image: CamIcon
+						} 
 
-						]
+					],
 					
 				},
 
@@ -226,15 +275,35 @@ export function GetGeoJSONTemplate( gauge ){
 
 export function GetGeoJSONRenderer( gauge ){
 	const label = {
-		rain: "Rain Gauge",
-		stage: "Stage Gauge",
-		lcs: "Stage Gauge",
-		lake: "Lake Gauge",
-		cam: "Creek Camera" 
-	}
+			rain: "Rain Gauge",
+			stage: "Stage Gauge",
+			lcs: "Stage Gauge",
+			lake: "Lake Gauge",
+			cam: "Creek Camera", 
+
+		},
+		svg_path = {
+			steady: "M17,13H7V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z",
+			rising: "M13,18V10L16.5,13.5L17.92,12.08L12,6.16L6.08,12.08L7.5,13.5L11,10V18H13M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z",
+			falling: "M11,6V14L7.5,10.5L6.08,11.92L12,17.84L17.92,11.92L16.5,10.5L13,14V6H11M12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22Z",
+			cam: "M12,10L11.06,12.06L9,13L11.06,13.94L12,16L12.94,13.94L15,13L12.94,12.06L12,10M20,5H16.83L15,3H9L7.17,5H4A2,2 0 0,0 2,7V19A2,2 0 0,0 4,21H20A2,2 0 0,0 22,19V7A2,2 0 0,0 20,5M20,19H4V7H8.05L8.64,6.35L9.88,5H14.12L15.36,6.35L15.95,7H20V19M12,8A5,5 0 0,0 7,13A5,5 0 0,0 12,18A5,5 0 0,0 17,13A5,5 0 0,0 12,8M12,16A3,3 0 0,1 9,13A3,3 0 0,1 12,10A3,3 0 0,1 15,13A3,3 0 0,1 12,16Z",
+
+		},
+		svg_colors = {
+			lake: "#BDBDBD",
+			stage: "#B3E5FC",
+			alert: "#B2FF59",
+			investigate: "#FFA726",
+			emergency: "#E53935",
+			cam: "#000000",
+
+		}
+
 	return {
 			type: "unique-value", // autocasts as new UniqueValueRenderer()
 			field: "icon",
+			field2: "site_trend",
+			fieldDelimiter: ", ",
 			defaultSymbol: {
 				type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
 				url: NoReadingIcon,
@@ -246,27 +315,7 @@ export function GetGeoJSONRenderer( gauge ){
 			// used for specifying unique values
 			uniqueValueInfos: [
 				{
-					value: "lake",
-					symbol: {
-						type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
-						url: LakeIcon,
-						width: "35px",
-						height: "15px"
-			
-					},
-					label: label[ gauge ] // used in the legend to describe features with this symbol
-				}, {
-					value: "stage",
-					symbol: {
-						type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
-						url: StageIcon,
-						width: "35px",
-						height: "15px"
-			
-					},
-					label: label[ gauge ] // used in the legend to describe features with this symbol
-				}, {
-					value: "rain",
+					value: "rain, na",
 					symbol: {
 						type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
 						url: RainIcon,
@@ -274,18 +323,228 @@ export function GetGeoJSONRenderer( gauge ){
 						height: "15px"
 			
 					},
-					label: label[ gauge ] // used in the legend to describe features with this symbol
+					label: "Rain Gauge" // used in the legend to describe features with this symbol
 				}, {
-					value: "cam",
+					value: "stage, steady",
 					symbol: {
-						type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
-						url: CamIcon,
-						width: "35px",
-						height: "35px"
-			
+						type: "simple-marker",
+						color: svg_colors.stage,
+						size: "20px",
+						outline: { 
+							color: [ 0, 0, 0, 1 ],
+							width: "2px",
+						},
+						path: svg_path.steady,
 					},
-					label: label[ gauge ] // used in the legend to describe features with this symbol
-				} 
+					label: "Stage Gauge", // used in the legend to describe features with this symbol
+  					
+				}, {
+					value: "stage_alert, steady",
+					symbol: {
+						type: "simple-marker",
+						color: svg_colors.alert,
+						size: "20px",
+						outline: { 
+							color: [ 0, 0, 0, 1 ],
+							width: "2px",
+						},
+						path: svg_path.steady,
+					},
+					label: "Stage Gauge", // used in the legend to describe features with this symbol
+  					
+				}, {
+					value: "stage_investigate, steady",
+					symbol: {
+						type: "simple-marker",
+						color: svg_colors.ivestigate,
+						size: "20px",
+						outline: {
+							color: [ 0, 0, 0, 1 ],
+							width: "2px",
+						},
+						path: svg_path.steady,
+					},
+					label: "Stage Gauge", // used in the legend to describe features with this symbol
+  					
+				}, {
+					value: "stage_emergency, steady",
+					symbol: {
+						type: "simple-marker",
+						color: svg_colors.emergency,
+						size: "20px",
+						outline: {
+							color: [ 0, 0, 0, 1 ],
+							width: "2px",
+						},
+						path: svg_path.steady,
+					},
+					label: "Stage Gauge", // used in the legend to describe features with this symbol
+  					
+				}, {
+					value: "stage, rising",
+					symbol: {
+						type: "simple-marker",
+						color: svg_colors.stage,
+						size: "20px",
+						outline: {
+							color: [ 0, 0, 0, 1 ],
+							width: "2px",
+						},
+						path: svg_path.rising,
+					},
+					label: label[ gauge ], // used in the legend to describe features with this symbol
+  					
+				}, {
+					value: "stage_alert, rising",
+					symbol: {
+						type: "simple-marker",
+						color: svg_colors.alert,
+						size: "20px",
+						outline: {
+							color: [ 0, 0, 0, 1 ],
+							width: "2px",
+						},
+						path: svg_path.rising,
+					},
+					label: label[ gauge ], // used in the legend to describe features with this symbol
+  					
+				}, {
+					value: "stage_investigate, rising",
+					symbol: {
+						type: "simple-marker",
+						color: svg_colors.investigate,
+						size: "20px",
+						outline: {
+							color: [ 0, 0, 0, 1 ],
+							width: "2px",
+						},
+						path: svg_path.rising,
+					},
+					label: label[ gauge ], // used in the legend to describe features with this symbol
+  					
+				}, {
+					value: "stage_emergency, rising",
+					symbol: {
+						type: "simple-marker",
+						color: svg_colors.emergency,
+						size: "20px",
+						outline: {  // autocasts as new SimpleLineSymbol()
+							color: [ 0, 0, 0, 1 ],
+							width: "2px",
+						},
+						path: svg_path.rising,
+					},
+					label: label[ gauge ], // used in the legend to describe features with this symbol
+  					
+				}, {
+					value: "stage, falling",
+					symbol: {
+						type: "simple-marker",
+						color: svg_colors.stage,
+						size: "20px",
+						outline: {  // autocasts as new SimpleLineSymbol()
+							color: [ 0, 0, 0, 1 ],
+							width: "2px",
+						},
+						path: svg_path.falling,
+					},
+					label: "Stage Gauge", // used in the legend to describe features with this symbol
+  					
+				}, {
+					value: "stage_alert, falling",
+					symbol: {
+						type: "simple-marker",
+						color: svg_colors.alert,
+						size: "20px",
+						outline: {  // autocasts as new SimpleLineSymbol()
+							color: [ 0, 0, 0, 1 ],
+							width: "2px",
+						},
+						path: svg_path.falling,
+					},
+					label: "Stage Gauge", // used in the legend to describe features with this symbol
+  					
+				}, {
+					value: "stage_investigate, falling",
+					symbol: {
+						type: "simple-marker",
+						color: svg_colors.investigate,
+						size: "20px",
+						outline: {  // autocasts as new SimpleLineSymbol()
+							color: [ 0, 0, 0, 1 ],
+							width: "2px",
+						},
+						path: svg_path.falling,
+					},
+					label: "Stage Gauge", // used in the legend to describe features with this symbol
+  					
+				}, {
+					value: "stage_emergency, falling",
+					symbol: {
+						type: "simple-marker",
+						color: svg_colors.emergency,
+						size: "20px",
+						outline: {  // autocasts as new SimpleLineSymbol()
+							color: [ 0, 0, 0, 1 ],
+							width: "2px",
+						},
+						path: svg_path.falling,
+					},
+					label: "Stage Gauge", // used in the legend to describe features with this symbol
+  					
+				}, {
+					value: "lake, steady",
+					symbol: {
+						type: "simple-marker",
+						color: svg_colors.lake,
+						size: "20px",
+						outline: {  // autocasts as new SimpleLineSymbol()
+							color: [ 0, 0, 0, 1 ],
+							width: "2px",
+						},
+						path: svg_path.steady,
+					},
+					label: "Lake Gauge", // used in the legend to describe features with this symbol
+  					
+				}, {
+					value: "lake, rising",
+					symbol: {
+						type: "simple-marker",
+						color: svg_colors.lake,
+						size: "20px",
+						outline: {  // autocasts as new SimpleLineSymbol()
+							color: [ 0, 0, 0, 1 ],
+							width: "2px",
+						},
+						path: svg_path.rising,
+					},
+					label: "Lake Gauge", // used in the legend to describe features with this symbol
+  					
+				}, {
+					value: "lake, falling",
+					symbol: {
+						type: "simple-marker",
+						color: svg_colors.lake,
+						size: "20px",
+						outline: {  // autocasts as new SimpleLineSymbol()
+							color: [ 0, 0, 0, 1 ],
+							width: "2px",
+						},
+						path: svg_path.falling,
+					},
+					label: "Lake Gauge", // used in the legend to describe features with this symbol
+  					
+				},  {
+					value: "cam, na",
+					symbol: {
+						type: "simple-marker",
+						color: svg_colors.cam,
+						size: "20px",
+						outline: null,
+						path: svg_path.cam,
+					},
+					label: "Creek Camera" // used in the legend to describe features with this symbol
+				}
 				
 			]
 
@@ -317,16 +576,19 @@ export function GetGeoJSONLabelInfo( gauge ){
 				symbol: {
 					type: "text",  // autocasts as new TextSymbol()
 					color: "black",
-					haloSize: 0,
+					haloSize: 2,
 					haloColor: "white",
 					font: {  // autocast as new Font()
 						family: "Ubuntu Mono",
 						size: 8
-					  },
+					},
+					xoffset: 15,
+					yoffset: 7,
 
 				},
 				labelPlacement: "center-center",
 				deconflictionStrategy: "none",
+				minScale: 48000,
 			} ),
 	
 	}

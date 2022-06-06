@@ -1,13 +1,15 @@
 import * as d3 from "d3"
 import RoundNum from "./roundNum"
+import { AsUCWords } from "./formatStr"
+import store from "../store"
 
 // Copyright 2021 Observable, Inc.
 // Released under the ISC license.
 // https://observablehq.com/@d3/line-with-tooltip
 
 export default function getLineChart( data, {
-    x = ([x]) => x, // given d in data, returns the (temporal) x-value
-    y = ([, y]) => y, // given d in data, returns the (quantitative) y-value
+    x = ( [ x ] ) => x, // given d in data, returns the (temporal) x-value
+    y = ( [ , y ] ) => y, // given d in data, returns the (quantitative) y-value
     title, // given d in data, returns the title text
     defined, // for gaps in data
     curve = d3.curveLinear, // method of interpolation between points
@@ -19,10 +21,10 @@ export default function getLineChart( data, {
     height = 400, // outer height, in pixels
     xType = d3.scaleUtc, // type of x-scale
     xDomain, // [xmin, xmax]
-    xRange = [marginLeft, width - marginRight], // [left, right]
+    xRange = [ marginLeft, width - marginRight ], // [left, right]
     yType = d3.scaleLinear, // type of y-scale
     yDomain, // [ymin, ymax]
-    yRange = [height - marginBottom, marginTop], // [bottom, top]
+    yRange = [ height - marginBottom, marginTop ], // [bottom, top]
     color = "currentColor", // stroke color of line
     strokeWidth = 1.5, // stroke width of line, in pixels
     strokeLinejoin = "round", // stroke line join of line
@@ -31,26 +33,30 @@ export default function getLineChart( data, {
     yLabel, // a label for the y-axis
     unit = "ft", //reading unit
     msl = null, //mean seal level
-    ref = null, //reference levels
+    refs = null, //reference levels
+    alarms = null, //alarms
 
 } = { } ){
     const _this = this
-
+                
     // Compute values.
     const X = d3.map( data, x ),
         Y = d3.map( data, y ),
         O = d3.map( data, d => d ),
         I = d3.map( data, ( _, i ) => i )
 
-
     // Compute which data points are considered defined.
-    if( defined === undefined ) defined = ( d, i ) => !isNaN( X[ i ] ) && !isNaN( Y[ i ] )
+    if( defined === undefined ) 
+        defined = ( d, i ) => !isNaN( X[ i ] ) && !isNaN( Y[ i ] )
+
     const D = d3.map( data, defined ),
-        sorted_data = I.filter( i => D[ i ] ).map( i => { return {datetime: X[ i ], reading: Y[ i ] } } ).sort( ( a, b ) => a.datetime - b.datetime ) // for bisection later
+        sorted_data = I.filter( i => D[ i ] ).map( i => { return { datetime: X[ i ], reading: Y[ i ] } } ).sort( ( a, b ) => a.datetime - b.datetime ) // for bisection later
 
     // Compute default domains.
-    if( xDomain === undefined ) xDomain = d3.extent( X )
-    if( yDomain === undefined ) yDomain = [ 0, d3.max( Y ) ]
+    if( xDomain === undefined )
+        xDomain = d3.extent( X )
+    if( yDomain === undefined ) 
+        yDomain = [ 0, d3.max( Y ) ]
 
     // Construct scales and axes.
     const xScale = xType( xDomain, xRange ),
@@ -78,12 +84,6 @@ export default function getLineChart( data, {
     formatDate = xScale.tickFormat( null, "%b %-d, %Y %I:%M %p" )
 
     // Construct a line generator.
-    const line = d3.line( )
-        .defined( i => D[ i ] )
-        .curve( curve )
-        .x( i => xScale( X[ i ] ) )
-        .y( i => yScale( Y[ i ] ) )
-
     //create svg for displaying the chart
     const svg = d3.create( "svg" )
         .attr( "width", width )
@@ -101,53 +101,110 @@ export default function getLineChart( data, {
 
     //add the xaxis
     svg.append( "g" )
-        .attr( "transform", `translate(0,${ height - marginBottom })` )
+        .attr( "transform", `translate( 0, ${ height - marginBottom } )` )
         .call( xAxis )
 
     //add the yaxis
     svg.append( "g" )
-        .attr( "transform", `translate(${ marginLeft },0)` )
+        .attr( "transform", `translate( ${ marginLeft }, 0 )` )
         .call( yAxis )
         .call( g => g.select( ".domain" ).remove( ) )
         .call( g => g.selectAll( ".tick line" ).clone( )
             .attr( "x2", width - marginLeft - marginRight )
             .attr( "stroke-opacity", 0.1 ) )
         .call( g => g.append( "text" )
-            .attr( "x", -(height/2) )
+            .attr( "x", -( height / 2 ) )
             .attr( "y", -marginLeft )
             .attr( "fill", "currentColor" )
             .attr( "text-anchor", "middle" )
             .attr( "font-family", "sans-serif" )
-            .attr( "font-size", 10 )
+            .attr( "font-size", 11 )
             .attr( "transform", "rotate(-90)" )
             .text( yLabel ) )
 
-    //add reference lines
-    //console.log( ref )
-    if( ref && msl ){
-        ref.forEach( elem => {
-            console.log( elem.level - msl )
-            svg.append( "line" )
-                .attr( "x1", xScale( xDomain[ 0 ] ) )
-                .attr( "y1", yScale( elem.level - msl ) )
-                .attr( "x2", xScale( xDomain[ 1 ] ) )
-                .attr( "y2", yScale( elem.level - msl ) )
-                .attr( "stroke", elem.color )
-                .attr( "stroke-width", strokeWidth )
-                .attr( "stroke-linejoin", strokeLinejoin )
-                .attr( "stroke-linecap", strokeLinecap )        
+    //add alarms as reference areas (Alert, Investigate, Emergency)
+    if( alarms ){
+        const alarm_colors = store.getters[ "alarm_colors" ]
+
+        let y0 = yDomain[ 0 ]
+        alarms.forEach( elem => {
+            const ref_svg = svg.append( "g" ),
+                ref_area = d3.area( )
+                    .x( p => p )
+                    .y0( yScale( y0 ) )
+                    .y1( yScale( elem.value ) )
+
+            y0 = elem.value
+
+            ref_svg.append( "path" ) 
+                    .attr( "d", ref_area( [ xScale( xDomain[ 0 ] ), xScale( xDomain[ 1 ] ) ] ) )
+                    .attr( "fill", alarm_colors[ elem.label ].hex )
+                    .attr( "fill-opacity", "0.3" )
+
+             //reference label
+            ref_svg.append( "text" )
+                .attr( "x", width - marginRight - 5 )
+                .attr( "y", yScale( elem.value ) )
+                .attr( "fill", "#000000" )
+                .attr( "text-anchor", "end" )
+                .attr( "alignment-baseline", "hanging" ) 
+                .attr( "font-family", "sans-serif" )
+                .attr( "font-size", 10 )
+                .text( AsUCWords( elem.label ) )
+
         } )
 
     }
-    
-    //add data line
-    svg.append( "path" )
-        .attr( "fill", "none" )
-        .attr( "stroke", color )
-        .attr( "stroke-width", strokeWidth )
-        .attr( "stroke-linejoin", strokeLinejoin )
-        .attr( "stroke-linecap", strokeLinecap )
-        .attr( "d", line( I ) )
+
+    //add main area path
+    const main_area = d3.area( )
+        .x( i => xScale( X[ i ] ) )
+        .y0( yScale( yDomain[ 0 ] ) )
+        .y1( i => yScale( Y[ i ] ) )
+
+    const main_svg = svg.append( "g" )
+
+    main_svg.append( "path" ) 
+        .attr( "d", main_area( I ) )    
+        .attr( "fill", color )
+        .attr( "fill-opacity", "0.5" )
+
+    //add reference lines
+    if( refs ){
+        const ref_svg = svg.append( "g" )
+
+        refs.forEach( ( elem, idx ) => {
+            //reference line
+            ref_svg.append( "line" ) 
+                .attr( "x1", xScale( xDomain[ 0 ] ) )
+                .attr( "y1", yScale( elem.value ) )
+                .attr( "x2", xScale( xDomain[ 1 ] ) + 10 )
+                .attr( "y2", yScale( elem.value ) )
+                .attr( "stroke", "currentColor" )
+                .attr( "stroke-width", strokeWidth )
+                .attr( "stroke-linejoin", strokeLinejoin )
+                .attr( "stroke-linecap", strokeLinecap )
+
+            ref_svg.append("circle")
+                .attr( "r", 5 )
+                .attr( "fill", "black" )
+                .attr( "cx", width - marginRight + 12 )
+                .attr( "cy", yScale( elem.value ) )
+
+             //reference label
+             ref_svg.append( "text" )
+             .attr( "x", width - marginRight + 12 )
+             .attr( "y", yScale( elem.value ) )
+             .attr( "fill", "#ffffff" )
+             .attr( "text-anchor", "middle" )
+             .attr( "alignment-baseline", "middle" ) 
+             .attr( "font-family", "sans-serif" )
+             .attr( "font-size", 10 )
+             .text( idx + 1 )
+
+        } )
+
+    }
 
     const rule = svg.append( "g" )
         rule.append( "line" )

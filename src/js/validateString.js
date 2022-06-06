@@ -149,7 +149,7 @@ export default function validateString( str, type ){
 		},
 
 		isLCSGauge: str => {
-			return ( str.match( /^[0]\d+?$/ ) ? true : false ) 
+			return ( str.match( /^\d{3}|[1][0-1]\d{2}?$/ ) ? true : false ) 
 
 		},
 
@@ -159,7 +159,7 @@ export default function validateString( str, type ){
 		},
 
 		isCamera: str => {
-			return ( str.match( /(^[1-9][0-4]?$|\bM([C|Y]|OBILE))/ ) ? true : false ) 
+			return ( str.match( /(^CAM[1-9][0-4]?$|\bM([C|Y]|OBILE))/ ) ? true : false ) 
 
 		},
 

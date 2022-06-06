@@ -1,6 +1,7 @@
 import router from "../router"
 import store from "../store"
 import IsObjEqual from "./isObjEqual"
+import gaugeInfo from "../assets/gauge_info.json" 
 
 export default function getNewRoute( chg_params ){
     const old_params = router.currentRoute.params,
@@ -8,11 +9,17 @@ export default function getNewRoute( chg_params ){
 			const sel_tab = store.getters[ "top_tab" ]
 			let new_params
 
-			if( chg_params.hasOwnProperty( "gauges" ) ){ //gauge type change
+			if( chg_params.hasOwnProperty( "gauges" ) && chg_params.hasOwnProperty( "uniqueid" ) ){
+				const { gauges, uniqueid, ...keep_params } = old_params,
+					tab = store.getters[ "tabs" ].filter( tab => tab.gauges.includes( chg_params.gauges ) )
+				
+				new_params = { ...chg_params, ...{ gauges: tab[ 0 ].gauges.join( "," )  }, ...keep_params }
+
+			}else if( chg_params.hasOwnProperty( "gauges" ) ){ //gauge type change
 				new_params = store.getters[ "tabs" ][ sel_tab ].last_param
  
-			}else if( chg_params.hasOwnProperty( "site" ) ){ //site change
-				const { site, ...keep_params } = old_params
+			}else if( chg_params.hasOwnProperty( "uniqueid" ) ){ //site change
+				const { uniqueid, ...keep_params } = old_params
 				new_params = { ...chg_params, ...keep_params }
 
 			}else{ //filter change
@@ -20,12 +27,12 @@ export default function getNewRoute( chg_params ){
 				new_params = { ...chg_params, ...keep_params }
 
 			}
-
+			
 			return new_params
 
 		},
 		getNewName = ( ) => {
-			let ret_val = ( new_params.hasOwnProperty( "site" ) ? "Selected" : "All" )
+			let ret_val = ( new_params.hasOwnProperty( "uniqueid" ) ? "Selected" : "All" )
 
 			if( new_params.hasOwnProperty( "startdate" ) && new_params.hasOwnProperty( "enddate" ) ){
 				ret_val += "Range"
@@ -58,6 +65,9 @@ export default function getNewRoute( chg_params ){
 				}
 
 			} ) 
+
+			
+			store.commit( "last_route", router.currentRoute )
 
 		}    
 		

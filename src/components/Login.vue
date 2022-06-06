@@ -1,6 +1,6 @@
 <template>
 	<div
-		:style=padding
+		:style="padding"
 	>
 		<v-row 
 			class="d-flex justify-center"

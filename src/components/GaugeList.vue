@@ -13,7 +13,7 @@
 		<!-- Gauge/Camera list combobox -->
 		<v-combobox
 			v-model="sel_gauge_cam"
-			:items="gauge_cam_list"
+			:items="list"
 			:label=combobox_label
   			hide-details
 			class="body-2"
@@ -75,16 +75,19 @@
 
 <script>
 	import GetNewRoute from "../js/getNewRoute"
+	import gaugeInfo from "../assets/gauge_info.json" 
 
   	export default {
-      	name: "gaugelist",
+      	name: "gaugecamlist",
 
-		data: ( ) => ( {
-			sel_gauge_cam: null,
+		mounted: function( ){
+            const _this = this
 
-      	} ),
-      
-      	computed: {
+            _this.setList( )
+        
+        },  
+
+		computed: {
 			//app
 			top_tab( ){
 				return this.$store.state.top_tab
@@ -143,11 +146,23 @@
 
 			},
 
-			//query control
-			gauge_cam_list( ){
-				return this.$store.state.gauge_cam_list
+			route_path( ){ //query string
+				return this.$route.path
+			
+            },
+
+			sel_gauge_cam: {
+				set( payload ){
+                    this.$store.commit( "sel_gauge_cam", payload )
+					
+				},
+      			get( ){
+					return this.$store.state.sel_gauge_cam
+      			
+				}
 
 			},
+
 			curr_qry_ctrl: {
 				set( payload ){
                     this.$store.commit( "curr_qry_ctrl", payload )
@@ -182,22 +197,74 @@
 		watch: {
             //change in query string
             sel_gauge_cam( new_val, old_val ){
-				const _this = this,
-					new_route = GetNewRoute( { site: new_val.value.site_id, } )
+				if( new_val ){ //change route only when a valid selection is made
+					const _this = this,
+						new_route = GetNewRoute( { uniqueid: new_val.value } )
+					
+					//go to new route
+					if( new_route ){
+						_this.zoom_to_gauge = true
+						_this.$router.push( new_route )
 
-				//go to new route
-				if( new_route ){
-					 _this.zoom_to_gauge = true
-					_this.$router.push( new_route )
+					}
 
 				}
-
+													
       		},
 
+			route_path( new_val ){
+				this.setList( )
+
+			}
+
 		},
+
+		data: ( ) => ( {
+			list: [ ],
+			
+      	} ),
+
+		methods: {
+            setList( ){
+                const _this = this,
+					name = _this.$router.currentRoute.name,
+                    params = _this.$router.currentRoute.params
+
+				let gauge_cam_arr = null
+					
+				switch( name ){
+                   case "AllPeriod": case "SelectedPeriod": case "AllRange": case "AllDatePeriod": case "SelectedRange": case "SelectedDatePeriod":
+                        gauge_cam_arr = params.gauges.split( "," ).map( gauge => gauge.trim( ).toLowerCase( ) )
+
+						break
+
+                    case "AllCamera": case "SelectedCamera":
+                        gauge_cam_arr = [ "camera" ]
+
+                        break
+
+                }
+
+				_this.list = Object.values( gaugeInfo )
+										.filter( obj => gauge_cam_arr.includes( obj.gauge_type ) )
+										.map( obj => { return { 
+											text: obj.label, 
+											value: obj.unique_id,
+										
+										} } )
+
+				//set gauge list choice based on query parameter
+				if( !_this.sel_gauge_cam !== params.uniqueid  && name.search( /Selected/ ) > -1 ){
+					_this.sel_gauge_cam = { text: gaugeInfo[ params.uniqueid ].label, value: params.uniqueid  }
+
+				}else if( name.search( /All/ ) > -1 ){
+					_this.sel_gauge_cam = null
+
+				}
+                                
+            },
+
+		}
       
   	}
 </script>
-<style scoped>
-	
-</style>

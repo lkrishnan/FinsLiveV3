@@ -14,15 +14,35 @@ export default new Vuex.Store( {
 			{ label: [ "Creek", "Cam" ], icon: "mdi-camera-enhance-outline", gauges: [ "cam" ], last_param: { } },
 				
 		],
+		last_route: { },
 		ws: {
 			fins: "https://maps.mecklenburgcountync.gov/api/fins/",
       		gis: "https://maps.mecklenburgcountync.gov/api/gis/",
 			tax: "https://maps.mecklenburgcountync.gov/api/tax/",
+			fm: "https://maps.mecklenburgcountync.gov/api/fm/",
 			contrail: "https://maps.mecklenburgcountync.gov/api/contrail",
-			//contrail: "https://cs-059-exchange.onerain.com/OneRain/DataAPI",
+			alarm: "https://maps.mecklenburgcountync.gov/api/alarm",
 			dbopen: "https://api.mcmap.org/",
 
   		},
+		svg_paths: {
+			steady: "M17,13H7V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z",
+			rising: "M13,18V10L16.5,13.5L17.92,12.08L12,6.16L6.08,12.08L7.5,13.5L11,10V18H13M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z",
+			falling: "M11,6V14L7.5,10.5L6.08,11.92L12,17.84L17.92,11.92L16.5,10.5L13,14V6H11M12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22Z",
+			cam: "M12,10L11.06,12.06L9,13L11.06,13.94L12,16L12.94,13.94L15,13L12.94,12.06L12,10M20,5H16.83L15,3H9L7.17,5H4A2,2 0 0,0 2,7V19A2,2 0 0,0 4,21H20A2,2 0 0,0 22,19V7A2,2 0 0,0 20,5M20,19H4V7H8.05L8.64,6.35L9.88,5H14.12L15.36,6.35L15.95,7H20V19M12,8A5,5 0 0,0 7,13A5,5 0 0,0 12,18A5,5 0 0,0 17,13A5,5 0 0,0 12,8M12,16A3,3 0 0,1 9,13A3,3 0 0,1 12,10A3,3 0 0,1 15,13A3,3 0 0,1 12,16Z",
+			loc: "M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z",
+
+		},
+		svg_colors: {
+			lake: "#BDBDBD",
+			stage: "#B3E5FC",
+			alert: "#B2FF59",
+			investigate: "#FFA726",
+			emergency: "#E53935",
+			cam: "#000000",
+			loc: "#D50000",
+
+		},
 
 		//toggles
 		nav_drawer: false,
@@ -30,6 +50,8 @@ export default new Vuex.Store( {
 		overlay_drawer: false,
 		overlay_switch: [ ],
 		filter_holder: false,
+		show_overlays: false,
+		show_alarms: false,
 
 		//map 
 		map_sources: null,
@@ -57,11 +79,34 @@ export default new Vuex.Store( {
 		impact_counts: [ ],
 		flood_impact_details: [ ], 
 		last_search_result: null,
-		zoom_to_gauge: true,
+		zoom_to_gauge: false,
 		gauge_data: null,
+
+		//misc
+		alarm_colors: { 
+			alert: {
+				hex: "#00FF00",
+				class: "light-green accent-4"
+			},
+			investigate: {
+				hex: "#FFA500",
+				class: "orange darken-3"
+			},
+			emergency: {
+				hex: "#FF0000",
+				class: "red darken-3"
+			},
+			other: {
+				hex: "#1E88E",
+				class: "blue darken-1"
+			},
+		
+		},
+		active_alarm_cnt: "0",
 		
 		//query control
 		gauge_cam_list: [ ],
+		sel_gauge_cam: null,
 		curr_qry_ctrl: "gauge_cam", 
 
 		//login
@@ -83,6 +128,9 @@ export default new Vuex.Store( {
 		ws: state => state.ws,
 		top_tab: state => state.top_tab,
 		tabs: state => state.tabs,
+		last_route: state => state.last_route,
+		svg_paths: state => state.svg_paths,
+		svg_colors: state => state.svg_colors,
 
 		//toggles
 		nav_drawer: state => state.nav_drawer,
@@ -90,6 +138,8 @@ export default new Vuex.Store( {
 		overlay_drawer: state => state.overlay_drawer,
 		overlay_switch: state => state.overlay_switch,
 		filter_holder: state => state.filter_holder,
+		show_overlays: state => state.show_overlays,
+		show_alarms: state => state.show_alarms,
 	
 		//map 
 		map_sources: state => state.map_sources,
@@ -101,8 +151,13 @@ export default new Vuex.Store( {
 		zoom_to_gauge: state => state.zoom_to_gauge,
 		gauge_data: state => state.gauge_data,
 
+		//misc
+		alarm_colors: state => state.alarm_colors,
+		active_alarm_cnt: state => state.active_alarm_cnt,
+
 		//query control
 		gauge_cam_list: state => state.gauge_cam_list,
+		sel_gauge_cam: state => state.sel_gauge_cam,
 		curr_qry_ctrl: state => state.curr_qry_ctrl,
 
 		//login
@@ -120,6 +175,10 @@ export default new Vuex.Store( {
 		},
 		top_tab( state, payload ){
 			state.top_tab = payload
+
+		},
+		last_route( state, payload ){
+			state.last_route = payload
 
 		},
 		
@@ -142,6 +201,14 @@ export default new Vuex.Store( {
 		},
 		filter_holder( state, payload ){
 			state.filter_holder = payload
+
+		},
+		show_overlays( state, payload ){
+			state.show_overlays = payload
+
+		},
+		show_alarms( state, payload ){
+			state.show_alarms = payload
 
 		},
 				
@@ -179,9 +246,19 @@ export default new Vuex.Store( {
 
 		},
 
+		//misc
+		active_alarm_cnt( state, payload ){
+			state.active_alarm_cnt = payload
+
+		},
+
 		//query control
 		gauge_cam_list( state, payload ){
 			state.gauge_cam_list = payload
+			
+		},
+		sel_gauge_cam( state, payload ){
+			state.sel_gauge_cam = payload
 			
 		},
 		curr_qry_ctrl( state, payload ){
@@ -213,7 +290,7 @@ export default new Vuex.Store( {
   
 	actions: {
 		async login( { commit }, login_data ){
-			let reply = ( await axios.post( "https://maps.mecklenburgcountync.gov/auth/v1/login", login_data ) ).data;
+			let reply = ( await axios.post( "https://maps.mecklenburgcountync.gov/auth/v1/login_finslive", login_data ) ).data;
 			
 			if( reply.result === "success" ){
 				if( reply.hasOwnProperty( "token") ){

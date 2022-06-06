@@ -1,6 +1,7 @@
 <template>
     <div
         class="pa-5"
+        v-show="show_overlays"
     >
         <v-switch
             v-for="(overlay, i) in overlays" 
@@ -53,6 +54,11 @@
 				}
 
 			},
+
+            show_overlays( ){
+				return this.$store.state.show_overlays
+      			
+			}
 
         },
 

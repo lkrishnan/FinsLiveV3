@@ -73,6 +73,7 @@
 							outlined
 							class="ma-2 d-none d-lg-flex" 
 							color="primary"
+							@click="takeAction('Help')"
 						>
 								<v-icon>mdi-help</v-icon>
 								Help
@@ -82,6 +83,7 @@
 							outlined
 							class="ma-2 d-none d-lg-flex" 
 							color="primary"
+							@click="takeAction('About')"
 						>
 								<v-icon>mdi-information-variant</v-icon>
 								About
@@ -235,6 +237,19 @@ export default {
 
 		},
 
+		//query_control
+		sel_gauge_cam: {
+			set( payload ){
+				this.$store.commit( "sel_gauge_cam", payload )
+				
+			},
+			get( ){
+				return this.$store.state.sel_gauge_cam
+			
+			}
+
+		},
+
 		//login
 		auth: {
 			set( token ){
@@ -339,7 +354,7 @@ export default {
 			  
 			switch( action ){
 				case "Help":
-					console.log( action )
+					_this.$router.push( { name: action } )
 
 					break
 
@@ -356,7 +371,7 @@ export default {
 					break
 
 				case "About":
-					console.log( action )
+					_this.$router.push( { name: action } )
 
 					break
 
@@ -372,6 +387,7 @@ export default {
 					break
 
 				case "Tab":
+					_this.sel_gauge_cam = null
 					_this.$router.push( GetNewRoute( { gauges: _this.tabs[ _this.top_tab ].gauges.join( "," ) } ) )
 					break
 

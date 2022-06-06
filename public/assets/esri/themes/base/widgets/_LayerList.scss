@@ -179,7 +179,7 @@
     align-items: center;
     color: $interactive-font-color;
     cursor: pointer;
-    padding: $cap-spacing--half $side-spacing--half;
+    padding: 0 $side-spacing--half;
     transition: border-color 250ms ease-in-out;
   }
   .esri-layer-list__item-actions-menu-item:first-of-type {

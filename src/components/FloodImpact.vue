@@ -60,6 +60,7 @@
             :items="( panel > -1 ? flood_impact_details[ panel ].rows : [ ] )"
             :items-per-page="5"
             class="elevation-1"
+            v-show="panel > -1"
         ></v-data-table>
         
   </v-card>

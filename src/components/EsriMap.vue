@@ -8,13 +8,13 @@
             color="white"
             style="margin: 0; position: absolute; z-index: 1;"
             :style="is_mobile ? 'right: 0px; top: 80px;' : 'right: 0px; top: 94px;'"
-            @click="overlay_drawer=!overlay_drawer"
+            @click="takeAction( 'ToggleOverlayCtrl' )"
         >
             <v-icon dark>
                 mdi-layers-outline
             </v-icon>
         </v-btn>
-
+    
         <v-btn
             :class="is_mobile ? 'mx-2' : 'mx-4'"
             fab
@@ -24,27 +24,13 @@
             style="margin: 0; position: absolute; z-index: 1;"
             :style="is_mobile ? 'right: 0px; top: 120px;' : 'right: 0px; top: 150px;'"
         >
-            <v-icon dark>
-                mdi-alert-outline
-            </v-icon>
-        </v-btn>
-
-        <v-btn
-            :class="is_mobile ? 'mx-2' : 'mx-4'"
-            fab
-            :small="is_mobile ? false : true"
-            :x-small="is_mobile ? true : false"
-            color="white"
-            style="margin: 0; position: absolute; z-index: 1;"
-            :style="is_mobile ? 'right: 0px; top: 160px;' : 'right: 0px; top: 206px;'"
-        >
             <v-icon 
                 color="light-blue accent-4"
             >
                 mdi-crosshairs-gps
             </v-icon>
         </v-btn>
-
+        
         <v-tooltip left>
             <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -54,14 +40,13 @@
                     :x-small="is_mobile ? true : false"
                     color="white"
                     style="margin: 0; position: absolute; z-index: 1;"
-                    :style="is_mobile ? 'right: 0px; top: 200px;' : 'right: 0px; top: 262px;'"
+                    :style="is_mobile ? 'right: 0px; top: 160px;' : 'right: 0px; top: 206px;'"
                     v-bind="attrs"
                     v-on="on"
                     @click="parseRoute"
                     v-show=" [ 'AllPeriod', 'SelectedPeriod' ].includes( $route.name )"
                 >
                 <v-icon 
-                    dark
                     color="primary"
                 >
                    mdi-cached
@@ -70,6 +55,33 @@
             </template>
             <span>{{last_refresh}}</span>
         </v-tooltip>
+
+        <v-badge
+            :color="( parseInt( active_alarm_cnt ) > 0 ? 'red' : 'green' )"
+            :content="active_alarm_cnt"
+            offset-x="27"
+            offset-y="12"
+            style="margin: 0; position: absolute; z-index: 1;"
+            :style="is_mobile ? 'right: 0px; top: 200px;' : 'right: 0px; top: 262px;'"   
+            v-show="( auth !== '' )"
+        >
+            <v-btn
+                :class="is_mobile ? 'mx-2' : 'mx-4'"
+                fab
+                :small="is_mobile ? false : true"
+                :x-small="is_mobile ? true : false"
+                color="white"
+                @click="takeAction( 'ToggleAlarmCtrl' )"
+            >
+                <v-icon 
+                    :color="( parseInt( active_alarm_cnt ) > 0 ? 'red' : 'green' )"
+                >
+                    mdi-alert-outline
+                </v-icon>
+            </v-btn>
+                
+            
+        </v-badge>
 
         <!-- Search Holder -->
         <v-container 
@@ -126,7 +138,7 @@
                 <v-col
                     class="d-flex align-center text-h6"
                 >
-                    <span class="secondary--text">Map Layers</span>
+                    <span class="secondary--text">{{ ( show_alarms ? "Active Alarms" : "Map Layers" )}}</span>
             
                 </v-col>
 
@@ -148,6 +160,7 @@
             <v-divider />
 
             <Overlays />
+            <Alarms />
             
 		</v-navigation-drawer>
 
@@ -251,8 +264,9 @@
     import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer"
     import FeatureLayer from "@arcgis/core/layers/FeatureLayer"
     import MapImageLayer from "@arcgis/core/layers/MapImageLayer"
+    import Query from "@arcgis/core/rest/support/Query"
     import * as WatchUtils from "@arcgis/core/core/watchUtils"
-    import { GetAlertData, GetContrailData, GetNWSDetail } from "../js/getFINSData"
+    import { GetAlertData, GetContrailData, GetNWSDetail, GetStoredContrailData } from "../js/getFINSData"
     import { FormatAsGeoJSON, GetGeoJSONURL, GetGeoJSONTemplate, GetGeoJSONRenderer, GetGeoJSONLabelInfo, InterpolatePrcp} from "../js/geoJSON"
     import { GetStrmXingTemplate, GetNWSWarnTemplate, GetNWSWatchTemplate, GetRARRBldgTemplate, GetRARRStrmXingTemplate, GetRARRRoadTemplate } from "../js/popupTemplate"
     import GetNewRoute from "../js/getNewRoute"
@@ -266,6 +280,7 @@
             FloodImpact: ( ) => import( /* webpackChunkName: "floodimpact"*/"./FloodImpact.vue" ),
             GaugeList: ( ) => import( /* webpackChunkName: "gaugelist"*/"./GaugeList.vue" ),
             Overlays: ( ) => import( /* webpackChunkName: "overlays"*/"./Overlays.vue" ),
+            Alarms: ( ) => import( /* webpackChunkName: "alarms"*/"./Alarms.vue" ),
             ReadingFilter: ( ) => import( /* webpackChunkName: "readingfilter"*/"./ReadingFilter.vue" ),
             RadarControl: ( ) => import( /* webpackChunkName: "radarcontrol"*/"./RadarControl.vue" ),
             Search: ( ) => import( /* webpackChunkName: "search"*/"./Search.vue" ),
@@ -295,18 +310,7 @@
 
         computed: {
             //app
-			/*is_mobile: {
-				set( payload ){
-                    this.$store.commit( "is_mobile", payload )
-					
-				},
-      			get( ){
-					return this.$store.state.is_mobile
-      			
-				}
-
-			},*/
-            top_tab: {
+			top_tab: {
                 set( top_tab ){
                     this.$store.commit( "top_tab", top_tab )
                     
@@ -325,6 +329,10 @@
           		return this.$store.state.ws
 
       		},
+            last_route( ){
+          		return this.$store.state.last_route
+
+      		},  
 
             //toggles
             info_drawer: {
@@ -363,6 +371,28 @@
             filter_holder( ){
 				return this.$store.state.filter_holder
       			
+			},
+            show_overlays: {
+				set( payload ){
+                    this.$store.commit( "show_overlays", payload )
+					
+				},
+      			get( ){
+					return this.$store.state.show_overlays
+      			
+				}
+
+			},
+            show_alarms: {
+				set( payload ){
+                    this.$store.commit( "show_alarms", payload )
+					
+				},
+      			get( ){
+					return this.$store.state.show_alarms
+      			
+				}
+
 			},
 
             //map
@@ -430,7 +460,22 @@
 				}
 
             },
-           
+
+            svg_paths( ){
+                return this.$store.state.svg_paths
+
+            },
+
+            svg_colors( ){
+                return this.$store.state.svg_colors
+                
+            },
+
+            //misc
+            active_alarm_cnt( ){
+                return this.$store.state.active_alarm_cnt
+            },
+
             //query control
 			gauge_cam_list: {
 				set( payload ){
@@ -439,6 +484,17 @@
 				},
       			get( ){
 					return this.$store.state.gauge_cam_list
+      			
+				}
+
+			},
+            sel_gauge_cam: {
+				set( payload ){
+                    this.$store.commit( "sel_gauge_cam", payload )
+					
+				},
+      			get( ){
+					return this.$store.state.sel_gauge_cam
       			
 				}
 
@@ -483,6 +539,12 @@
 
             },
 
+            //login
+		    auth( ){
+            	return this.$store.state.token
+
+            }
+
         },
         
         watch: {
@@ -514,13 +576,15 @@
             },
 
             info_drawer: function( ){
-                this.map_view.padding.left = ( this.info_drawer ? 400 : 0 )
-
+                this.map_view.padding.left = ( this.info_drawer && !this.is_mobile ? 400 : 0 )
+                //const temp = this.map_view.center
+                //this.map_view.goTo( temp )
+                
             },
 
             overlay_drawer: function( ){
-                this.map_view.padding.right = ( this.overlay_drawer ? 400 : 0 )
-
+                this.map_view.padding.right = ( this.overlay_drawer && !this.is_mobile ? 400 : 0 )
+                
             },
 
             last_search_result( ){
@@ -538,31 +602,19 @@
 			
             },
 
-            //local
-            /*radar_tick( ){
-                const _this = this
-
-                _this.map_sources.radar.timeExtent = {
-                        start: Moment( ).subtract( 60 - ( _this.radar_tick * 5 ), "minutes" ).valueOf( ),
-                        end: Moment( ).subtract( 60 - ( _this.radar_tick * 5 ), "minutes" ).valueOf( ),
-
-                    }
-
-            }*/
-
         },
 
         data: ( ) => ( {
             //map variables
             map: null,
             map_view: null,
-            refreshid: null,
-            last_refresh: null,
+            refreshid: {
+                gauge: null,
 
-            //weather radar
-            /*radar_tick: 12,
-            radar_plyng: false,
-            radar_loop: null,*/
+            },
+            last_refresh: null,
+            highlight_feature: null,
+
             dialog: {
                 show: false,
                 title: null,
@@ -576,28 +628,6 @@
         } ),
         
         methods: {
-            /*radarAnimate( ){
-                const _this = this
-
-                if( _this.radar_plyng ){
-                    //stop loop
-                    window.clearInterval( _this.radar_loop )
-
-                }else{
-                    //start 1 second loop
-                    _this.radar_loop = self.setInterval( ( ) => {
-                        _this.radar_tick = ( _this.radar_tick < 12 ? ( _this.radar_tick + 1 ) : 0 )
-                        console.log( _this.radar_tick )
-
-				    }, 1500 )
-
-                }
-
-                //invert value
-                _this.radar_plyng = !_this.radar_plyng
-                
-            },*/
-
             initMap( ){
                 const _this = this
 
@@ -704,22 +734,342 @@
                     container: "map",
                     map: _this.map,
                     zoom: 9,
-                    center: [ -80.837, 35.270 ] //lon, lat
-                    		        
+                    center: [ -80.837, 35.270 ], //lon, lat
+                         		        
                 } )
 
-                _this.map_view.padding.left = ( _this.info_drawer && !_this.is_mobile ? 400 : 0 )
-                _this.map_view.padding.right = ( _this.overlay_drawer && !_this.is_mobile ? 400 : 0 )
                 _this.map_view.ui.remove( "attribution" )
                 _this.map_view.ui.move( "zoom", "bottom-left" )
+       
+                //actions to be carried out when buttons are clicked in a popup box
+                _this.popupAction( )
+
+                _this.addFloodImpact( )                
+
+            },
+
+            getSourceSwitch( src ){
+                const _this = this,
+                    lyrs = _this.overlays.filter( overlay => { return overlay.source === src } )
+
+                if( lyrs.length > 1 ){ //mapimagelayer source
+                    return lyrs.map( overlay => overlay.sublayers.map( idx => { return { id: idx, visible: overlay.switch } } ) ).flat( )
+                    
+                }else if( lyrs.length > 0 ){ //other source
+                    return lyrs.map( lyr => lyr.switch )[ 0 ]
+
+                }else{ //default
+                    return false
+
+                }
+
+            },
+
+            getDataFromAPI( new_route_name, new_route_params ){
+                const _this = this,
+                    hasSimilarGauges = ( ) => {
+                        const new_gauges = new_route_params.gauges.split( "," ).map( gauge => gauge.trim( ).toLowerCase( ) ),
+                            last_gauges = _this.last_route.params.gauges.split( "," )
+
+                        return new_gauges.some( gauge => last_gauges.includes( gauge ) )
+
+                    }
+
+                let ret_val = true
+
+                if( _this.last_route.hasOwnProperty( "name" ) ){
+                    if( _this.last_route.name.search( /Camera/ ) > -1 && new_route_name.search( /Camera/ ) > -1 ){
+                        ret_val = false
+
+                    }else if( ( _this.last_route.name.search( /Range/ ) > -1 && new_route_name.search( /Range/ ) > -1 ) ){
+                        if( hasSimilarGauges( ) && new_route_params.period === _this.last_route.params.period ){
+                            ret_val = false
+
+                        }
+
+                    }else if( _this.last_route.name.search( /DatePeriod/ ) > -1 && new_route_name.search( /DatePeriod/ ) > -1 ){
+                        if( hasSimilarGauges( ) && 
+                            new_route_params.period === _this.last_route.params.period &&
+                            new_route_params.enddate === _this.last_route.params.enddate ){
+                            ret_val = false
+
+                        }
+
+                    }else if( _this.last_route.name.search( /Period/ ) > -1 && new_route_name.search( /Period/ ) > -1 ){
+                        if( hasSimilarGauges( ) && 
+                            new_route_params.startdate === _this.last_route.params.startdate &&
+                            new_route_params.enddate === _this.last_route.params.enddate ){
+                            ret_val = false
+
+                        }
+                        
+                    }                      
+
+                }
+
+                return ret_val
+
+            },
+
+            parseRoute( ){
+                const _this = this,
+                    name = _this.$router.currentRoute.name,
+                    params = _this.$router.currentRoute.params
+                    
+                if( _this.getDataFromAPI( name, params ) ){
+                    console.log( "get" )
+                    _this.refreshid.gauge = window.clearInterval( _this.refreshid.gauge )
+
+                    switch( name ){
+                        case "AllPeriod": case "SelectedPeriod": 
+                            //setup the 3 minute refresh loop 
+                            
+                            _this.refreshid.gauge = self.setInterval( ( ) => {
+                                _this.addGaugesToMap( params )
+                                _this.last_refresh = "Last Refresh " + Moment( ).format ( "MM/DD/YYYY hh:mm A" )
+
+                            }, 180000 )    
+
+                            _this.addGaugesToMap( params )
+                            _this.last_refresh = "Last Refresh " + Moment( ).format ( "MM/DD/YYYY hh:mm A" )
+
+                            break
+
+                        case "AllRange": case "AllDatePeriod": case "SelectedRange": case "SelectedDatePeriod":
+                            _this.addGaugesToMap( params )
+                            _this.last_refresh = ""
+                            break
+
+                        case "AllCamera": case "SelectedCamera":
+                            _this.addCamsToMap( params )
+                            break
+
+                    }
+
+                }else{
+                    console.log( "use" )
+                    //zoom and highlight gauge/cam
+                    _this.zoomAndHightlightGaugeCam( gaugeInfo[ params.uniqueid ] )
+
+                }
+                    
+                //console.log( name, params)
+                
+            },
+
+            removeLyr( lyr ){
+                const _this = this
+
+                if( lyr ){
+                    _this.map.remove( lyr )
+                    lyr = null
+
+                }
+
+            },
+        
+            async addGaugesToMap( params ){
+                const _this = this,
+                    { gauges, ...qrystr } = params,
+                    gauges_arr = gauges.split( "," ).map( gauge => gauge.trim( ).toLowerCase( ) ),
+                    promises = await gauges_arr.map( async gauge => {
+                        let row
+                        
+                        switch( gauge ){
+                            case "lcs":
+                                row = await GetStoredContrailData( { num_readings: 5 } )
+                                break
+
+                            case "stage": case "lake":
+                                //calls made to the Alert API
+                                row = await GetAlertData( gauge, "lastfive", qrystr )
+                                break
+
+                            default:
+                                //calls made to the Alert API
+                                row = await GetAlertData( gauge, "default", qrystr )
+                                break
+
+                            }
+
+                        return row
+
+                    } ),
+                    all_gauge_info = Object.values( gaugeInfo ).filter( obj => { return gauges_arr.includes( obj.gauge_type ) } ),
+                    geojson_gauge = FormatAsGeoJSON( gauges_arr, await Promise.all( promises ), all_gauge_info ),
+                    intrpltn_results = ( gauges === "rain" ? InterpolatePrcp( geojson_gauge ) : null )
+                    
+                //remove the gauge_cam and precipitation
+                _this.removeLyr( _this.map_sources.precip )
+                _this.removeLyr( _this.map_sources.gauge_cam )
+
+                // create new gauge_cam geojson layer using the blob url    
+                _this.map_sources.gauge_cam = new GeoJSONLayer( {
+                    url: GetGeoJSONURL( geojson_gauge ),
+                    copyright: "Charlotte-Mecklenburg Storm Water Services",
+                    popupTemplate: GetGeoJSONTemplate( gauges ),
+                    renderer: GetGeoJSONRenderer( gauges ),
+                    labelingInfo: [ GetGeoJSONLabelInfo( gauges ) ],
+                    minScale: 800000,
+                    visible: _this.getSourceSwitch( "gauge_cam" )
+                
+                } )
+
+                //add precipitation interpolation
+                if( intrpltn_results ){
+                    _this.map_sources.precip = new GeoJSONLayer( {
+                        url: GetGeoJSONURL( intrpltn_results.geojson ),
+                        copyright: "Charlotte-Mecklenburg Storm Water Services",
+                        renderer: intrpltn_results.renderer,
+                        opacity: 0.3,
+                        minScale: 800000,
+                        
+                        } )
+
+                    _this.map.addMany( [ _this.map_sources.precip, _this.map_sources.gauge_cam ] )
+
+                }else{
+                    _this.map.add( _this.map_sources.gauge_cam )
+
+                }
+
+                if( qrystr.hasOwnProperty( "uniqueid" ) ){
+                    //zoom and highlight gauge
+                    _this.zoomAndHightlightGaugeCam( gaugeInfo[ qrystr.uniqueid ] )
+
+                }
+                                                
+            },
+
+            addCamsToMap( params ){
+                const _this = this
+
+                //remove layer
+                _this.removeLyr( _this.map_sources.gauge_cam )
+
+                //add layer
+                _this.map_sources.gauge_cam = new GeoJSONLayer( {
+                        url: `${_this.ws.dbopen}v1/geojson/stormwater_webcams?geom_column=the_geom&columns=CASE WHEN key is NULL THEN 'CAM'||site_id ELSE site_id END as unique_id, name, key, 'cam' as icon, 'na' as site_trend&precision=9`,
+                        copyright: "Charlotte-Mecklenburg Storm Water Services",
+                        popupTemplate: GetGeoJSONTemplate( "cam" ),
+                        renderer: GetGeoJSONRenderer( "cam" ),
+                        minScale: 800000,
+                        visible: _this.getSourceSwitch( "gauge_cam" )
+                    
+                    } )
+
+                _this.map.add( _this.map_sources.gauge_cam )
+
+                if( params.hasOwnProperty( "uniqueid" ) ){
+                    //zoom and highlight cam
+                    _this.zoomAndHightlightGaugeCam( gaugeInfo[ params.uniqueid ] )
+
+                }
+
+            },
+
+            addLocPointer( ){
+                const _this = this,
+                    pointGraphic = new Graphic({
+                        geometry: { 
+                            type: "point", 
+                            longitude: _this.last_search_result.lon, 
+                            latitude: _this.last_search_result.lat 
+                        },
+                        symbol: {
+                            type: "simple-marker",
+                            color: _this.svg_colors.loc,
+                            size: "30px",
+                            outline: {
+                                color: [ 0, 0, 0, 1 ],
+                                width: "2px",
+                            },
+                            path: _this.svg_paths.loc,
+                        
+                        }
+
+                    } )
+
+                _this.map_sources.loc.removeAll( )
+                _this.map_sources.loc.add( pointGraphic )
+                _this.map_view.goTo( { center: [ _this.last_search_result.lon, _this.last_search_result.lat ], zoom: 13 } )
+
+            },
+
+            zoomAndHightlightGaugeCam( site_info ){
+                const _this = this
+
+                _this.map_view.when( ( ) => {
+                    _this.map_view.whenLayerView( _this.map_sources.gauge_cam ).then( lyr_view => {
+                        if( _this.zoom_to_gauge ){
+                            //zoom to the selected gauge
+                            _this.zoomTo( site_info.lat, site_info.lon )
+
+                        }
+                        
+                        //highlight gauge
+                        if( lyr_view ){
+                            _this.highlightGaugeCam( site_info, lyr_view )
+
+                        }
+                                        
+                    } )
+
+                } )
+
+            },
+
+            highlightGaugeCam( site_info, lyr_view ){
+                const _this = this
+                let qry = new Query( )
+                 
+                qry.where = `unique_id='${site_info.unique_id}'`
+                qry.returnGeometry = true
+                qry.outFields = [ "*" ]
+
+                _this.map_sources.gauge_cam.queryFeatures( qry ).then( result => {
+                    // if a feature is already highlighted, then remove the highlight
+                    if( _this.highlight_feature ){
+                        _this.highlight_feature.remove( )
+
+                    }
+
+                    // use the objectID to highlight the feature
+                    _this.highlight_feature = lyr_view.highlight( result.features )
+                            
+                } )
+
+            },
+ 
+            zoomTo( lat, lon ){
+                this.map_view.goTo( 
+                    { center: [ lon, lat ], zoom: 13 },
+                    { duration: 2000, easing: "in-out-expo" }
+
+                )
+
+            },
+
+            popupAction( ){
+                const _this = this
 
                 // Event handler that fires each time an action is clicked in the map popup.
                 _this.map_view.popup.on( "trigger-action", async( event ) => {
-                    // Execute the measureThis() function if the measure-this action is clicked
+                    const attrb = _this.map_view.popup.selectedFeature.attributes
+
+                    let new_route
+                    
                     switch( event.action.id ){
                         case "cam_snapshot":
-                            //_this.viewSnapshot( )
-                            console.log( "push route" )
+                            new_route = GetNewRoute( { uniqueid: attrb.unique_id, } )
+
+				            //go to new route
+				            if( new_route ){
+                                _this.zoom_to_gauge = false
+					            _this.$router.push( new_route )
+
+				            }
+
                             break
 
                         case "strmxing_photos":
@@ -727,8 +1077,7 @@
                             break
 
                         case "watch_detail": case "warn_detail":
-                            const attrb = _this.map_view.popup.selectedFeature.attributes,
-                                details = await GetNWSDetail( `https://api.weather.gov/alerts/${ attrb.cap_id }` )
+                            const details = await GetNWSDetail( `https://api.weather.gov/alerts/${ attrb.cap_id }` )
                             
                             _this.dialog.title = attrb.prod_type
                             _this.dialog.subtitle = `${ Moment( attrb.issuance ).format( "M/D/YYYY h:mmA" ) } through ${Moment( attrb.expiration ).format( "M/D/YYYY h:mmA" ) }`
@@ -752,8 +1101,7 @@
                             break
 
                         case "gauge_detail":
-                            const gauge_attrb = _this.map_view.popup.selectedFeature.attributes, 
-					            new_route = GetNewRoute( { site: gauge_attrb.site_id, } )
+                            new_route = GetNewRoute( { uniqueid: attrb.unique_id, } )
 
 				            //go to new route
 				            if( new_route ){
@@ -767,20 +1115,11 @@
                     }
                 
                 } )
-                  
-                /*_this.map_sources.radar.timeExtent = {
-                    start: Moment( ).subtract( 60, "minutes" ),
-                    end: Moment( ).subtract( 60, "minutes" )
-                }*/
-               
-                //calculate the map center and store for weather forcast generation
-                /*WatchUtils.whenFalse( _this.map_view, "stationary", event => {
-                    WatchUtils.whenTrueOnce( _this.map_view, "stationary", event => { 
-                        _this.map_center = [ RoundNum( _this.map_view.center.longitude, 3 ), RoundNum( _this.map_view.center.latitude, 3 ) ]
 
-                    } )    
+            },
 
-                } )*/
+            addFloodImpact( ){
+                const _this = this
 
                 Promise.all([
                     _this.map_view.whenLayerView( _this.map_sources.rarrbldg ),
@@ -841,245 +1180,34 @@
 
             },
 
-            getSourceSwitch( src ){
-                const _this = this,
-                    lyrs = _this.overlays.filter( overlay => { return overlay.source === src } )
-
-                if( lyrs.length > 1 ){ //mapimagelayer source
-                    return lyrs.map( overlay => overlay.sublayers.map( idx => { return { id: idx, visible: overlay.switch } } ) ).flat( )
-                    
-                }else if( lyrs.length > 0 ){ //other source
-                    return lyrs.map( lyr => lyr.switch )[ 0 ]
-
-                }else{ //default
-                    return false
-
-                }
-
-            },
-
-            parseRoute( ){
-                const _this = this,
-                    name = _this.$router.currentRoute.name,
-                    params = _this.$router.currentRoute.params
+            takeAction( action ){
+                const _this = this
                 
-                _this.refreshid = window.clearInterval( _this.refreshid )
-
-                switch( name ){
-                   case "AllPeriod": case "SelectedPeriod": 
-                        //setup the 3 minute refresh loop 
-                        
-	                    _this.refreshid = self.setInterval( ( ) => {
-                            _this.addGaugesToMap( params )
-                            _this.last_refresh = "Last Refresh " + Moment( ).format ( "MM/DD/YYYY hh:mm A" )
-
-                        }, 180000 )    
-
-                        _this.addGaugesToMap( params )
-                        _this.last_refresh = "Last Refresh " + Moment( ).format ( "MM/DD/YYYY hh:mm A" )
-
+                switch( action ){
+                    case "ToggleOverlayCtrl":
+                        _this.overlay_drawer = !_this.overlay_drawer
+                        _this.show_overlays = true
+                        _this.show_alarms = false
                         break
 
-                    case "AllRange": case "AllDatePeriod": case "SelectedRange": case "SelectedDatePeriod":
-                        _this.addGaugesToMap( params )
-                        _this.last_refresh = ""
+                    case "ToggleAlarmCtrl":
+                        _this.overlay_drawer = !_this.overlay_drawer
+                        _this.show_alarms = true
+                        _this.show_overlays = false
                         break
 
-                    case "AllCamera": case "SelectedCamera":
-                        _this.addCamsToMap( )
+                    case "Tab":
+                        _this.sel_gauge_cam = null
+                        _this.$router.push( GetNewRoute( { gauges: _this.tabs[ _this.top_tab ].gauges.join( "," ) } ) )
+                        break
+
+                    default:
+                        console.log( action )
                         break
 
                 }
-
-                //show the info panel
-                _this.info_drawer = ( name.search( /Selected/ ) > -1 )
-
+    
             },
-
-            removeLyr( lyr ){
-                const _this = this
-
-                if( lyr ){
-                    _this.map.remove( lyr )
-                    lyr = null
-
-                }
-
-            },
-        
-            async addGaugesToMap( params ){
-                const _this = this,
-                    { gauges, ...qrystr } = params,
-                    gauges_arr = gauges.split( "," ).map( gauge => gauge.trim( ).toLowerCase( ) ),
-                    promises = await gauges_arr.map( async gauge => {
-                        let row
-                        
-                        switch( gauge ){
-                            case "lcs":
-                                //unfortunately two calls needs to be made to the contrail API
-                                row = { 
-                                    //meta: await GetContrailData( { method: "GetSiteMetaData", system_key: "c9254111-e6c8-4689-9171-685eac46496b" } ),
-                                    data: await GetContrailData( { method: "GetSensorData", system_key: "c9254111-e6c8-4689-9171-685eac46496b" } ),
-                                    
-                                    }
-
-                                //http://10.250.3.40:8080/OneRain/AlarmAPI?method=GetRuleMetadata&system_key=6743a7ce-b6c5-408d-a45d-7b1ce4dedc4f
-                            break
-
-                        default:
-                            //calls made to the Alert API
-                            row = await GetAlertData( gauge, "default", qrystr )
-                            break
-
-                        }
-
-                        return row
-
-                    } ),
-                    all_gauge_info = Object.values( gaugeInfo ).filter( obj => { return gauges_arr.includes( obj.gauge_type ) } ),
-                    geojson_gauge = FormatAsGeoJSON( gauges_arr, await Promise.all( promises ), all_gauge_info ),
-                    intrpltn_results = ( gauges === "rain" ? InterpolatePrcp( geojson_gauge ) : null )
-                    
-                //remove the gauge_cam and precipitation
-                _this.removeLyr( _this.map_sources.precip )
-                _this.removeLyr( _this.map_sources.gauge_cam )
-
-                // create new geojson layer using the blob url    
-                _this.map_sources.gauge_cam = new GeoJSONLayer( {
-                    url: GetGeoJSONURL( geojson_gauge ),
-                    copyright: "Charlotte-Mecklenburg Storm Water Services",
-                    popupTemplate: GetGeoJSONTemplate( gauges ),
-                    renderer: GetGeoJSONRenderer( gauges ),
-                    labelingInfo: [ GetGeoJSONLabelInfo( gauges ) ],
-                    minScale: 800000,
-                    visible: _this.getSourceSwitch( "gauge_cam" )
-                
-                } )
-
-                if( intrpltn_results ){
-                    _this.map_sources.precip = new GeoJSONLayer( {
-                        url: GetGeoJSONURL( intrpltn_results.geojson ),
-                        copyright: "Charlotte-Mecklenburg Storm Water Services",
-                        renderer: intrpltn_results.renderer,
-                        opacity: 0.3,
-                        minScale: 800000,
-                        
-                        } )
-
-                    _this.map.addMany( [ _this.map_sources.precip, _this.map_sources.gauge_cam ] )
-
-                }else{
-                    _this.map.add( _this.map_sources.gauge_cam )
-
-                }
-
-                if( qrystr.hasOwnProperty( "site" ) && _this.zoom_to_gauge ){
-                    const site_info = Object.values( gaugeInfo ).filter( obj => { return obj.site_id === qrystr.site } )
-                    _this.zoomTo( site_info[ 0 ].lat, site_info[ 0 ].lon )
-                  
-                }
-
-                _this.getGaugeCamList( )
-                                                
-            },
-
-            addCamsToMap( ){
-                const _this = this
-
-                //remove layer
-                _this.removeLyr( _this.map_sources.gauge_cam )
-
-                //add layer
-                _this.map_sources.gauge_cam = new GeoJSONLayer( {
-                        url: `${_this.ws.dbopen}v1/geojson/stormwater_webcams?geom_column=the_geom&columns=site_id%2C%20name%2C%20key%2C%20'cam'%20as%20icon&precision=9`,
-                        copyright: "Charlotte-Mecklenburg Storm Water Services",
-                        popupTemplate: GetGeoJSONTemplate( "cam" ),
-                        renderer: GetGeoJSONRenderer( "cam" ),
-                        minScale: 800000,
-                        visible: _this.getSourceSwitch( "gauge_cam" )
-                    
-                    } )
-
-                _this.map.add( _this.map_sources.gauge_cam )
-
-                _this.getGaugeCamList( )
-
-            },
-
-            getGaugeCamList( ){
-				const _this = this
-
-				let search_results = [ ]
-
-				_this.map_sources.gauge_cam
-					.queryFeatures( )
-					.then( results => {
-  						search_results.push( 
-							...results.features.map( row => { 
-								return { 
-										text: `${row.attributes.site_id} : ${( row.attributes.hasOwnProperty( "site_name" ) ? row.attributes.site_name : row.attributes.name )}`,
-										value: { 
-											site_id: row.attributes.site_id, 
-											site_name: row.attributes.site_name, 
-											lat: row.geometry.latitude,
-											lon: row.geometry.longitude,   
-
-										}
-
-									} 
-
-							} )
-						)
-						
-					} )
-
-				_this.gauge_cam_list = search_results
-
-			},
-            
-            addLocPointer( ){
-                const _this = this,
-                    point = { type: "point", longitude: _this.last_search_result.lon, latitude: _this.last_search_result.lat },
-                    markerSymbol = {
-                        type: "simple-marker", // autocasts as new SimpleMarkerSymbol()
-                        color: [ 26, 35, 126 ],
-                        outline: {
-                            // autocasts as new SimpleLineSymbol()
-                            color: [ 255, 255, 255 ],
-                            width: 2
-
-                        }
-
-                    },
-                    pointGraphic = new Graphic({
-                        geometry: point,
-                        symbol: markerSymbol
-
-                    } )
-
-                _this.map_sources.loc.removeAll( )
-                _this.map_sources.loc.add( pointGraphic )
-                /*_this.map_view.goTo( {
-                    target: [ pointGraphic ],
-                    zoom: 15,
-
-                } )*/
-
-                _this.map_view.goTo( { center: [ _this.last_search_result.lon, _this.last_search_result.lat ], zoom: 13 } )
-
-            },
-
-            zoomTo( lat, lon ){
-                this.map_view.goTo( { center: [ lon, lat ], zoom: 13 } )
-
-            }
-
-            /*onResize( ){
-                const _this = this
-
-                _this.is_mobile = window.innerWidth < 600
-                                
-            },*/
             		    
 	    }
     

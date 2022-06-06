@@ -52,35 +52,35 @@ const getGauges = ( input_list) => {
 		}
 
 	},
-	getSite = ( gauges, site ) => {
-		let ret_site = null
+	getUniqueID = ( gauges, uniqueid ) => {
+		let ret_uniqueid = null
 
 		gauges.split( "," ).every( gauge => {
 			switch( gauge ){
 				case "rain":
-					ret_site = ( ValidateString( site, "isRainGauge" ) ? site : null ) 
+					ret_uniqueid = ( ValidateString( uniqueid, "isRainGauge" ) ? uniqueid : null ) 
 					break
 
 				case "stage":
-					ret_site = ( ValidateString( site, "isStageGauge" ) ? site : null ) 
+					ret_uniqueid = ( ValidateString( uniqueid, "isStageGauge" ) ? uniqueid : null ) 
 					break
 
 				case "lcs":
-					ret_site = ( ValidateString( site, "isLCSGauge" ) ? site : null ) 
+					ret_uniqueid = ( ValidateString( uniqueid, "isLCSGauge" ) ? uniqueid : null ) 
 					break
 
 				case "lake":
-					ret_site = ( ValidateString( site, "isLakeGauge" ) ? site : null ) 
+					ret_uniqueid = ( ValidateString( uniqueid, "isLakeGauge" ) ? uniqueid : null ) 
 					break
 
 			}
 
 			//do this to break the every loop one a match is found
-			return ( ret_site ? false : true )
+			return ( ret_uniqueid ? false : true )
 
 		} )
 
-		return ret_site
+		return ret_uniqueid
 
 	},
 	routes = [
@@ -161,7 +161,7 @@ const getGauges = ( input_list) => {
 			},
 
 		}, {
-			path: "/period/:gauges/:period/:site",
+			path: "/period/:gauges/:period/:uniqueid",
 			name: "SelectedPeriod",
 			component: EsriMap,
 			beforeEnter( to, from, next ){
@@ -171,11 +171,9 @@ const getGauges = ( input_list) => {
 										
 				}
 
-				valid.site = getSite( valid.gauges, to.params.site )
+				valid.uniqueid = getUniqueID( valid.gauges, to.params.uniqueid )
 
-				console.log( valid )
-
-				if( valid.gauges == to.params.gauges && valid.period == to.params.period && valid.site == to.params.site ){
+				if( valid.gauges == to.params.gauges && valid.period == to.params.period && valid.uniqueid == to.params.uniqueid ){
 					next( )
 					
 				}else{
@@ -187,7 +185,7 @@ const getGauges = ( input_list) => {
 			},
 
 		}, {
-			path: "/range/:gauges/:startdate/:enddate/:site",
+			path: "/range/:gauges/:startdate/:enddate/:uniqueid",
 			name: "SelectedRange",
 			component: EsriMap,
 			beforeEnter( to, from, next ){
@@ -197,12 +195,12 @@ const getGauges = ( input_list) => {
 					
 				}
 
-				valid.site = getSite( valid.gauges, to.params.site )
+				valid.uniqueid = getUniqueID( valid.gauges, to.params.uniqueid )
 
 				if( valid.gauges == to.params.gauges && 
 						valid.startdate == to.params.startdate && 
 						valid.enddate == to.params.enddate &&
-						valid.site == to.params.site ){
+						valid.uniqueid == to.params.uniqueid ){
 					next( )
 
 				}else{
@@ -214,7 +212,7 @@ const getGauges = ( input_list) => {
 			},
 
 		}, {
-			path: "/dateperiod/:gauges/:enddate/:period/:site",
+			path: "/dateperiod/:gauges/:enddate/:period/:uniqueid",
 			name: "SelectedDatePeriod",
 			component: EsriMap,
 			beforeEnter( to, from, next ){
@@ -225,12 +223,12 @@ const getGauges = ( input_list) => {
 					
 				}
 
-				valid.site = getSite( valid.gauges, to.params.site )
+				valid.uniqueid = getUniqueID( valid.gauges, to.params.uniqueid )
 
 				if( valid.gauges == to.params.gauges && 
 						valid.enddate == to.params.enddate && 
 						valid.period == to.params.period &&
-						valid.site == to.params.site ){
+						valid.uniqueid == to.params.uniqueid ){
 					next( )
 
 				}else{
@@ -247,11 +245,11 @@ const getGauges = ( input_list) => {
 			component: EsriMap
 
 		}, {
-			path: "/camera/:site",
+			path: "/camera/:uniqueid",
 			name: "SelectedCamera",
 			component: EsriMap,
 			beforeEnter( to, from, next ){
-				if( ValidateString( to.params.site, "isCamera" ) ){
+				if( ValidateString( to.params.uniqueid, "isCamera" ) ){
 					next( )
 
 				}else{
@@ -267,6 +265,12 @@ const getGauges = ( input_list) => {
 			name: "About",
 			// which is lazy-loaded when the route is visited.
 			component: ( ) => import( /* webpackChunkName: "about" */ "./components/About.vue" )
+
+		}, {
+			path: "/help",
+			name: "Help",
+			// which is lazy-loaded when the route is visited.
+			component: ( ) => import( /* webpackChunkName: "help" */ "./components/Help.vue" )
 
 		}, {
 			path: "/login",

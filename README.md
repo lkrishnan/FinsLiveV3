@@ -1,4 +1,5 @@
-# finslive3
+# Finslive V3
+[FinsLive](https://maps.mecklenburgcountync.gov/finslive) is a web interface for Charlotte-Mecklenburg Stormwater Services' Flood Information Notification System (FINS). The website presents real-time rainfall, stream, and reservoir data.
 
 ## Project setup
 ```

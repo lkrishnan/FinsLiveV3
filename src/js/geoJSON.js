@@ -77,7 +77,7 @@ export function FormatAsGeoJSON( gauge_arr, data_arr, gauge_info ){
 					site_obj[ unique_id ].measure_unit = "ft"
 					site_obj[ unique_id ].lastreading_epoch = Moment( site.data_time ).valueOf( )
 					site_obj[ unique_id ].reading = ( isNaN( parseFloat( site.reading ) ) ? "" : parseFloat( site.reading ).toFixed( 2 ) )
-					site_obj[ unique_id ][ "icon" ] = ( isNaN( parseFloat( site.reading ) ) ? "nr" : ( gauge === "lcs" ? "stage_emergency" : gauge  ) ) 
+					site_obj[ unique_id ][ "icon" ] = ( isNaN( parseFloat( site.reading ) ) ? "nr" : ( gauge === "lcs" ? "stage" : gauge  ) ) 
 
 					if( site_info.hasOwnProperty( "alarms" ) ){
 						site_info.alarms.forEach( alarm => {

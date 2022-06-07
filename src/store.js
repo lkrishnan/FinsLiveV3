@@ -22,8 +22,9 @@ export default new Vuex.Store( {
 			fm: "https://maps.mecklenburgcountync.gov/api/fm/",
 			contrail: "https://maps.mecklenburgcountync.gov/api/contrail",
 			alarm: "https://maps.mecklenburgcountync.gov/api/alarm",
+			camera: "https://maps.mecklenburgcountync.gov/api/camera",
 			dbopen: "https://api.mcmap.org/",
-
+			
   		},
 		svg_paths: {
 			steady: "M17,13H7V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z",

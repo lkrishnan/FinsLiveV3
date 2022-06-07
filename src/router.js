@@ -285,8 +285,8 @@ const getGauges = ( input_list) => {
 	router = new VueRouter( {
 		routes,
 		mode: "history",
-		//base: "/finslive/"
-		base: "/"
+		base: "/finslive/"
+		//base: "/"
 		
 	} )
 

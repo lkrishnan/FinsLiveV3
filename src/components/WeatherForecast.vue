@@ -254,7 +254,7 @@
 
             },
             getIcon( icon_name ){
-                return `http://openweathermap.org/img/wn/${icon_name}@2x.png`
+                return `https://openweathermap.org/img/wn/${icon_name}@2x.png`
 
             },
             noDecimal( num ){

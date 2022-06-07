@@ -194,6 +194,11 @@
 		} ),
       
       	computed: {
+            //app
+            ws( ){
+          		return this.$store.state.ws
+
+      		},
 			//custom
             drawer_width( ) {
                 return ( this.is_mobile ? "100%" : "432px" )
@@ -523,13 +528,11 @@
                     const site_info = gaugeInfo[ params.uniqueid ]
 
                     _this.snapshot = ( site_info.hasOwnProperty( "key" ) ? 
-                        `https://maps.mecklenburgcountync.gov/api/camera?method=image&camera=${site_info.key}&api_key=55dcad90-e3ec-4954-b882-384bfd3bb9dd`: 
-                        `http://maps.co.mecklenburg.nc.us/rest/v1/ws_fins_creekcam.php?camid=${site_info.site_id}&cachebuster=${new Date( ).getTime( )}` 
+                        `${_this.ws.camera}?method=image&camera=${site_info.key}&api_key=55dcad90-e3ec-4954-b882-384bfd3bb9dd`: 
+                        `${_this.ws.fins}v1/creekcam/${site_info.site_id}` 
 
                     )
 
-                }else{
-                    console.log( "no" )
                 }
                 
             },

@@ -817,7 +817,6 @@
                     params = _this.$router.currentRoute.params
                     
                 if( _this.getDataFromAPI( name, params ) ){
-                    console.log( "get" )
                     _this.refreshid.gauge = window.clearInterval( _this.refreshid.gauge )
 
                     switch( name ){
@@ -828,8 +827,8 @@
                                 _this.addGaugesToMap( params )
                                 _this.last_refresh = "Last Refresh " + Moment( ).format ( "MM/DD/YYYY hh:mm A" )
 
-                            }, 180000 )    
-
+                            }, 180000 )
+                            
                             _this.addGaugesToMap( params )
                             _this.last_refresh = "Last Refresh " + Moment( ).format ( "MM/DD/YYYY hh:mm A" )
 
@@ -847,14 +846,11 @@
                     }
 
                 }else{
-                    console.log( "use" )
                     //zoom and highlight gauge/cam
                     _this.zoomAndHightlightGaugeCam( gaugeInfo[ params.uniqueid ] )
 
                 }
-                    
-                //console.log( name, params)
-                
+                                
             },
 
             removeLyr( lyr ){

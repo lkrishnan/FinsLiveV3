@@ -62,13 +62,34 @@
             class="elevation-1"
             v-show="panel > -1"
         ></v-data-table>
+
+        <v-row
+            v-show="panel > -1"
+        >
+            <v-col 
+                class="d-flex justify-end align-center"
+            >
+                <v-btn 
+                    outlined
+                    class="mt-3 d-none d-lg-flex" 
+                    color="primary"
+                    @click="downloadData( )"
+                >
+                    <v-icon>mdi-download</v-icon>
+                    Download Data
+                </v-btn>
+            </v-col>
+        </v-row>
         
   </v-card>
 
 </template>
 
 <script>
-   export default{
+    import CSVMaker from "../js/csvMaker"
+    import DownloadData from "../js/downloadData"
+
+    export default{
       	name: "FloodImpact",
 
         computed: {
@@ -86,7 +107,13 @@
         } ),
 
 		methods: {
-            
+            downloadData( ){
+                const _this = this,
+                    csvdata = CSVMaker(  _this.flood_impact_details[ _this.panel ].rows )
+
+  				DownloadData( csvdata,  Math.floor( Math.random( ) * 100000 ) + ".csv" )
+
+            }            
 
         }
 

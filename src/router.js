@@ -83,6 +83,15 @@ const getGauges = ( input_list) => {
 		return ret_uniqueid
 
 	},
+	storeGaugeCamRoute = ( from ) => {
+		store.commit( "last_route", { name: from.name, params: from.params } )
+
+		if( [ "AllPeriod", "AllRange", "AllDatePeriod", "AllCamera", "SelectedCamera", "SelectedPeriod", "SelectedRange", "SelectedDatePeriod" ].includes( from.name ) ){
+			store.commit( "last_gauge_cam_route", { name: from.name, params: from.params } )
+
+		}
+
+	},
 	routes = [
 		{
 			path: "/",
@@ -261,22 +270,37 @@ const getGauges = ( input_list) => {
 			},
 
 		}, {
-			path: "/about",
-			name: "About",
-			// which is lazy-loaded when the route is visited.
-			component: ( ) => import( /* webpackChunkName: "about" */ "./components/About.vue" )
-
-		}, {
 			path: "/help",
 			name: "Help",
 			// which is lazy-loaded when the route is visited.
-			component: ( ) => import( /* webpackChunkName: "help" */ "./components/Help.vue" )
+			component: ( ) => import( /* webpackChunkName: "help" */ "./components/Help.vue" ),
+			beforeEnter( to, from, next ){
+				storeGaugeCamRoute( from )
+				next( )
+
+			},
+
+		}, {
+			path: "/dashboard",
+			name: "Dashboard",
+			// which is lazy-loaded when the route is visited.
+			component: ( ) => import( /* webpackChunkName: "dashboard" */ "./components/Dashboard.vue" ),
+			beforeEnter( to, from, next ){
+				storeGaugeCamRoute( from )
+				next( )
+
+			},
 
 		}, {
 			path: "/login",
 			name: "Login",
 			// which is lazy-loaded when the route is visited.
-			component: ( ) => import( /* webpackChunkName: "about" */ "./components/Login.vue" )
+			component: ( ) => import( /* webpackChunkName: "about" */ "./components/Login.vue" ),
+			beforeEnter( to, from, next ){
+				storeGaugeCamRoute( from )
+				next( )
+
+			},
 
 		}
 
@@ -285,8 +309,8 @@ const getGauges = ( input_list) => {
 	router = new VueRouter( {
 		routes,
 		mode: "history",
-		base: "/finslive/"
-		//base: "/"
+		//base: "/finslive/"
+		base: "/"
 		
 	} )
 

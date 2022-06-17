@@ -1,7 +1,8 @@
 export default function isObjEqual( obj1, obj2 ){
 	const props1 = Object.getOwnPropertyNames( obj1 ),
 		props2 = Object.getOwnPropertyNames( obj2 ),
-		isObject = object => object != null && typeof object === "object"
+		isObject = object => object != null && typeof object === "object",
+		isEqual = ( val1, val2 ) => ( val1 == val2 ? true : false )
 
 		if( props1.length != props2.length ){
 			return false

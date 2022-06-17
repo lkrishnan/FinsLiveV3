@@ -23,6 +23,7 @@
             color="white"
             style="margin: 0; position: absolute; z-index: 1;"
             :style="is_mobile ? 'right: 0px; top: 120px;' : 'right: 0px; top: 150px;'"
+            @click="takeAction( 'Geolocation' )"
         >
             <v-icon 
                 color="light-blue accent-4"
@@ -30,31 +31,6 @@
                 mdi-crosshairs-gps
             </v-icon>
         </v-btn>
-        
-        <v-tooltip left>
-            <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                    :class="is_mobile ? 'mx-2' : 'mx-4'"
-                    fab
-                    :small="is_mobile ? false : true"
-                    :x-small="is_mobile ? true : false"
-                    color="white"
-                    style="margin: 0; position: absolute; z-index: 1;"
-                    :style="is_mobile ? 'right: 0px; top: 160px;' : 'right: 0px; top: 206px;'"
-                    v-bind="attrs"
-                    v-on="on"
-                    @click="parseRoute"
-                    v-show=" [ 'AllPeriod', 'SelectedPeriod' ].includes( $route.name )"
-                >
-                <v-icon 
-                    color="primary"
-                >
-                   mdi-cached
-                </v-icon>
-                </v-btn>
-            </template>
-            <span>{{last_refresh}}</span>
-        </v-tooltip>
 
         <v-badge
             :color="( parseInt( active_alarm_cnt ) > 0 ? 'red' : 'green' )"
@@ -62,7 +38,7 @@
             offset-x="27"
             offset-y="12"
             style="margin: 0; position: absolute; z-index: 1;"
-            :style="is_mobile ? 'right: 0px; top: 200px;' : 'right: 0px; top: 262px;'"   
+            :style="is_mobile ? 'right: 0px; top: 160px;' : 'right: 0px; top: 206px;'" 
             v-show="( auth !== '' )"
         >
             <v-btn
@@ -79,9 +55,33 @@
                     mdi-alert-outline
                 </v-icon>
             </v-btn>
-                
             
         </v-badge>
+        
+        <v-tooltip left>
+            <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    :class="is_mobile ? 'mx-2' : 'mx-4'"
+                    fab
+                    :small="is_mobile ? false : true"
+                    :x-small="is_mobile ? true : false"
+                    color="white"
+                    style="margin: 0; position: absolute; z-index: 1;"
+                    :style="is_mobile ? ( auth === '' ? 'right: 0px; top: 160px;' : 'right: 0px; top: 200px;' ) : ( auth === '' ? 'right: 0px; top: 206px;' : 'right: 0px; top: 262px;' )"  
+                    v-bind="attrs"
+                    v-on="on"
+                    @click="parseRoute"
+                    v-show=" [ 'AllPeriod', 'SelectedPeriod' ].includes( $route.name )"
+                >
+                <v-icon 
+                    color="primary"
+                >
+                   mdi-cached
+                </v-icon>
+                </v-btn>
+            </template>
+            <span>{{last_refresh}}</span>
+        </v-tooltip>
 
         <!-- Search Holder -->
         <v-container 
@@ -179,7 +179,8 @@
         >
             <Site />                
             <FloodImpact />
-            <WeatherForecast />                
+            <WeatherForecast />  
+            <About />              
 		</v-navigation-drawer>
 
         <v-bottom-navigation
@@ -265,10 +266,12 @@
     import FeatureLayer from "@arcgis/core/layers/FeatureLayer"
     import MapImageLayer from "@arcgis/core/layers/MapImageLayer"
     import Query from "@arcgis/core/rest/support/Query"
+    import Locate from "@arcgis/core/widgets/Locate"
     import * as WatchUtils from "@arcgis/core/core/watchUtils"
     import { GetAlertData, GetContrailData, GetNWSDetail, GetStoredContrailData } from "../js/getFINSData"
     import { FormatAsGeoJSON, GetGeoJSONURL, GetGeoJSONTemplate, GetGeoJSONRenderer, GetGeoJSONLabelInfo, InterpolatePrcp} from "../js/geoJSON"
     import { GetStrmXingTemplate, GetNWSWarnTemplate, GetNWSWatchTemplate, GetRARRBldgTemplate, GetRARRStrmXingTemplate, GetRARRRoadTemplate } from "../js/popupTemplate"
+    import IsObjEqual from "../js/isObjEqual"
     import GetNewRoute from "../js/getNewRoute"
     import Moment from "moment"
     import gaugeInfo from "../assets/gauge_info.json" 
@@ -286,6 +289,7 @@
             Search: ( ) => import( /* webpackChunkName: "search"*/"./Search.vue" ),
             Site: ( ) => import( /* webpackChunkName: "site"*/"./Site.vue" ),
             WeatherForecast: ( ) => import( /* webpackChunkName: "weatherforecast"*/"./WeatherForecast.vue" ),
+            About: ( ) => import( /* webpackChunkName: "about"*/"./About.vue" ),
             
 		},
 
@@ -575,16 +579,18 @@
                 
             },
 
-            info_drawer: function( ){
-                this.map_view.padding.left = ( this.info_drawer && !this.is_mobile ? 400 : 0 )
-                //const temp = this.map_view.center
-                //this.map_view.goTo( temp )
-                
+            info_drawer( ){
+                const _this = this
+
+                _this.map_view.padding = { ..._this.map_view.padding, left: ( _this.info_drawer && !_this.is_mobile ? 420 : 0 ) }
+                                
             },
 
-            overlay_drawer: function( ){
-                this.map_view.padding.right = ( this.overlay_drawer && !this.is_mobile ? 400 : 0 )
-                
+            overlay_drawer( ){
+                const _this = this
+
+                _this.map_view.padding = { ..._this.map_view.padding, right: ( _this.info_drawer && !_this.is_mobile ? 420 : 0 ) }
+                                
             },
 
             last_search_result( ){
@@ -614,6 +620,12 @@
             },
             last_refresh: null,
             highlight_feature: null,
+            highlight_the_feature: false,
+            locate_widget: null,
+            lyr_view: {
+                gauge_cam: null,
+
+            },
 
             dialog: {
                 show: false,
@@ -740,6 +752,13 @@
 
                 _this.map_view.ui.remove( "attribution" )
                 _this.map_view.ui.move( "zoom", "bottom-left" )
+
+                //initiate locate widget
+                _this.locate_widget = new Locate( {
+                    view: _this.map_view,   // Attaches the Locate button to the view
+                    scale: 20000,
+
+                } )
        
                 //actions to be carried out when buttons are clicked in a popup box
                 _this.popupAction( )
@@ -815,14 +834,13 @@
                 const _this = this,
                     name = _this.$router.currentRoute.name,
                     params = _this.$router.currentRoute.params
-                    
+
                 if( _this.getDataFromAPI( name, params ) ){
                     _this.refreshid.gauge = window.clearInterval( _this.refreshid.gauge )
 
                     switch( name ){
                         case "AllPeriod": case "SelectedPeriod": 
                             //setup the 3 minute refresh loop 
-                            
                             _this.refreshid.gauge = self.setInterval( ( ) => {
                                 _this.addGaugesToMap( params )
                                 _this.last_refresh = "Last Refresh " + Moment( ).format ( "MM/DD/YYYY hh:mm A" )
@@ -846,11 +864,13 @@
                     }
 
                 }else{
-                    //zoom and highlight gauge/cam
-                    _this.zoomAndHightlightGaugeCam( gaugeInfo[ params.uniqueid ] )
+                    if( params.hasOwnProperty( "uniqueid" ) ){
+                        _this.zoomToGauge( gaugeInfo[ params.uniqueid ] )
 
+                    }
+                    
                 }
-                                
+                                                
             },
 
             removeLyr( lyr ){
@@ -907,6 +927,7 @@
                     renderer: GetGeoJSONRenderer( gauges ),
                     labelingInfo: [ GetGeoJSONLabelInfo( gauges ) ],
                     minScale: 800000,
+                    outFields: ["*"],
                     visible: _this.getSourceSwitch( "gauge_cam" )
                 
                 } )
@@ -930,11 +951,10 @@
                 }
 
                 if( qrystr.hasOwnProperty( "uniqueid" ) ){
-                    //zoom and highlight gauge
-                    _this.zoomAndHightlightGaugeCam( gaugeInfo[ qrystr.uniqueid ] )
+                    _this.zoomToGauge( gaugeInfo[ qrystr.uniqueid ] )
 
-                }
-                                                
+                }                
+                                                                
             },
 
             addCamsToMap( params ){
@@ -949,6 +969,7 @@
                         copyright: "Charlotte-Mecklenburg Storm Water Services",
                         popupTemplate: GetGeoJSONTemplate( "cam" ),
                         renderer: GetGeoJSONRenderer( "cam" ),
+                        outFields: ["*"],
                         minScale: 800000,
                         visible: _this.getSourceSwitch( "gauge_cam" )
                     
@@ -957,8 +978,8 @@
                 _this.map.add( _this.map_sources.gauge_cam )
 
                 if( params.hasOwnProperty( "uniqueid" ) ){
-                    //zoom and highlight cam
-                    _this.zoomAndHightlightGaugeCam( gaugeInfo[ params.uniqueid ] )
+                    //zoom and camera
+                    _this.zoomToGauge( gaugeInfo[ params.uniqueid ] )
 
                 }
 
@@ -992,51 +1013,17 @@
 
             },
 
-            zoomAndHightlightGaugeCam( site_info ){
-                const _this = this
+            zoomToGauge( site_info ){
+                const _this = this 
 
-                _this.map_view.when( ( ) => {
-                    _this.map_view.whenLayerView( _this.map_sources.gauge_cam ).then( lyr_view => {
-                        if( _this.zoom_to_gauge ){
-                            //zoom to the selected gauge
-                            _this.zoomTo( site_info.lat, site_info.lon )
+                if( _this.zoom_to_gauge ){
+                    //zoom to the selected gauge
+                    _this.zoomTo( site_info.lat, site_info.lon )
 
-                        }
-                        
-                        //highlight gauge
-                        if( lyr_view ){
-                            _this.highlightGaugeCam( site_info, lyr_view )
-
-                        }
-                                        
-                    } )
-
-                } )
+                }
 
             },
 
-            highlightGaugeCam( site_info, lyr_view ){
-                const _this = this
-                let qry = new Query( )
-                 
-                qry.where = `unique_id='${site_info.unique_id}'`
-                qry.returnGeometry = true
-                qry.outFields = [ "*" ]
-
-                _this.map_sources.gauge_cam.queryFeatures( qry ).then( result => {
-                    // if a feature is already highlighted, then remove the highlight
-                    if( _this.highlight_feature ){
-                        _this.highlight_feature.remove( )
-
-                    }
-
-                    // use the objectID to highlight the feature
-                    _this.highlight_feature = lyr_view.highlight( result.features )
-                            
-                } )
-
-            },
- 
             zoomTo( lat, lon ){
                 this.map_view.goTo( 
                     { center: [ lon, lat ], zoom: 13 },
@@ -1086,9 +1073,9 @@
                             break
 
                         case "rarr":
-                            console.log(_this.map_view.popup.selectedFeature.attributes)
                             _this.map_view.whenLayerView(  _this.map_sources.rarrbldg ).then( function( layerView ){
-                                return layerView.queryFeatureCount()
+                                return layerView.queryFeatureCount( )
+
                             } ).then( function( count ){  
                                 console.log( count )  // prints the total number of client-side graphics to the console
                             
@@ -1116,62 +1103,48 @@
 
             addFloodImpact( ){
                 const _this = this
-
-                Promise.all([
+                    
+                Promise.all( [
                     _this.map_view.whenLayerView( _this.map_sources.rarrbldg ),
                     _this.map_view.whenLayerView( _this.map_sources.rarrstrmxing ),
                     _this.map_view.whenLayerView( _this.map_sources.rarrroad )
                 ] ).then( ( [ bldg_lyr_view, stmxing_lyr_view, road_lyr_view ] ) => {
-                    WatchUtils.whenFalse( _this.map_view, "stationary", event => {
-                        // Get the new extent of the view only when view is stationary.
-                        if( _this.map_view.extent ){
-                            Promise.all( [
-                                bldg_lyr_view.queryFeatures( ),
-                                stmxing_lyr_view.queryFeatures( ),
-                                road_lyr_view.queryFeatures( ),
+                    bldg_lyr_view.watch( "updating", value => {
+                        if( !value ){
+                            bldg_lyr_view.queryFeatures(  )
+                                .then( bldg_rows => { 
+                                    _this.flood_impact_details = { 0: bldg_rows.features.map( elem => elem.attributes ) } 
+                                    
+                                } )
 
-                            ] ).then( function( [ bldg_rows, stmxing_rows, road_rows ] ){  
-                                //store flood impact rows shown on map for display
-                                _this.flood_impact_details = [ 
-                                    { 
-                                        type: "Buildings", 
-                                        icon: "mdi-home-city",
-                                        rows: bldg_rows.features.map( elem => elem.attributes ),
-                                        headers: [
-                                            { text: "Address", value: "Address" },
-                                            { text: "Flood Category", value: "FldCatgry" },
-                                                    
-                                        ]
-                                        
-                                    }, { 
-                                        type: "Stream Crossing", 
-                                        icon: "mdi-align-horizontal-distribute",
-                                        rows: stmxing_rows.features.map( elem => elem.attributes ),
-                                        headers: [
-                                            { text: "Xing Desc", value: "XingDesc" },
-                                            { text: "Flood Category", value: "FldCatgry" },
-                                                    
-                                        ]
-                                        
-                                    }, { 
-                                        type: "Road Segments", 
-                                        icon: "mdi-road-variant",
-                                        rows: road_rows.features.map( elem => elem.attributes ),
-                                        headers: [
-                                            { text: "Road", value: "wholestnam" },
-                                                    
-                                        ]
-                                        
-                                    },
-
-                                ]
-
-                            } )
-                            
                         }
 
                     } )
 
+                    stmxing_lyr_view.watch( "updating", value => {
+                        if( !value ){
+                            stmxing_lyr_view.queryFeatures(  )
+                                .then( stmxing_rows => {
+                                    _this.flood_impact_details = { 1: stmxing_rows.features.map( elem => elem.attributes ) }
+
+                                } )
+
+                        }
+
+                    } )
+
+                    road_lyr_view.watch( "updating", value => {
+                        if( !value ){
+                            road_lyr_view.queryFeatures(  )
+                                .then( road_rows => {
+                                    _this.flood_impact_details = { 2: road_rows.features.map( elem => elem.attributes ) }
+
+                                } )
+
+                        }
+
+                    } )
+                    
                 } )
 
             },
@@ -1192,13 +1165,13 @@
                         _this.show_overlays = false
                         break
 
+                    case "Geolocation":
+                        _this.locate_widget.locate( )
+                        break
+
                     case "Tab":
                         _this.sel_gauge_cam = null
                         _this.$router.push( GetNewRoute( { gauges: _this.tabs[ _this.top_tab ].gauges.join( "," ) } ) )
-                        break
-
-                    default:
-                        console.log( action )
                         break
 
                 }

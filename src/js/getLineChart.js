@@ -186,7 +186,7 @@ export default function getLineChart( data, {
                 .attr( "stroke-linecap", strokeLinecap )
 
             ref_svg.append("circle")
-                .attr( "r", 5 )
+                .attr( "r", 7 )
                 .attr( "fill", "black" )
                 .attr( "cx", width - marginRight + 12 )
                 .attr( "cy", yScale( elem.value ) )

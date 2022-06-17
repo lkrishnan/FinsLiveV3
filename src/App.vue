@@ -7,7 +7,7 @@
 		>
 			<v-card
 				color="background"
-				class="d-none d-md-flex"
+				v-if="!is_mobile || ( is_mobile && ![ 'AllPeriod', 'SelectedPeriod', 'AllRange', 'SelectedRange', 'AllDatePeriod', 'SelectedDatePeriod', 'AllCamera', 'SelectedCamera'  ].includes( route_name ) )"
 			>
 				<v-row
 					no-gutters
@@ -26,13 +26,21 @@
 					</v-col>
 					<v-col
 						class="d-flex align-center flex-grow-0 flex-shrink-0 ml-8 my-2"
+						
 					>
 						
 						<v-img
 							alt="Vuetify Name"
 							src="./assets/finslive_logo.png"
 							max-width="140"
+							v-if="!is_mobile"
 						/>
+						<div
+							width="140"
+							v-if="is_mobile && ![ 'AllPeriod', 'SelectedPeriod', 'AllRange', 'SelectedRange', 'AllDatePeriod', 'SelectedDatePeriod', 'AllCamera', 'SelectedCamera'  ].includes( route_name )"
+						>
+							FINS Live
+						</div>
 					</v-col>
 					<v-col
 						class="d-flex align-end"
@@ -44,6 +52,7 @@
 							background-color="transparent"
 							light
 							@change="takeAction('Tab')"
+							v-if="[ 'AllPeriod', 'SelectedPeriod', 'AllRange', 'SelectedRange', 'AllDatePeriod', 'SelectedDatePeriod', 'AllCamera', 'SelectedCamera'  ].includes( route_name )"
 						>
 							<v-tab
 								v-for="(tab, i) in tabs"
@@ -61,8 +70,19 @@
 						<v-btn 
 							outlined
 							class="ma-2 d-none d-lg-flex" 
-							color="primary"
-							v-if="( top_tab !== 2 )"
+							color="purple darken-2"
+							@click="takeAction( 'GaugeCam' )"
+							v-if="![ 'AllPeriod', 'SelectedPeriod', 'AllRange', 'SelectedRange', 'AllDatePeriod', 'SelectedDatePeriod', 'AllCamera', 'SelectedCamera'  ].includes( route_name )"
+						>
+							<v-icon class="d-none d-md-flex">{{tabs[top_tab].icon}}</v-icon>
+							&nbsp;{{tabs[top_tab].label[ 0 ]}}<span class="d-none d-md-flex">&nbsp;{{tabs[top_tab].label[ 1 ]}}</span>
+						</v-btn>
+
+						<v-btn 
+							outlined
+							class="ma-2 d-none d-lg-flex" 
+							color="brown darken-2"
+							v-if="( top_tab !== 2 ) && [ 'AllPeriod', 'SelectedPeriod', 'AllRange', 'SelectedRange', 'AllDatePeriod', 'SelectedDatePeriod', 'AllCamera', 'SelectedCamera'  ].includes( route_name )"
 							@click="takeAction('DownloadData')"
 						>
 								<v-icon>mdi-download</v-icon>
@@ -72,8 +92,9 @@
 						<v-btn 
 							outlined
 							class="ma-2 d-none d-lg-flex" 
-							color="primary"
+							color="blue"
 							@click="takeAction('Help')"
+							v-if="( route_name !== 'Help' )"
 						>
 								<v-icon>mdi-help</v-icon>
 								Help
@@ -82,17 +103,18 @@
 						<v-btn 
 							outlined
 							class="ma-2 d-none d-lg-flex" 
-							color="primary"
-							@click="takeAction('About')"
+							color="purple darken-2"
+							@click="takeAction('Dashboard')"
+							v-if="( route_name !== 'Dashboard' )"
 						>
-								<v-icon>mdi-information-variant</v-icon>
-								About
+								<v-icon>mdi-view-dashboard</v-icon>
+								Dashboard
 						</v-btn>
 
 						<v-btn 
 							outlined
 							class="ma-2 d-none d-lg-flex"  
-							color="primary"
+							color="amber darken-2"
 							@click="takeAction('Login')"
 							v-if="( auth === '' )"
 						>
@@ -115,6 +137,10 @@
 				</v-row>
 				
 			</v-card>
+
+			
+                
+        
 			
 		</v-container>
 
@@ -131,7 +157,7 @@
 				<v-col
 					class="d-flex align-center text-h6"
 				>
-					<span class="primary--text">Polaris 3G</span>
+					<span class="primary--text">Fins Live</span>
 			
 				</v-col>
 
@@ -178,6 +204,7 @@
 
 		<v-main>
 			<router-view/>
+			
 		</v-main>
 
 		<v-snackbar bottom right :value="updateExists" :timeout="-1" color="primary">
@@ -230,7 +257,34 @@ export default {
 			return this.$store.state.tabs
 			
 		},
+		route_name( ){
+           	return this.$route.name
+			
+        },
+		last_route: {
+			set( payload ){
+				this.$store.commit( "last_route", payload )
+				
+			},
+			get( ){
+				return this.$store.state.last_route
+			
+			}
 
+		},
+		last_gauge_cam_route( ){
+			return this.$store.state.last_gauge_cam_route
+
+		},
+		is_mobile( ){
+			switch( this.$vuetify.breakpoint.name ){
+				case "xs": case "sm": return true
+				default: return false
+
+			}
+
+		},
+				
 		//map
 		gauge_data( ){
 			return this.$store.state.gauge_data
@@ -287,7 +341,7 @@ export default {
 		route_path( ){ //change in query string
 			const _this = this
 
-			//_this.parseRoute( )
+			_this.parseRoute( )
 		
 		},
 
@@ -296,9 +350,10 @@ export default {
   	data: ( ) => ( {
 		//hamburger menu navigation menu
 		nav_items: [
+				{ text: "Gauge/Camera", icon: "mdi-gauge", action: "GaugeCam" },
+				{ text: "Dashboard", icon: "mdi-view-dashboard", action: "Dashboard" },
 				{ text: "Help", icon: "mdi-help", action: "Help" },
-				{ text: "About", icon: "mdi-information-variant", action: "About" },
-        		{ text: "Data Download", icon: "mdi-download", action: "Download" },
+				{ text: "Data Download", icon: "mdi-download", action: "Download" },
         		{ text: "Login", icon: "mdi-login", action: "Login" },
 						      	
 		],
@@ -353,6 +408,12 @@ export default {
           	const _this = this
 			  
 			switch( action ){
+				case "GaugeCam":
+					_this.last_route =  { name: this.$router.currentRoute.name, params: _this.$router.currentRoute.params }
+					_this.$router.push( _this.last_gauge_cam_route )
+					//_this.$router.push( ( Object.keys( _this.last_route ).length === 0 ? { name: "AllPeriod", params: { gauges: "rain", period: "P1D" } } : _this.last_route ) )
+					break
+
 				case "Help":
 					_this.$router.push( { name: action } )
 
@@ -370,7 +431,7 @@ export default {
 
 					break
 
-				case "About":
+				case "Dashboard":
 					_this.$router.push( { name: action } )
 
 					break

@@ -9,12 +9,32 @@ export default new Vuex.Store( {
 		is_mobile: false,
 		top_tab: 0,
 		tabs: [
-			{ label: [ "Rain", "Gauge" ], icon: "mdi-weather-rainy", gauges: [ "rain" ], last_param: { gauges: "rain", period: "P1D" } },
-			{ label: [ "Stage & Lake", "Gauge" ], icon: "mdi-wave", gauges: [ "stage" , "lcs", "lake" ], last_param: { gauges: "stage,lcs,lake", period: "P1D" }  },
-			{ label: [ "Creek", "Cam" ], icon: "mdi-camera-enhance-outline", gauges: [ "cam" ], last_param: { } },
+			{ 
+				label: [ "Rain", "Gauge" ], 
+				icon: "mdi-weather-rainy", 
+				gauges: [ "rain" ], 
+				last_route_name: "AllPeriod", 
+				last_param: { gauges: "rain", period: "P1D" },
+
+			}, { 
+				label: [ "Stage & Lake", "Gauge" ], 
+				icon: "mdi-wave", 
+				gauges: [ "stage" , "lcs", "lake" ], 
+				last_route_name: "AllPeriod", 
+				last_param: { gauges: "stage,lcs,lake", period: "P1D" },
+
+			}, { 
+				label: [ "Creek", "Cam" ], 
+				icon: "mdi-camera-enhance-outline", 
+				gauges: [ "cam" ], 
+				last_route_name: "AllCamera", 
+				last_param: { }, 
+			
+			},
 				
 		],
 		last_route: { },
+		last_gauge_cam_route: { name: "AllPeriod", params: { gauges: "rain", period: "P1D" } },
 		ws: {
 			fins: "https://maps.mecklenburgcountync.gov/api/fins/",
       		gis: "https://maps.mecklenburgcountync.gov/api/gis/",
@@ -78,9 +98,41 @@ export default new Vuex.Store( {
 		],
 		map_center: [ -80.837, 35.270 ],
 		impact_counts: [ ],
-		flood_impact_details: [ ], 
+		flood_impact_details: [ 
+			{ 
+				type: "Buildings", 
+				icon: "mdi-home-city",
+				rows: [ ],
+				headers: [
+					{ text: "Address", value: "Address" },
+					{ text: "Flood Category", value: "FldCatgry" },
+							
+				]
+				
+			}, { 
+				type: "Stream Crossing", 
+				icon: "mdi-align-horizontal-distribute",
+				rows: [ ],
+				headers: [
+					{ text: "Xing Desc", value: "XingDesc" },
+					{ text: "Flood Category", value: "FldCatgry" },
+							
+				]
+				
+			}, { 
+				type: "Road Segments", 
+				icon: "mdi-road-variant",
+				rows: [ ],
+				headers: [
+					{ text: "Road", value: "wholestnam" },
+							
+				]
+				
+			},
+
+		], 
 		last_search_result: null,
-		zoom_to_gauge: false,
+		zoom_to_gauge: true,
 		gauge_data: null,
 
 		//misc
@@ -130,6 +182,7 @@ export default new Vuex.Store( {
 		top_tab: state => state.top_tab,
 		tabs: state => state.tabs,
 		last_route: state => state.last_route,
+		last_gauge_cam_route: state => state.last_gauge_cam_route,
 		svg_paths: state => state.svg_paths,
 		svg_colors: state => state.svg_colors,
 
@@ -182,7 +235,11 @@ export default new Vuex.Store( {
 			state.last_route = payload
 
 		},
-		
+		last_gauge_cam_route( state, payload ){
+			state.last_gauge_cam_route = payload
+
+		},
+				
 		//toggles
 		nav_drawer( state, payload ){
 			state.nav_drawer = payload
@@ -231,7 +288,10 @@ export default new Vuex.Store( {
 
 		},
 		flood_impact_details( state, payload ){
-			state.flood_impact_details = payload
+			for( let key in payload ){
+				state.flood_impact_details[ key ].rows = payload[ key ]
+			
+			}
 
 		},
 		last_search_result( state, payload ){

@@ -1,10 +1,10 @@
 import router from "../router"
 import store from "../store"
 import IsObjEqual from "./isObjEqual"
-import gaugeInfo from "../assets/gauge_info.json" 
 
 export default function getNewRoute( chg_params ){
     const old_params = router.currentRoute.params,
+		old_route_name = router.currentRoute.name,
 		getNewParams = ( ) => {
 			const sel_tab = store.getters[ "top_tab" ]
 			let new_params
@@ -53,23 +53,35 @@ export default function getNewRoute( chg_params ){
 
 	let new_route = null,
 		new_params = getNewParams( )
+		
+	if( !IsObjEqual( old_params, new_params ) ){
+		const new_route_name = getNewName( )
 
-		if( !IsObjEqual( old_params, new_params ) ){
-			new_route = { name: getNewName( ), params: new_params } 
+		new_route = { name: new_route_name, params: new_params } 
 
-			//set last_param in store
-			store.getters[ "tabs" ].forEach( tab => {
-				if( tab.gauges.join( "," ) === old_params.gauges ){
-					tab.last_param = old_params
+		//set last_param in store
+		store.getters[ "tabs" ].forEach( tab => {
+			if( tab.gauges.join( "," ) === old_params.gauges ){
+				tab.last_route_name = old_route_name
+				tab.last_param = old_params
+				
+			}
 
-				}
+		} ) 
 
-			} ) 
+		store.commit( "last_route", { 
+			name: router.currentRoute.name, 
+			params: router.currentRoute.params 
 
-			
-			store.commit( "last_route", router.currentRoute )
+		} )
 
-		}    
+		store.commit( "last_gauge_cam_route", { 
+			name: router.currentRoute.name, 
+			params: router.currentRoute.params
+
+		} )
+
+	}    
 		
 	return new_route
 

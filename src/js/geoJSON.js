@@ -3,8 +3,8 @@ import LabelClass from "@arcgis/core/layers/support/LabelClass"
 import Interpolate from "@turf/interpolate"
 import RainIcon from "../assets/rain.png"
 import NoReadingIcon from "../assets/noreading.png"
-import CamIcon from "../assets/cam.png"
-import DetailsIcon from "../assets/tablelarge.png"
+import CamIcon from "../assets/camera-enhance-outline.svg"
+import DetailsIcon from "../assets/file-table-box-outline.svg"
 import store from "../store"
 
 export function FormatAsGeoJSON( gauge_arr, data_arr, gauge_info ){
@@ -260,7 +260,7 @@ export function GetGeoJSONTemplate( gauge ){
 						{
 							title: "View Snapshot",
 							id: "cam_snapshot",
-							image: CamIcon
+							image: CamIcon,
 						} 
 
 					],
@@ -274,30 +274,8 @@ export function GetGeoJSONTemplate( gauge ){
 }
 
 export function GetGeoJSONRenderer( gauge ){
-	const label = {
-			rain: "Rain Gauge",
-			stage: "Stage Gauge",
-			lcs: "Stage Gauge",
-			lake: "Lake Gauge",
-			cam: "Creek Camera", 
-
-		},
-		svg_path = {
-			steady: "M17,13H7V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z",
-			rising: "M13,18V10L16.5,13.5L17.92,12.08L12,6.16L6.08,12.08L7.5,13.5L11,10V18H13M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z",
-			falling: "M11,6V14L7.5,10.5L6.08,11.92L12,17.84L17.92,11.92L16.5,10.5L13,14V6H11M12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22Z",
-			cam: "M12,10L11.06,12.06L9,13L11.06,13.94L12,16L12.94,13.94L15,13L12.94,12.06L12,10M20,5H16.83L15,3H9L7.17,5H4A2,2 0 0,0 2,7V19A2,2 0 0,0 4,21H20A2,2 0 0,0 22,19V7A2,2 0 0,0 20,5M20,19H4V7H8.05L8.64,6.35L9.88,5H14.12L15.36,6.35L15.95,7H20V19M12,8A5,5 0 0,0 7,13A5,5 0 0,0 12,18A5,5 0 0,0 17,13A5,5 0 0,0 12,8M12,16A3,3 0 0,1 9,13A3,3 0 0,1 12,10A3,3 0 0,1 15,13A3,3 0 0,1 12,16Z",
-
-		},
-		svg_colors = {
-			lake: "#BDBDBD",
-			stage: "#B3E5FC",
-			alert: "#B2FF59",
-			investigate: "#FFA726",
-			emergency: "#E53935",
-			cam: "#000000",
-
-		}
+	const svg_paths = store.getters[ "svg_paths" ],
+		svg_colors = store.getters[ "svg_colors" ]
 
 	return {
 			type: "unique-value", // autocasts as new UniqueValueRenderer()
@@ -311,7 +289,7 @@ export function GetGeoJSONRenderer( gauge ){
 				height: "14px"
 		
 			},
-			defaultLabel: label[ gauge ], //  used in the legend for all other types not specified
+			defaultLabel: "Gague/Camera", //  used in the legend for all other types not specified
 			// used for specifying unique values
 			uniqueValueInfos: [
 				{
@@ -334,9 +312,9 @@ export function GetGeoJSONRenderer( gauge ){
 							color: [ 0, 0, 0, 1 ],
 							width: "2px",
 						},
-						path: svg_path.steady,
+						path: svg_paths.steady,
 					},
-					label: "Stage Gauge", // used in the legend to describe features with this symbol
+					label: "Stage Gauge with steady level", // used in the legend to describe features with this symbol
   					
 				}, {
 					value: "stage_alert, steady",
@@ -348,9 +326,9 @@ export function GetGeoJSONRenderer( gauge ){
 							color: [ 0, 0, 0, 1 ],
 							width: "2px",
 						},
-						path: svg_path.steady,
+						path: svg_paths.steady,
 					},
-					label: "Stage Gauge", // used in the legend to describe features with this symbol
+					label: "Stage Gauge with steady level", // used in the legend to describe features with this symbol
   					
 				}, {
 					value: "stage_investigate, steady",
@@ -362,9 +340,9 @@ export function GetGeoJSONRenderer( gauge ){
 							color: [ 0, 0, 0, 1 ],
 							width: "2px",
 						},
-						path: svg_path.steady,
+						path: svg_paths.steady,
 					},
-					label: "Stage Gauge", // used in the legend to describe features with this symbol
+					label: "Stage Gauge with steady level", // used in the legend to describe features with this symbol
   					
 				}, {
 					value: "stage_emergency, steady",
@@ -376,9 +354,9 @@ export function GetGeoJSONRenderer( gauge ){
 							color: [ 0, 0, 0, 1 ],
 							width: "2px",
 						},
-						path: svg_path.steady,
+						path: svg_paths.steady,
 					},
-					label: "Stage Gauge", // used in the legend to describe features with this symbol
+					label: "Stage Gauge with steady level", // used in the legend to describe features with this symbol
   					
 				}, {
 					value: "stage, rising",
@@ -390,9 +368,9 @@ export function GetGeoJSONRenderer( gauge ){
 							color: [ 0, 0, 0, 1 ],
 							width: "2px",
 						},
-						path: svg_path.rising,
+						path: svg_paths.rising,
 					},
-					label: label[ gauge ], // used in the legend to describe features with this symbol
+					label: "Stage Gauge with rising level", // used in the legend to describe features with this symbol
   					
 				}, {
 					value: "stage_alert, rising",
@@ -404,9 +382,9 @@ export function GetGeoJSONRenderer( gauge ){
 							color: [ 0, 0, 0, 1 ],
 							width: "2px",
 						},
-						path: svg_path.rising,
+						path: svg_paths.rising,
 					},
-					label: label[ gauge ], // used in the legend to describe features with this symbol
+					label: "Stage Gauge with rising level", // used in the legend to describe features with this symbol
   					
 				}, {
 					value: "stage_investigate, rising",
@@ -418,9 +396,9 @@ export function GetGeoJSONRenderer( gauge ){
 							color: [ 0, 0, 0, 1 ],
 							width: "2px",
 						},
-						path: svg_path.rising,
+						path: svg_paths.rising,
 					},
-					label: label[ gauge ], // used in the legend to describe features with this symbol
+					label: "Stage Gauge with rising level", // used in the legend to describe features with this symbol
   					
 				}, {
 					value: "stage_emergency, rising",
@@ -432,9 +410,9 @@ export function GetGeoJSONRenderer( gauge ){
 							color: [ 0, 0, 0, 1 ],
 							width: "2px",
 						},
-						path: svg_path.rising,
+						path: svg_paths.rising,
 					},
-					label: label[ gauge ], // used in the legend to describe features with this symbol
+					label: "Stage Gauge with rising level", // used in the legend to describe features with this symbol
   					
 				}, {
 					value: "stage, falling",
@@ -446,9 +424,9 @@ export function GetGeoJSONRenderer( gauge ){
 							color: [ 0, 0, 0, 1 ],
 							width: "2px",
 						},
-						path: svg_path.falling,
+						path: svg_paths.falling,
 					},
-					label: "Stage Gauge", // used in the legend to describe features with this symbol
+					label: "Stage Gauge with falling level", // used in the legend to describe features with this symbol
   					
 				}, {
 					value: "stage_alert, falling",
@@ -460,9 +438,9 @@ export function GetGeoJSONRenderer( gauge ){
 							color: [ 0, 0, 0, 1 ],
 							width: "2px",
 						},
-						path: svg_path.falling,
+						path: svg_paths.falling,
 					},
-					label: "Stage Gauge", // used in the legend to describe features with this symbol
+					label: "Stage Gauge with falling level", // used in the legend to describe features with this symbol
   					
 				}, {
 					value: "stage_investigate, falling",
@@ -474,9 +452,9 @@ export function GetGeoJSONRenderer( gauge ){
 							color: [ 0, 0, 0, 1 ],
 							width: "2px",
 						},
-						path: svg_path.falling,
+						path: svg_paths.falling,
 					},
-					label: "Stage Gauge", // used in the legend to describe features with this symbol
+					label: "Stage Gauge with falling level", // used in the legend to describe features with this symbol
   					
 				}, {
 					value: "stage_emergency, falling",
@@ -488,9 +466,9 @@ export function GetGeoJSONRenderer( gauge ){
 							color: [ 0, 0, 0, 1 ],
 							width: "2px",
 						},
-						path: svg_path.falling,
+						path: svg_paths.falling,
 					},
-					label: "Stage Gauge", // used in the legend to describe features with this symbol
+					label: "Stage Gauge with falling level", // used in the legend to describe features with this symbol
   					
 				}, {
 					value: "lake, steady",
@@ -502,9 +480,9 @@ export function GetGeoJSONRenderer( gauge ){
 							color: [ 0, 0, 0, 1 ],
 							width: "2px",
 						},
-						path: svg_path.steady,
+						path: svg_paths.steady,
 					},
-					label: "Lake Gauge", // used in the legend to describe features with this symbol
+					label: "Lake Gauge with steady level", // used in the legend to describe features with this symbol
   					
 				}, {
 					value: "lake, rising",
@@ -516,9 +494,9 @@ export function GetGeoJSONRenderer( gauge ){
 							color: [ 0, 0, 0, 1 ],
 							width: "2px",
 						},
-						path: svg_path.rising,
+						path: svg_paths.rising,
 					},
-					label: "Lake Gauge", // used in the legend to describe features with this symbol
+					label: "Lake Gauge with rising level", // used in the legend to describe features with this symbol
   					
 				}, {
 					value: "lake, falling",
@@ -530,9 +508,9 @@ export function GetGeoJSONRenderer( gauge ){
 							color: [ 0, 0, 0, 1 ],
 							width: "2px",
 						},
-						path: svg_path.falling,
+						path: svg_paths.falling,
 					},
-					label: "Lake Gauge", // used in the legend to describe features with this symbol
+					label: "Lake Gauge with falling level", // used in the legend to describe features with this symbol
   					
 				},  {
 					value: "cam, na",
@@ -541,7 +519,7 @@ export function GetGeoJSONRenderer( gauge ){
 						color: svg_colors.cam,
 						size: "20px",
 						outline: null,
-						path: svg_path.cam,
+						path: svg_paths.cam,
 					},
 					label: "Creek Camera" // used in the legend to describe features with this symbol
 				}

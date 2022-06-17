@@ -1,20 +1,21 @@
-import NoReadingIcon from "../assets/noreading.png"
+import DetailsIcon from "../assets/file-table-box-outline.svg"
+import imageIcon from "../assets/image.svg"
 import Moment from "moment"
 
 export function GetStrmXingTemplate( ){
 	return {
-				title: "{strm_name} CROSSING {xing_desc}",
-				outFields: [ "*" ],
-				actions: [ 
-					{
-						title: "View Photos",
-						id: "strmxing_photos",
-						image: NoReadingIcon
-					} 
+		title: "{strm_name} CROSSING {xing_desc}",
+		outFields: [ "*" ],
+		actions: [ 
+			{
+				title: "View Photos",
+				id: "strmxing_photos",
+				image: imageIcon,
+			} 
 
-				]
-					
-			}
+		]
+			
+	}
 	
 }
 
@@ -45,15 +46,7 @@ export function GetRARRBldgTemplate( ){
 			]
 
 		} ],
-		actions: [ 
-			{
-				title: "View attr",
-				id: "rarr",
-				image: NoReadingIcon
-			} 
-
-		]
-
+		
 	}
 	
 }
@@ -88,15 +81,7 @@ export function GetRARRRoadTemplate( ){
 			]
 
 		} ],
-		actions: [ 
-			{
-				title: "View attr",
-				id: "rarr",
-				image: NoReadingIcon
-			} 
-
-		]
-
+		
 	}
 	
 }
@@ -128,57 +113,43 @@ export function GetRARRStrmXingTemplate( ){
 			]
 
 		} ],
-		actions: [ 
-			{
-				title: "View attr",
-				id: "rarr",
-				image: NoReadingIcon
-			} 
-
-		]
-
+		
 	}
 	
 }
 
 export function GetNWSWarnTemplate( ){
 	return {
-				title: "{prod_type}",
-				outFields: [ "*" ],
-				actions: [ 
-					{
-						title: "Warning Details",
-						id: "warn_detail",
-						image: NoReadingIcon
-					} 
+		title: "{prod_type}",
+		outFields: [ "*" ],
+		actions: [ 
+			{
+				title: "Warning Details",
+				id: "warn_detail",
+				image: DetailsIcon,
+			} 
 
-				]
-					
-				
-
-			}
+		]
 	
-
+	}
+	
 }
 
 export function GetNWSWatchTemplate( ){
 	return {
-				title: feature => { 
-					return `<h2>${feature.graphic.attributes.prod_type}</h2><div class='text-subtitle-2 font-weight-regular pt-2'>${Moment( feature.graphic.attributes.issuance ).format("M/D/YYYY h:mmA")} through ${Moment( feature.graphic.attributes.expiration ).format("M/D/YYYY h:mmA")}</div>` 
-				},
-				outFields: [ "*" ],
-				actions: [ 
-					{
-						title: "Watch Details",
-						id: "watch_detail",
-						image: NoReadingIcon
-					} 
+		title: feature => { 
+			return `<h2>${feature.graphic.attributes.prod_type}</h2><div class='text-subtitle-2 font-weight-regular pt-2'>${Moment( feature.graphic.attributes.issuance ).format("M/D/YYYY h:mmA")} through ${Moment( feature.graphic.attributes.expiration ).format("M/D/YYYY h:mmA")}</div>` 
+		},
+		outFields: [ "*" ],
+		actions: [ 
+			{
+				title: "Watch Details",
+				id: "watch_detail",
+				image: DetailsIcon,
+			} 
 
-				]
-					
-				
-
-			}
+		]
+			
+	}
 	
-
 }

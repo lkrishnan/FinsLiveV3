@@ -132,15 +132,25 @@
 								<v-icon>mdi-login</v-icon>
 								Logout
 						</v-btn>
+
+						<v-btn
+							class="mx-2"
+							fab
+							dark
+							color="primary"
+							:small="[ 'sm', 'xs' ].includes( $vuetify.breakpoint.name )"
+							@click="dash_drawer=!dash_drawer"
+							v-if="( route_name === 'Dashboard' )"
+						>
+							<v-icon dark>
+								{{'mdi-' + ( dash_drawer ? 'close' : 'plus' )}}
+							</v-icon>
+						</v-btn>
 						
 					</v-col>
 				</v-row>
 				
 			</v-card>
-
-			
-                
-        
 			
 		</v-container>
 
@@ -202,7 +212,9 @@
             	</v-list>
     	</v-navigation-drawer>
 
-		<v-main>
+		<v-main
+			class="grey lighten-3"
+		>
 			<router-view/>
 			
 		</v-main>
@@ -238,6 +250,17 @@ export default {
 			},
 			get( ){
 				return this.$store.state.nav_drawer
+			
+			}
+
+		},
+		dash_drawer: {
+			set( dash_drawer ){
+				this.$store.commit( "dash_drawer", dash_drawer )
+				
+			},
+			get( ){
+				return this.$store.state.dash_drawer
 			
 			}
 

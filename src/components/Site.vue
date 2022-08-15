@@ -145,6 +145,65 @@
 
        </div>
 
+       <!-- Add to dashboard button -->
+       <div
+            v-show="[ 'SelectedPeriod', 'SelectedCamera' ].includes( route_name )"
+       >
+            <v-row
+                no-gutters
+                class="mx-2"
+            >
+                <v-col
+                    class="d-flex justify-end pa-2"
+                >
+                    <v-btn 
+                        outlined
+                        class="ma-2" 
+                        color="primary"
+                        @click="addDashSite()"
+                        v-show="(!sel_gauge_cam || !dash_sites.includes( sel_gauge_cam.value ) && dash_sites.length<dash_limit)"
+                    >
+                            <v-icon>mdi-plus</v-icon>
+                            Add to Dashboard
+                    </v-btn>
+                    
+                    <v-btn 
+                        outlined
+                        class="ma-2" 
+                        color="primary"
+                        @click="removeDashSite()"
+                        v-show="(sel_gauge_cam && dash_sites.includes( sel_gauge_cam.value ))"
+                    >
+                            <v-icon>mdi-minus</v-icon>
+                            Remove from Dashboard
+                    </v-btn>
+                    
+                </v-col>
+                
+            </v-row>
+             <v-row
+                no-gutters
+                class="mx-2"
+                v-show="dash_sites.length>dash_limit-1"
+            >
+                <v-col
+                    class="d-flex justify-center pa-2"
+                >
+                    <v-alert
+                        outlined
+                        dense
+                        shaped
+                        text
+                        type="warning"
+                    >
+                        Reached dashboard limit of {{dash_limit}} sites
+                    </v-alert>
+                    
+                </v-col>
+                
+            </v-row>
+       </div>
+
   </v-card>
 
 </template>
@@ -164,8 +223,12 @@
       	name: "site",
 
         mounted: function( ){
+            const _this = this
+
             //get gauge/cam information based on the passed query string
             this.parseRoute( )
+
+            console.log( _this.sel_gauge_cam, _this.dash_sites)
         
         },
 
@@ -230,6 +293,18 @@
 				}
 
 			},
+
+            //query control
+            dash_sites( ){
+				return this.$store.state.dash_sites
+      			
+			},
+
+            dash_limit( ){
+				return this.$store.state.dash_limit
+      			
+			},
+
            
       	},
 
@@ -548,7 +623,21 @@
 
                 }
 
-            }
+            },
+
+            addDashSite( ){
+                const _this = this
+                    
+                _this.$store.commit( "add_dash_site", _this.sel_gauge_cam.value )
+                                
+            },
+
+            removeDashSite( ){
+                const _this = this
+
+                _this.$store.commit( "remove_dash_site", _this.sel_gauge_cam.value )
+                
+            },
            
         },
 

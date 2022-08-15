@@ -69,6 +69,7 @@ export default new Vuex.Store( {
 		nav_drawer: false,
 		info_drawer: false,
 		overlay_drawer: false,
+		dash_drawer: false,
 		overlay_switch: [ ],
 		filter_holder: false,
 		show_overlays: false,
@@ -161,6 +162,8 @@ export default new Vuex.Store( {
 		gauge_cam_list: [ ],
 		sel_gauge_cam: null,
 		curr_qry_ctrl: "gauge_cam", 
+		dash_sites: [ ],
+		dash_limit: 10,
 
 		//login
 		progress: {
@@ -190,6 +193,7 @@ export default new Vuex.Store( {
 		nav_drawer: state => state.nav_drawer,
 		info_drawer: state => state.info_drawer,
 		overlay_drawer: state => state.overlay_drawer,
+		dash_drawer: state => state.dash_drawer,
 		overlay_switch: state => state.overlay_switch,
 		filter_holder: state => state.filter_holder,
 		show_overlays: state => state.show_overlays,
@@ -213,6 +217,8 @@ export default new Vuex.Store( {
 		gauge_cam_list: state => state.gauge_cam_list,
 		sel_gauge_cam: state => state.sel_gauge_cam,
 		curr_qry_ctrl: state => state.curr_qry_ctrl,
+		dash_sites: state => state.dash_sites,
+		dash_limit: state => state.dash_limit,
 
 		//login
 		progress: state => state.progress,
@@ -251,6 +257,10 @@ export default new Vuex.Store( {
 		},
 		overlay_drawer( state, payload ){
 			state.overlay_drawer = payload
+
+		},
+		dash_drawer( state, payload ){
+			state.dash_drawer = payload
 
 		},
 		overlay_switch( state, payload ){
@@ -325,6 +335,24 @@ export default new Vuex.Store( {
 		curr_qry_ctrl( state, payload ){
 			state.curr_qry_ctrl = payload
 			
+		},
+
+		dash_sites( state, payload ){
+			state.dash_sites = payload
+			
+		},
+
+		dash_limit( state, payload ){
+			state.dash_limit = payload
+			
+		},
+				
+		add_dash_site( state, payload ){
+			state.dash_sites.push( payload )
+		},
+		
+		remove_dash_site( state, payload ){
+			state.dash_sites = state.dash_sites.filter( item => item !== payload )
 		},
 
 		//login

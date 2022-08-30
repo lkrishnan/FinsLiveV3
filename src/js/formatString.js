@@ -1,5 +1,3 @@
-import ValidateString from "./validateString"
-
 export default function formatString( type, raw_val ){
 	const format = {
 		address: raw_val => { //params: addrno, prefix, stname, sttype, suffix, unit, juris, city, state, zip

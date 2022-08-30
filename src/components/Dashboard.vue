@@ -3,34 +3,23 @@
 	  	:style="padding"
 	>
 		<v-card
-			class="d-flex justify-center mb-6 flex-wrap"
+			class="d-flex justify-center mb-6 flex-wrap grey lighten-3"
 			flat
-			tile
 		>
-			<v-card
+			<SiteCard
 				v-for="(dash_site, n) in dash_sites"
         		:key="'dash_site' + n"
-				class="pa-2 ma-5"
-				:width=drawer_width
-				outlined
-			>
-				<v-row
-					no-gutters
-				>
-					<v-col
-						class="d-flex justify-start text-subtitle-1 font-weight-medium pa-2 accent primary--text"
-					>
-						{{dash_site}}
-					</v-col>
-				</v-row>
-			</v-card>
+				:data="getSiteInfo( dash_site )"
+
+			/>
+
 		</v-card>
 
-		 <v-navigation-drawer
+		<v-navigation-drawer
             id="dash_drawer" 
             v-model="dash_drawer" 
 			absolute 
-			:permanent="dash_drawer" 
+			temporary
 			stateless 
 			right 
 			:width=drawer_width
@@ -70,6 +59,7 @@
 							:label=site.label
 							:value=site.uniqueid
 							:disabled="dash_sites.length>dash_limit-1 && !dash_sites.includes(site.uniqueid)"
+							@change="clearRefreshID( site.uniqueid )"
 						></v-checkbox>
 					</v-col>
 					
@@ -80,6 +70,7 @@
 		</v-navigation-drawer>
     	
   	</div>
+
 </template>
 
 <script>
@@ -88,21 +79,20 @@
   	export default{
     	name: "theDashboard",
 
+		components: {
+            SiteCard: ( ) => import( /* webpackChunkName: "sitecard"*/"./SiteCard.vue" ),
+        
+        },
+
 		mounted: function( ){
 			const _this = this
 
 			_this.getSiteList( )
-            _this.updateDash( )
-			        
+          			        
         },
     
 		computed: {
-			tabs( ){
-				return this.$store.state.tabs
-
-			},
-
-      		//custom
+			//custom
             padding( ){
                 switch( this.$vuetify.breakpoint.name ){
                     case "xs": case "sm": return "padding-top:70px;"
@@ -139,10 +129,15 @@
       			
 			},
 
+			dash_refreshid( ){
+				return this.$store.state.dash_refreshid
+      			
+			},
+
 			 //toggles
             dash_drawer: {
 				set( payload ){
-                    this.$store.commit( "dash_drawer", payload )
+					this.$store.commit( "dash_drawer", payload )
 					
 				},
       			get( ){
@@ -158,35 +153,29 @@
       		dash_sites( ){
 				const _this = this
 
-				_this.updateDash( )	
 			}
     
 		},
 
 		data: ( ) => ( {
-			cards: [
-				{ title: 'Pre-fab homes', src: 'https://cdn.vuetifyjs.com/images/cards/house.jpg', flex: 12 },
-				{ title: 'Favorite road trips', src: 'https://cdn.vuetifyjs.com/images/cards/road.jpg', flex: 6 },
-				{ title: 'Best airlines', src: 'https://cdn.vuetifyjs.com/images/cards/plane.jpg', flex: 6 },
-			],
 			site_types: [ 
 				{ label: "Rain Gauges", value: "rain" },
 				{ label: "Stage Gauges", value: "stage" },
 				{ label: "Low Cost Stage Gauges", value: "lcs" },
-				{ label: "Lake Gauges", value: "lcs" },
+				{ label: "Lake Gauges", value: "lake" },
 				{ label: "Creek Cameras", value: "camera" },
 
 			], 
 			sel_site_type: null,
 			site_list: [ ],
-			test: [ ]
 			
   		} ),
     
 		methods: {
-      		updateDash( ){
-				console.log( "update the dashboard" )
-			},
+			getSiteInfo( uniqueid ){
+				return { ...gaugeInfo[ uniqueid ], ...{ readings_per_pg: 6 } }
+
+            },
 
 			getSiteList( ){
 				const _this = this
@@ -200,7 +189,19 @@
 
 			},
 
-    	}
+			clearRefreshID( uniqueid ){
+				const _this = this
+				
+				if( !_this.dash_sites.includes( uniqueid ) ){
+					console.log( "clear refresh id")	
+					_this.$store.commit( "update_dash_refreshid", { [ uniqueid ]: window.clearInterval( _this.dash_refreshid[ uniqueid ] )  } )
+				}
+				
+				
+
+			}
+
+    	},
 
   	}
 </script>

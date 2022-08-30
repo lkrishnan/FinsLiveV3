@@ -100,16 +100,24 @@
 								Help
 						</v-btn>
 
-						<v-btn 
-							outlined
-							class="ma-2 d-none d-lg-flex" 
+						<v-badge
+							:content="(dash_sites.length + '')"
+							offset-x="20"
+							offset-y="20"
 							color="purple darken-2"
-							@click="takeAction('Dashboard')"
 							v-if="( route_name !== 'Dashboard' )"
 						>
+							<v-btn 
+								outlined
+								class="ma-2 d-none d-lg-flex" 
+								color="purple darken-2"
+								@click="takeAction('Dashboard')"
+								v-if="( route_name !== 'Dashboard' )"
+							>
 								<v-icon>mdi-view-dashboard</v-icon>
 								Dashboard
-						</v-btn>
+							</v-btn>
+						</v-badge>
 
 						<v-btn 
 							outlined
@@ -284,6 +292,10 @@ export default {
            	return this.$route.name
 			
         },
+		route_path( ){ //query string
+			return this.$route.path
+		
+		},
 		last_route: {
 			set( payload ){
 				this.$store.commit( "last_route", payload )
@@ -325,6 +337,11 @@ export default {
 			
 			}
 
+		},
+
+		dash_sites( ){
+			return this.$store.state.dash_sites
+									
 		},
 
 		//login
@@ -373,11 +390,6 @@ export default {
   	data: ( ) => ( {
 		//hamburger menu navigation menu
 		nav_items: [
-				{ text: "Gauge/Camera", icon: "mdi-gauge", action: "GaugeCam" },
-				{ text: "Dashboard", icon: "mdi-view-dashboard", action: "Dashboard" },
-				{ text: "Help", icon: "mdi-help", action: "Help" },
-				{ text: "Data Download", icon: "mdi-download", action: "Download" },
-        		{ text: "Login", icon: "mdi-login", action: "Login" },
 						      	
 		],
 		nav_item: -1,
@@ -390,7 +402,38 @@ export default {
   	} ),
 
   	methods: {
-		 parseRoute( ){
+		setNavItems( name ){
+			const _this = this,
+				all = [ 
+						{ text: "Gauge/Camera", icon: "mdi-gauge", action: "GaugeCam", },
+						{ text: "Dashboard", icon: "mdi-view-dashboard", action: "Dashboard", },
+						{ text: "Help", icon: "mdi-help", action: "Help", },
+						{ text: "Data Download", icon: "mdi-download", action: "Download", },
+						{ text: "Login", icon: "mdi-login", action: "Login", },
+
+					]
+
+			switch( name ){
+					case "AllPeriod": case "SelectedPeriod": 
+				   	case "AllRange": case "SelectedRange": 
+				   	case "AllDatePeriod": case "SelectedDatePeriod":
+					case "AllCamera": case "SelectedCamera":
+					_this.nav_items = all.filter( item => item.action != "GaugeCam" )
+					break
+				case "Dashboard":
+					_this.nav_items = all.filter( item => item.action != "Dashboard" )
+					break
+				case "Help":
+					_this.nav_items = all.filter( item => item.action != "Help" )
+					break
+				case "Login":
+					_this.nav_items = all.filter( item => item.action != "Login" )
+					break
+
+			}
+
+		},
+		parseRoute( ){
                 const _this = this,
                     name = _this.$router.currentRoute.name,
                     params = _this.$router.currentRoute.params
@@ -425,6 +468,9 @@ export default {
 
 				}
 
+				//set the items in the hamburgurer button's navigation drawer
+				_this.setNavItems( name )
+
         },
 
         takeAction( action ){
@@ -434,40 +480,27 @@ export default {
 				case "GaugeCam":
 					_this.last_route =  { name: this.$router.currentRoute.name, params: _this.$router.currentRoute.params }
 					_this.$router.push( _this.last_gauge_cam_route )
-					//_this.$router.push( ( Object.keys( _this.last_route ).length === 0 ? { name: "AllPeriod", params: { gauges: "rain", period: "P1D" } } : _this.last_route ) )
 					break
 
 				case "Help":
 					_this.$router.push( { name: action } )
-
 					break
 
 				case "DownloadData":
-					const data = {
-        					id: 1,
-        					name: "Geeks",
-        					profession: "developer"
-    					},
-						csvdata = CSVMaker( _this.gauge_data )
-    
-					DownloadData( csvdata,  Math.floor( Math.random( ) * 100000 ) + ".csv" )
-
+					DownloadData( CSVMaker( _this.gauge_data ),  Math.floor( Math.random( ) * 100000 ) + ".csv" )
 					break
 
 				case "Dashboard":
 					_this.$router.push( { name: action } )
-
 					break
 
 				case "Login":
 					_this.$router.push( { name: action } )
-
 					break
 
 				case "Logout":
 					localStorage.removeItem( "token" )
           			_this.auth = ""
-											
 					break
 
 				case "Tab":

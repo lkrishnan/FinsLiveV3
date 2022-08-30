@@ -8,7 +8,7 @@
             no-gutters
         >
             <v-col
-                class="d-flex justify-start text-subtitle-1 font-weight-medium pa-2 accent primary--text"
+                class="d-flex justify-start text-subtitle-1 font-weight-medium pa-2 accent"
             >
                 {{( sel_gauge_cam ? sel_gauge_cam.text : "NA" )}}
             </v-col>
@@ -210,7 +210,7 @@
 
 <script>
     import { GetAlertData, GetContrailData } from "../js/getFINSData"
-    import { getContrailParams, getAlertParams, GetGaugeInfo } from "../js/getFINSData"
+    import { getContrailParams, getAlertParams } from "../js/getFINSData"
     import RoundNum from "../js/roundNum"
     import GetLineChart from "../js/getLineChart"
     import ValidateString from "../js/validateString"
@@ -227,8 +227,6 @@
 
             //get gauge/cam information based on the passed query string
             this.parseRoute( )
-
-            console.log( _this.sel_gauge_cam, _this.dash_sites)
         
         },
 
@@ -251,7 +249,7 @@
             ref_labels: [ ],
             pg: 1,
             pg_count: 0,
-            items_per_pg: 10,
+            items_per_pg: 6,
             snapshot: null,
             
 		} ),
@@ -294,6 +292,11 @@
 
 			},
 
+            filter_holder( ){
+                return this.$store.state.filter_holder
+
+            },
+
             //query control
             dash_sites( ){
 				return this.$store.state.dash_sites
@@ -302,6 +305,11 @@
 
             dash_limit( ){
 				return this.$store.state.dash_limit
+      			
+			},
+
+            dash_refreshid( ){
+				return this.$store.state.dash_refreshid
       			
 			},
 
@@ -379,7 +387,7 @@
                 }
 
                 //show the info panel
-                _this.info_drawer = ( name.search( /Selected/ ) > -1 )
+                _this.info_drawer = ( name.search( /Selected/ ) > -1 || _this.filter_holder )
 
             },
 
@@ -635,6 +643,8 @@
             removeDashSite( ){
                 const _this = this
 
+                 //clear refresh loop
+                _this.$store.commit( "update_dash_refreshid", { [ _this.sel_gauge_cam.value ]: window.clearInterval( _this.dash_refreshid[ _this.sel_gauge_cam.value ] )  } )
                 _this.$store.commit( "remove_dash_site", _this.sel_gauge_cam.value )
                 
             },

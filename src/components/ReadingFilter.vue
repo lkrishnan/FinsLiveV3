@@ -1,36 +1,34 @@
 <template>
-	<v-card>
-		<v-row 
-			class="d-flex justify-space-between px-2 py-1 primary"
-			no-gutters
-		>
+	<v-card
+		class="ma-3"
+        outlined
+		flat
+	>
+		<v-row
+            no-gutters
+        >
+            <v-col
+                class="d-flex justify-start text-subtitle-1 font-weight-medium pa-2 accent"
+            >
+                Filter
+            </v-col>
 			<v-col
-				class="d-flex align-center text-h6 white--text"
-			>
-				Filter
-		
-			</v-col>
-
-			<v-col
-				class="d-flex justify-end"
+				class="d-flex justify-end align-center pr-1 accent"
 			>
 				<v-btn
 					icon
-					color="white"
 					@click="filter_holder=!filter_holder"
 				>
 					<v-icon>mdi-close</v-icon>
 				</v-btn>
 		
 			</v-col>
-	
-		</v-row>
+        </v-row>
 
-        <v-divider />
+		<v-divider />
 
 		<v-tabs
 			color="primary"
-			class="pa-2"
 		>
 			<v-tab>Quick</v-tab>
 			<v-tab>Date Period</v-tab>
@@ -41,15 +39,38 @@
 					elevation="0"
 					class="ma-2"
 				>
-					<!-- Quick Filter list combobox -->
-					<v-combobox
-						v-model="quick_selection"
-						:items="quick_list"
-						label="Select Period"
-						hide-details
-						class="body-2"
-					>
-					</v-combobox>
+					<v-row>
+						<v-col>
+							<!-- Quick Filter list combobox -->
+							<v-combobox
+								v-model="quick_selection"
+								:items="quick_list"
+								label="Select Period"
+								hide-details
+								class="body-2"
+							>
+							</v-combobox>
+
+						</v-col>
+
+					</v-row>
+
+					<v-row>
+						<v-col
+							class="d-flex justify-end"
+						>
+							<v-btn 
+								outlined
+								color="primary"
+								@click="doFilter( 'quick' )"
+							>
+									<v-icon>mdi-arrow-right-thin</v-icon>
+									Go
+							</v-btn>
+							
+						</v-col>
+
+					</v-row>
 				</v-card>
 
 			</v-tab-item>
@@ -313,11 +334,6 @@
   	export default{
       	name: "readingfilter",
 
-		mounted: function( ){
-            this.setQuickList( )
-			
-        },
-
 		data: vm => ( {
 			filter: "quick",
 			quick_selection: null,
@@ -391,29 +407,10 @@
 
 			},
 
-			//custom
-
       	},
 
 		watch: {
-            //change in query string
-            route_path( ){
-                this.setQuickList( )
-			
-            },
-
-			quick_selection( ){
-				if( this.chg_route ){
-					this.doFilter( "quick" )
-					
-				}else{
-					this.chg_route = true
-
-				}
-				
-			},
-
-			start_date( val ){
+            start_date( val ){
         		this.start_date_frmt = Moment( this.start_date ).format( 'L' )
 				
       		},
@@ -431,26 +428,6 @@
 
             },
 
-			setQuickList( ){
- 				const _this = this,
-                    name = _this.$router.currentRoute.name,
-                    params = _this.$router.currentRoute.params,
-					{ gauges, ...qrystr } = params
-
-					//do only when the route contains quick filter parameters
-					if( gauges === "rain" && qrystr.hasOwnProperty( "period" ) && !qrystr.hasOwnProperty( "enddate" ) ){
-						const idx = _this.quick_list.findIndex( x => x.value === qrystr.period )
-
-						if( idx > -1 ){
-							_this.chg_route = false //prevent a route change as the required route is already set
-							_this.quick_selection = _this.quick_list[ idx ] //set the dropdown choice
-							
-						}
-
-					}
-					
-			},
-
 			getISO8601Duration( duration, desig ){
 				return "P" + ( ( desig === "H" || desig === "I" ) ? "T" + ( duration + desig ).replace( "I", "M" ) : duration + desig )
 
@@ -464,9 +441,9 @@
 				switch( type ){
 					case "quick":
 						new_route = GetNewRoute( { 
-								period: _this.quick_selection.value, 
+							period: _this.quick_selection.value, 
 
-							} )
+						} )
 						break
 
 					case "period_date":
@@ -497,9 +474,6 @@
 					_this.$router.push( new_route )
 
 				}
-
-				//close filter window
-				_this.filter_holder = false
 
 			},
 			      

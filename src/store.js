@@ -165,6 +165,7 @@ export default new Vuex.Store( {
 		curr_qry_ctrl: "gauge_cam", 
 		dash_sites: [ ],
 		dash_limit: 10,
+		dash_refreshid: { },
 
 		//login
 		progress: {
@@ -220,6 +221,7 @@ export default new Vuex.Store( {
 		curr_qry_ctrl: state => state.curr_qry_ctrl,
 		dash_sites: state => state.dash_sites,
 		dash_limit: state => state.dash_limit,
+		dash_refreshid:state => state.dash_refreshid,
 
 		//login
 		progress: state => state.progress,
@@ -355,6 +357,12 @@ export default new Vuex.Store( {
 		
 		remove_dash_site( state, payload ){
 			state.dash_sites = state.dash_sites.filter( item => item !== payload )
+		
+		},
+
+		update_dash_refreshid( state, payload ){
+			console.log( payload)
+			state.dash_refreshid = { ...state.dash_refreshid, ...payload }
 		
 		},
 

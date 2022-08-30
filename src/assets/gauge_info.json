@@ -8,8 +8,32 @@
         "label": "Briar Creek @ Park Rd FMP1", 
         "lat": 35.1581, 
         "lon": -80.8487, 
-        "msl": 561.783, 
+        "msl": 565.358, 
         "or_sensor_id": "5"
+    }, 
+    "941": {
+        "unique_id": "941", 
+        "site_id": "001", 
+        "or_site_id": "941", 
+        "gauge_type": "lcs", 
+        "site_name": "Kings Branch at Lexington Green Apartments FMB49", 
+        "label": "Kings Branch at Lexington Green Apartments FMB49", 
+        "lat": 35.1519, 
+        "lon": -80.8904, 
+        "msl": 596.642, 
+        "or_sensor_id": "20"
+    }, 
+    "989": {
+        "unique_id": "989", 
+        "site_id": "0012", 
+        "or_site_id": "989", 
+        "gauge_type": "lcs", 
+        "site_name": "Little Sugar Creek at Wellingford St. FMP37", 
+        "label": "Little Sugar Creek at Wellingford St. FMP37", 
+        "lat": 35.2591, 
+        "lon": -80.7916, 
+        "msl": 693.3, 
+        "or_sensor_id": "19"
     }, 
     "905": {
         "unique_id": "905", 
@@ -18,9 +42,9 @@
         "gauge_type": "lcs", 
         "site_name": "Mallard Creek at Mallard Creek Greenway FMB31", 
         "label": "Mallard Creek at Mallard Creek Greenway FMB31", 
-        "lat": 35.3254, 
+        "lat": 35.3253, 
         "lon": -80.7823, 
-        "msl": 640.708, 
+        "msl": 641.717, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -55,8 +79,8 @@
         "site_name": "Polk Ditch at Canvasback Dr on foot bridge FMB26", 
         "label": "Polk Ditch at Canvasback Dr on foot bridge FMB26", 
         "lat": 35.1002, 
-        "lon": -80.9643, 
-        "msl": 562.942, 
+        "lon": -80.964, 
+        "msl": 563.675, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -90,9 +114,9 @@
         "gauge_type": "lcs", 
         "site_name": "Edwards Branch at Commonwealth Ave. FMB63", 
         "label": "Edwards Branch at Commonwealth Ave. FMB63", 
-        "lat": 35.2079, 
-        "lon": -80.7922, 
-        "msl": 647.625, 
+        "lat": 35.2085, 
+        "lon": -80.7906, 
+        "msl": 648.083, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -126,9 +150,9 @@
         "gauge_type": "lcs", 
         "site_name": "Briar Creek at Masonic Dr. FMB62", 
         "label": "Briar Creek at Masonic Dr. FMB62", 
-        "lat": 35.2187, 
-        "lon": -80.7967, 
-        "msl": 636.133, 
+        "lat": 35.219, 
+        "lon": -80.7949, 
+        "msl": 637.142, 
         "or_sensor_id": "19"
     }, 
     "927": {
@@ -138,9 +162,9 @@
         "gauge_type": "lcs", 
         "site_name": "Paw Creek at Toddville Rd FMB10", 
         "label": "Paw Creek at Toddville Rd FMB10", 
-        "lat": 35.2564, 
-        "lon": -80.9303, 
-        "msl": 654.7, 
+        "lat": 35.2557, 
+        "lon": -80.927, 
+        "msl": 654.058, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -175,8 +199,8 @@
         "site_name": "Rapid Deploy FMB079", 
         "label": "Rapid Deploy FMB079", 
         "lat": 35.0301, 
-        "lon": -80.7926, 
-        "msl": 587.233, 
+        "lon": -80.7927, 
+        "msl": 587.6, 
         "or_sensor_id": "3", 
         "ref_values": [
             {
@@ -207,7 +231,7 @@
         "site_name": "McAlpine Creek at Pineville-Matthews Rd. FMB84", 
         "label": "McAlpine Creek at Pineville-Matthews Rd. FMB84", 
         "lat": 35.0852, 
-        "lon": -80.834, 
+        "lon": -80.8341, 
         "msl": 534.1, 
         "or_sensor_id": "19"
     }, 
@@ -220,7 +244,7 @@
         "label": "Stewart Creek at W Trade St. FMB13", 
         "lat": 35.2504, 
         "lon": -80.8662, 
-        "msl": 640.296, 
+        "msl": 639.654, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -255,8 +279,8 @@
         "site_name": "Mallard Creek at W Sugar Creek Rd. FMB30", 
         "label": "Mallard Creek at W Sugar Creek Rd. FMB30", 
         "lat": 35.3287, 
-        "lon": -80.8014, 
-        "msl": 698.058, 
+        "lon": -80.8012, 
+        "msl": 698.15, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -290,9 +314,9 @@
         "gauge_type": "lcs", 
         "site_name": "Six Mile Creek @ Fawn Hill Rd FMP6", 
         "label": "Six Mile Creek @ Fawn Hill Rd FMP6", 
-        "lat": 35.0576, 
+        "lat": 35.0574, 
         "lon": -80.7529, 
-        "msl": 635.883, 
+        "msl": 636.25, 
         "or_sensor_id": "3"
     }, 
     "1071": {
@@ -302,9 +326,9 @@
         "gauge_type": "lcs", 
         "site_name": "McAlpine Creek at Carmel Country Club FMP83", 
         "label": "McAlpine Creek at Carmel Country Club FMP83", 
-        "lat": 35.1045, 
+        "lat": 35.1046, 
         "lon": -80.8171, 
-        "msl": 529.942, 
+        "msl": 529.575, 
         "or_sensor_id": "4", 
         "ref_values": [
             {
@@ -338,9 +362,9 @@
         "gauge_type": "lcs", 
         "site_name": "McMullen Creek Tributary FMP70", 
         "label": "McMullen Creek Tributary FMP70", 
-        "lat": 35.1785, 
+        "lat": 35.1784, 
         "lon": -80.7862, 
-        "msl": 668.442, 
+        "msl": 668.533, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -374,8 +398,8 @@
         "gauge_type": "lcs", 
         "site_name": "Briar Creek at Randolph Rd. FMP67", 
         "label": "Briar Creek at Randolph Rd. FMP67", 
-        "lat": 35.19943, 
-        "lon": -80.81256, 
+        "lat": 35.1994, 
+        "lon": -80.8128, 
         "msl": 618.35, 
         "or_sensor_id": "19", 
         "ref_values": [
@@ -411,8 +435,8 @@
         "site_name": "Little Sugar Creek at Sharon Rd Greenway FMP52", 
         "label": "Little Sugar Creek at Sharon Rd Greenway FMP52", 
         "lat": 35.1184, 
-        "lon": -80.868, 
-        "msl": 543.033, 
+        "lon": -80.8679, 
+        "msl": 543.308, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -435,17 +459,45 @@
             }
         ]
     }, 
-    "951": {
-        "unique_id": "951", 
-        "site_id": "0245", 
-        "or_site_id": "951", 
+    "975": {
+        "unique_id": "975", 
+        "site_id": "0246", 
+        "or_site_id": "975", 
         "gauge_type": "lcs", 
-        "site_name": "Stewart Creek at Southwest Blvd. FMB12", 
-        "label": "Stewart Creek at Southwest Blvd. FMB12", 
-        "lat": 35.264, 
-        "lon": -80.8687, 
-        "msl": 663.572, 
-        "or_sensor_id": "19"
+        "site_name": "Little Sugar Creek at Alexander St. Park Foot Bridge FMP43", 
+        "label": "Little Sugar Creek at Alexander St. Park Foot Bridge FMP43", 
+        "lat": 35.2274, 
+        "lon": -80.8272, 
+        "msl": 638.276, 
+        "or_sensor_id": "19", 
+        "ref_values": [
+            {
+                "label": "at top of bank", 
+                "value": 646.2
+            }, 
+            {
+                "label": "at greenway path", 
+                "value": 647.1
+            }, 
+            {
+                "label": "manhole", 
+                "value": 649.0
+            }
+        ], 
+        "alarms": [
+            {
+                "label": "alert", 
+                "value": 646.0
+            }, 
+            {
+                "label": "investigate", 
+                "value": 647.0
+            }, 
+            {
+                "label": "emergency", 
+                "value": 648.0
+            }
+        ]
     }, 
     "921": {
         "unique_id": "921", 
@@ -456,7 +508,7 @@
         "label": "Sugar Creek at Edgegreen Dr. FMP23", 
         "lat": 35.1595, 
         "lon": -80.9122, 
-        "msl": 566.308, 
+        "msl": 564.017, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -490,7 +542,7 @@
         "gauge_type": "lcs", 
         "site_name": "Irvins Creek at Apple Creek Dr. FMP97", 
         "label": "Irvins Creek at Apple Creek Dr. FMP97", 
-        "lat": 35.1735, 
+        "lat": 35.1734, 
         "lon": -80.6723, 
         "msl": 677.4, 
         "or_sensor_id": "3"
@@ -504,7 +556,7 @@
         "label": "Toby Creek UNCC Campus FMP33", 
         "lat": 35.3066, 
         "lon": -80.7387, 
-        "msl": 592.108, 
+        "msl": 592.75, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -566,7 +618,7 @@
         "label": "Walker Branch at Smith Rd. FMP27", 
         "lat": 35.097, 
         "lon": -80.972, 
-        "msl": 559.542, 
+        "msl": 559.175, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -592,6 +644,18 @@
                 "value": 575.6
             }
         ]
+    }, 
+    "973": {
+        "unique_id": "973", 
+        "site_id": "0251", 
+        "or_site_id": "973", 
+        "gauge_type": "lcs", 
+        "site_name": "McMullen Creek at Johnny Cake Ln. FMP73", 
+        "label": "McMullen Creek at Johnny Cake Ln. FMP73", 
+        "lat": 35.1334, 
+        "lon": -80.8232, 
+        "msl": 567.1, 
+        "or_sensor_id": "19"
     }, 
     "1017": {
         "unique_id": "1017", 
@@ -640,9 +704,9 @@
         "gauge_type": "lcs", 
         "site_name": "Four Mile Creek at Reverdy Lane FMP89", 
         "label": "Four Mile Creek at Reverdy Lane FMP89", 
-        "lat": 35.0976, 
-        "lon": -80.7551, 
-        "msl": 573.192, 
+        "lat": 35.0982, 
+        "lon": -80.7552, 
+        "msl": 566.867, 
         "or_sensor_id": "4", 
         "ref_values": [
             {
@@ -673,8 +737,8 @@
         "site_name": "Stewart Creek at Barlowe Rd. FMP11", 
         "label": "Stewart Creek at Barlowe Rd. FMP11", 
         "lat": 35.2559, 
-        "lon": -80.8849, 
-        "msl": 688.792, 
+        "lon": -80.885, 
+        "msl": 689.158, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -700,6 +764,18 @@
                 "value": 698.0
             }
         ]
+    }, 
+    "929": {
+        "unique_id": "929", 
+        "site_id": "0254", 
+        "or_site_id": "929", 
+        "gauge_type": "lcs", 
+        "site_name": "Little Sugar Creek at Mellow Dr. FMP36", 
+        "label": "Little Sugar Creek at Mellow Dr. FMP36", 
+        "lat": 35.2607, 
+        "lon": -80.7883, 
+        "msl": 705.1, 
+        "or_sensor_id": "19"
     }, 
     "991": {
         "unique_id": "991", 
@@ -749,8 +825,8 @@
         "site_name": "Briar Creek at Kildare Dr FMP57", 
         "label": "Briar Creek at Kildare Dr FMP57", 
         "lat": 35.2438, 
-        "lon": -80.7651, 
-        "msl": 679.25, 
+        "lon": -80.7653, 
+        "msl": 680.533, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -781,17 +857,17 @@
             }
         ]
     }, 
-    "941": {
-        "unique_id": "941", 
+    "913": {
+        "unique_id": "913", 
         "site_id": "0256", 
-        "or_site_id": "941", 
+        "or_site_id": "913", 
         "gauge_type": "lcs", 
-        "site_name": "Kings Branch at Lexington Green Apartments FMB49", 
-        "label": "Kings Branch at Lexington Green Apartments FMB49", 
-        "lat": 35.1519, 
-        "lon": -80.8905, 
-        "msl": 595.45, 
-        "or_sensor_id": "20"
+        "site_name": "Torrence Creek at Wynfield Creek Pkwy FMP06", 
+        "label": "Torrence Creek at Wynfield Creek Pkwy FMP06", 
+        "lat": 35.4118, 
+        "lon": -80.8796, 
+        "msl": 677.543, 
+        "or_sensor_id": "19"
     }, 
     "495": {
         "unique_id": "495", 
@@ -801,8 +877,8 @@
         "site_name": "Little Sugar Creek @ E 4th St FMP5", 
         "label": "Little Sugar Creek @ E 4th St FMP5", 
         "lat": 35.2172, 
-        "lon": -80.834, 
-        "msl": 623.825, 
+        "lon": -80.8339, 
+        "msl": 624.008, 
         "or_sensor_id": "5"
     }, 
     "461": {
@@ -814,7 +890,7 @@
         "label": "Little Sugar Creek @ Park Rd FMP2", 
         "lat": 35.16003, 
         "lon": -80.8488, 
-        "msl": 568.033, 
+        "msl": 569.592, 
         "or_sensor_id": "5"
     }, 
     "487": {
@@ -824,9 +900,9 @@
         "gauge_type": "lcs", 
         "site_name": "McMullen Creek @ Farivew Rd FMP4", 
         "label": "McMullen Creek @ Farivew Rd FMP4", 
-        "lat": 35.1476, 
-        "lon": -80.8112, 
-        "msl": 605.667, 
+        "lat": 35.1473, 
+        "lon": -80.8116, 
+        "msl": 605.025, 
         "or_sensor_id": "5"
     }, 
     "909": {
@@ -836,9 +912,9 @@
         "gauge_type": "lcs", 
         "site_name": "Little Sugar Creek E 18th St. FMB42", 
         "label": "Little Sugar Creek E 18th St. FMB42", 
-        "lat": 35.236, 
-        "lon": -80.8266, 
-        "msl": 653.572, 
+        "lat": 35.2338, 
+        "lon": -80.822, 
+        "msl": 653.756, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -876,7 +952,7 @@
         "gauge_type": "lcs", 
         "site_name": "Steele Creek at Westinghouse Blvd. FMP25", 
         "label": "Steele Creek at Westinghouse Blvd. FMP25", 
-        "lat": 35.1321, 
+        "lat": 35.1322, 
         "lon": -80.9564, 
         "msl": 587.2, 
         "or_sensor_id": "20"
@@ -924,9 +1000,9 @@
         "gauge_type": "lcs", 
         "site_name": "McAlpine Creek at Old Providence Rd. FMP81", 
         "label": "McAlpine Creek at Old Providence Rd. FMP81", 
-        "lat": 35.125, 
-        "lon": -80.7887, 
-        "msl": 538.458, 
+        "lat": 35.1249, 
+        "lon": -80.7885, 
+        "msl": 537.542, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -953,6 +1029,30 @@
             }
         ]
     }, 
+    "937": {
+        "unique_id": "937", 
+        "site_id": "0265", 
+        "or_site_id": "937", 
+        "gauge_type": "lcs", 
+        "site_name": "Stewart Creek at Norwood Dr. FMP17", 
+        "label": "Stewart Creek at Norwood Dr. FMP17", 
+        "lat": 35.2489, 
+        "lon": -80.8719, 
+        "msl": 639.67, 
+        "or_sensor_id": "19"
+    }, 
+    "915": {
+        "unique_id": "915", 
+        "site_id": "0266", 
+        "or_site_id": "915", 
+        "gauge_type": "lcs", 
+        "site_name": "Mallard Creek at David Taylor Dr. FMP32", 
+        "label": "Mallard Creek at David Taylor Dr. FMP32", 
+        "lat": 35.3211, 
+        "lon": -80.7555, 
+        "msl": 590.433, 
+        "or_sensor_id": "19"
+    }, 
     "1015": {
         "unique_id": "1015", 
         "site_id": "028", 
@@ -960,21 +1060,21 @@
         "gauge_type": "lcs", 
         "site_name": "Briar Creek at Country Club Dr. FMB59", 
         "label": "Briar Creek at Country Club Dr. FMB59", 
-        "lat": 35.23, 
-        "lon": -80.7823, 
-        "msl": 657.867, 
+        "lat": 35.2299, 
+        "lon": -80.7825, 
+        "msl": 659.7, 
         "or_sensor_id": "20"
     }, 
-    "973": {
-        "unique_id": "973", 
+    "1045": {
+        "unique_id": "1045", 
         "site_id": "029", 
-        "or_site_id": "973", 
+        "or_site_id": "1045", 
         "gauge_type": "lcs", 
-        "site_name": "McMullen Creek at Johnny Cake Ln. FMP73", 
-        "label": "McMullen Creek at Johnny Cake Ln. FMP73", 
-        "lat": 35.1333, 
-        "lon": -80.8232, 
-        "msl": 567.192, 
+        "site_name": "Mallard Creek at Mallard Creek WWTP FMB34", 
+        "label": "Mallard Creek at Mallard Creek WWTP FMB34", 
+        "lat": 35.3323, 
+        "lon": -80.7001, 
+        "msl": 565.017, 
         "or_sensor_id": "19"
     }, 
     "963": {
@@ -984,9 +1084,9 @@
         "gauge_type": "lcs", 
         "site_name": "Irwin Creek at W Oaklawn Cemetery FMB14", 
         "label": "Irwin Creek at W Oaklawn Cemetery FMB14", 
-        "lat": 35.2506, 
+        "lat": 35.2505, 
         "lon": -80.8454, 
-        "msl": 640.925, 
+        "msl": 641.2, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -1020,9 +1120,9 @@
         "gauge_type": "lcs", 
         "site_name": "Irvins Creek at Lebanon Rd. FMB88", 
         "label": "Irvins Creek at Lebanon Rd. FMB88", 
-        "lat": 35.1661, 
-        "lon": -80.6898, 
-        "msl": 647.258, 
+        "lat": 35.1663, 
+        "lon": -80.6897, 
+        "msl": 647.808, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -1049,17 +1149,17 @@
             }
         ]
     }, 
-    "937": {
-        "unique_id": "937", 
+    "1091": {
+        "unique_id": "1091", 
         "site_id": "035", 
-        "or_site_id": "937", 
+        "or_site_id": "1091", 
         "gauge_type": "lcs", 
-        "site_name": "Stewart Creek at Norwood Dr. FMB17", 
-        "label": "Stewart Creek at Norwood Dr. FMB17", 
-        "lat": 35.2476, 
-        "lon": -80.8723, 
-        "msl": 644.25, 
-        "or_sensor_id": "19", 
+        "site_name": "Catawba River Trib at Riverside Dr. FMB062", 
+        "label": "Catawba River Trib at Riverside Dr. FMB062", 
+        "lat": 35.3134, 
+        "lon": -80.9922, 
+        "msl": 570.6, 
+        "or_sensor_id": "3", 
         "ref_values": [
             {
                 "label": "at road surface", 
@@ -1089,8 +1189,8 @@
         "site_name": "Derita Branch at Craighead Rd. FMB38", 
         "label": "Derita Branch at Craighead Rd. FMB38", 
         "lat": 35.2647, 
-        "lon": -80.8052, 
-        "msl": 701.558, 
+        "lon": -80.8051, 
+        "msl": 701.742, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -1124,9 +1224,9 @@
         "gauge_type": "lcs", 
         "site_name": "Briar Creek at Ruth Dr FMB56", 
         "label": "Briar Creek at Ruth Dr FMB56", 
-        "lat": 35.2482, 
-        "lon": -80.7594, 
-        "msl": 690.607, 
+        "lat": 35.2483, 
+        "lon": -80.7596, 
+        "msl": 690.882, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -1164,8 +1264,8 @@
         "gauge_type": "lcs", 
         "site_name": "McMullen Creek at Quail Hollow Rd. FMB98", 
         "label": "McMullen Creek at Quail Hollow Rd. FMB98", 
-        "lat": 35.1171, 
-        "lon": -80.8287, 
+        "lat": 35.1169, 
+        "lon": -80.8286, 
         "msl": 553.8, 
         "or_sensor_id": "3"
     }, 
@@ -1209,18 +1309,6 @@
             }
         ]
     }, 
-    "989": {
-        "unique_id": "989", 
-        "site_id": "044", 
-        "or_site_id": "989", 
-        "gauge_type": "lcs", 
-        "site_name": "Little Sugar Creek at Wellingford St. FMP37", 
-        "label": "Little Sugar Creek at Wellingford St. FMP37", 
-        "lat": 35.2591, 
-        "lon": -80.7916, 
-        "msl": 693.208, 
-        "or_sensor_id": "19"
-    }, 
     "1065": {
         "unique_id": "1065", 
         "site_id": "045", 
@@ -1230,7 +1318,7 @@
         "label": "Little Sugar Creek at 6317 Birmingham Dr. FMB51", 
         "lat": 35.1391, 
         "lon": -80.8614, 
-        "msl": 552.242, 
+        "msl": 552.425, 
         "or_sensor_id": "4", 
         "ref_values": [
             {
@@ -1265,8 +1353,8 @@
         "site_name": "McMullen Creek @ Providence Rd FMB3", 
         "label": "McMullen Creek @ Providence Rd FMB3", 
         "lat": 35.1599, 
-        "lon": -80.7995, 
-        "msl": 632.242, 
+        "lon": -80.7997, 
+        "msl": 632.333, 
         "or_sensor_id": "5"
     }, 
     "1121": {
@@ -1288,9 +1376,9 @@
         "gauge_type": "lcs", 
         "site_name": "Briar Creek at Twiford Pl. FMB68", 
         "label": "Briar Creek at Twiford Pl. FMB68", 
-        "lat": 35.1874, 
+        "lat": 35.1873, 
         "lon": -80.8158, 
-        "msl": 605.96, 
+        "msl": 607.243, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -1313,46 +1401,6 @@
             }
         ]
     }, 
-    "915": {
-        "unique_id": "915", 
-        "site_id": "058", 
-        "or_site_id": "915", 
-        "gauge_type": "lcs", 
-        "site_name": "Mallard Creek at David Taylor Dr. FMB32", 
-        "label": "Mallard Creek at David Taylor Dr. FMB32", 
-        "lat": 35.3208, 
-        "lon": -80.7552, 
-        "msl": 588.6, 
-        "or_sensor_id": "19", 
-        "ref_values": [
-            {
-                "label": "at top of bank", 
-                "value": 602.7
-            }, 
-            {
-                "label": "at greenway path", 
-                "value": 606.8
-            }, 
-            {
-                "label": "at road surface", 
-                "value": 609.0
-            }
-        ], 
-        "alarms": [
-            {
-                "label": "alert", 
-                "value": 602.0
-            }, 
-            {
-                "label": "investigate", 
-                "value": 607.0
-            }, 
-            {
-                "label": "emergency", 
-                "value": 609.0
-            }
-        ]
-    }, 
     "1001": {
         "unique_id": "1001", 
         "site_id": "062", 
@@ -1362,7 +1410,7 @@
         "label": "Little Hope Creek at E Woodlawn Rd. FMB47", 
         "lat": 35.1723, 
         "lon": -80.8556, 
-        "msl": 610.562, 
+        "msl": 611.479, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -1389,39 +1437,39 @@
             }
         ]
     }, 
-    "1025": {
-        "unique_id": "1025", 
-        "site_id": "063", 
-        "or_site_id": "1025", 
+    "951": {
+        "unique_id": "951", 
+        "site_id": "069", 
+        "or_site_id": "951", 
         "gauge_type": "lcs", 
-        "site_name": "McMullen Creek at McMullen Creek Greenway at 485 FMB76", 
-        "label": "McMullen Creek at McMullen Creek Greenway at 485 FMB76", 
-        "lat": 35.07469, 
-        "lon": -80.86386, 
-        "msl": 521.0, 
+        "site_name": "Stewart Creek at Southwest Blvd. FMB12", 
+        "label": "Stewart Creek at Southwest Blvd. FMB12", 
+        "lat": 35.264, 
+        "lon": -80.8687, 
+        "msl": 663.755, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
                 "label": "at top of bank", 
-                "value": 528.7
+                "value": 673.0
             }, 
             {
-                "label": "at greenway path", 
-                "value": 534.4
+                "label": "at road surface", 
+                "value": 673.5
             }
         ], 
         "alarms": [
             {
                 "label": "alert", 
-                "value": 528.0
+                "value": 673.0
             }, 
             {
                 "label": "investigate", 
-                "value": 534.8
+                "value": 673.5
             }, 
             {
                 "label": "emergency", 
-                "value": 535.6
+                "value": 674.5
             }
         ]
     }, 
@@ -1433,8 +1481,8 @@
         "site_name": "Briar Creek @ Galway Dr FMB100", 
         "label": "Briar Creek @ Galway Dr FMB100", 
         "lat": 35.2411, 
-        "lon": -80.7585, 
-        "msl": 696.325, 
+        "lon": -80.7586, 
+        "msl": 696.417, 
         "or_sensor_id": "5"
     }, 
     "1089": {
@@ -1446,7 +1494,7 @@
         "label": "Briar Creek at Perth Crt. FMB071", 
         "lat": 35.2445, 
         "lon": -80.7498, 
-        "msl": 708.092, 
+        "msl": 709.192, 
         "or_sensor_id": "3", 
         "ref_values": [
             {
@@ -1473,54 +1521,6 @@
             }
         ]
     }, 
-    "913": {
-        "unique_id": "913", 
-        "site_id": "073", 
-        "or_site_id": "913", 
-        "gauge_type": "lcs", 
-        "site_name": "Torrence Creek at Wynfield Creek Pkwy FMB6", 
-        "label": "Torrence Creek at Wynfield Creek Pkwy FMB6", 
-        "lat": 35.41203, 
-        "lon": -80.87948, 
-        "msl": 678.368, 
-        "or_sensor_id": "19", 
-        "ref_values": [
-            {
-                "label": "at top of bank", 
-                "value": 686.4
-            }, 
-            {
-                "label": "at road surface", 
-                "value": 689.0
-            }
-        ], 
-        "alarms": [
-            {
-                "label": "alert", 
-                "value": 686.5
-            }, 
-            {
-                "label": "investigate", 
-                "value": 687.9
-            }, 
-            {
-                "label": "emergency", 
-                "value": 689.0
-            }
-        ]
-    }, 
-    "975": {
-        "unique_id": "975", 
-        "site_id": "075", 
-        "or_site_id": "975", 
-        "gauge_type": "lcs", 
-        "site_name": "Little Sugar Creek at Alexander St. Park Foot Bridge FMP43", 
-        "label": "Little Sugar Creek at Alexander St. Park Foot Bridge FMP43", 
-        "lat": 35.2274, 
-        "lon": -80.8272, 
-        "msl": 636.992, 
-        "or_sensor_id": "19"
-    }, 
     "1069": {
         "unique_id": "1069", 
         "site_id": "076", 
@@ -1528,8 +1528,8 @@
         "gauge_type": "lcs", 
         "site_name": "Kings Branch at Arrowood Rd. FMB54", 
         "label": "Kings Branch at Arrowood Rd. FMB54", 
-        "lat": 35.1356, 
-        "lon": -80.8861, 
+        "lat": 35.1366, 
+        "lon": -80.8867, 
         "msl": 582.217, 
         "or_sensor_id": "4", 
         "ref_values": [
@@ -1564,8 +1564,8 @@
         "gauge_type": "lcs", 
         "site_name": "Little Sugar Creek at Pineville Place Apartment FMB55", 
         "label": "Little Sugar Creek at Pineville Place Apartment FMB55", 
-        "lat": 35.0752, 
-        "lon": -80.886, 
+        "lat": 35.0751, 
+        "lon": -80.8862, 
         "msl": 528.9, 
         "or_sensor_id": "19", 
         "ref_values": [
@@ -1593,42 +1593,6 @@
             }
         ]
     }, 
-    "1091": {
-        "unique_id": "1091", 
-        "site_id": "082", 
-        "or_site_id": "1091", 
-        "gauge_type": "lcs", 
-        "site_name": "Catawba River Trib at Riverside Dr. FMB062", 
-        "label": "Catawba River Trib at Riverside Dr. FMB062", 
-        "lat": 35.3135, 
-        "lon": -80.9922, 
-        "msl": 570.6, 
-        "or_sensor_id": "3", 
-        "ref_values": [
-            {
-                "label": "road surface", 
-                "value": 570.9
-            }, 
-            {
-                "label": "home", 
-                "value": 572.0
-            }
-        ], 
-        "alarms": [
-            {
-                "label": "alert", 
-                "value": 568.0
-            }, 
-            {
-                "label": "investigate", 
-                "value": 570.0
-            }, 
-            {
-                "label": "emergency", 
-                "value": 572.0
-            }
-        ]
-    }, 
     "1101": {
         "unique_id": "1101", 
         "site_id": "083", 
@@ -1637,41 +1601,9 @@
         "site_name": "McMullen Creek Trib@ Addison Rd FMB96", 
         "label": "McMullen Creek Trib@ Addison Rd FMB96", 
         "lat": 35.1724, 
-        "lon": -80.7869, 
-        "msl": 655.725, 
+        "lon": -80.7872, 
+        "msl": 656.825, 
         "or_sensor_id": "3"
-    }, 
-    "1045": {
-        "unique_id": "1045", 
-        "site_id": "085", 
-        "or_site_id": "1045", 
-        "gauge_type": "lcs", 
-        "site_name": "Mallard Creek at Mallard Creek WWTP FMB34", 
-        "label": "Mallard Creek at Mallard Creek WWTP FMB34", 
-        "lat": 35.3323, 
-        "lon": -80.7001, 
-        "msl": 565.2, 
-        "or_sensor_id": "19", 
-        "ref_values": [
-            {
-                "label": "at top of bank", 
-                "value": 571.7
-            }
-        ], 
-        "alarms": [
-            {
-                "label": "alert", 
-                "value": 571.0
-            }, 
-            {
-                "label": "investigate", 
-                "value": 572.0
-            }, 
-            {
-                "label": "emergency", 
-                "value": 573.8
-            }
-        ]
     }, 
     "1073": {
         "unique_id": "1073", 
@@ -1716,9 +1648,9 @@
         "gauge_type": "lcs", 
         "site_name": "Irvins Creek at Sam Newell Rd. FMB94", 
         "label": "Irvins Creek at Sam Newell Rd. FMB94", 
-        "lat": 35.1344, 
+        "lat": 35.1342, 
         "lon": -80.7176, 
-        "msl": 634.921, 
+        "msl": 634.096, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -1748,7 +1680,7 @@
         "gauge_type": "lcs", 
         "site_name": "Four Mile Creek at E Charles St. FMB95", 
         "label": "Four Mile Creek at E Charles St. FMB95", 
-        "lat": 35.1083, 
+        "lat": 35.1082, 
         "lon": -80.7065, 
         "msl": 673.571, 
         "or_sensor_id": "19", 
@@ -1781,6 +1713,18 @@
             }
         ]
     }, 
+    "1025": {
+        "unique_id": "1025", 
+        "site_id": "089", 
+        "or_site_id": "1025", 
+        "gauge_type": "lcs", 
+        "site_name": "McMullen Creek at McMullen Creek Greenway at 485 FMB76", 
+        "label": "McMullen Creek at McMullen Creek Greenway at 485 FMB76", 
+        "lat": 35.07469, 
+        "lon": -80.86386, 
+        "msl": 521.0, 
+        "or_sensor_id": "19"
+    }, 
     "1083": {
         "unique_id": "1083", 
         "site_id": "090", 
@@ -1788,22 +1732,10 @@
         "gauge_type": "lcs", 
         "site_name": "Sixmile Creek Trib at Providence Country Club Dr. FMB090", 
         "label": "Sixmile Creek Trib at Providence Country Club Dr. FMB090", 
-        "lat": 35.0394, 
-        "lon": -80.7859, 
-        "msl": 606.65, 
+        "lat": 35.0393, 
+        "lon": -80.786, 
+        "msl": 606.833, 
         "or_sensor_id": "3"
-    }, 
-    "929": {
-        "unique_id": "929", 
-        "site_id": "092", 
-        "or_site_id": "929", 
-        "gauge_type": "lcs", 
-        "site_name": "Little Sugar Creek at Mellow Dr. FMP36", 
-        "label": "Little Sugar Creek at Mellow Dr. FMP36", 
-        "lat": 35.2612, 
-        "lon": -80.7878, 
-        "msl": 705.1, 
-        "or_sensor_id": "19"
     }, 
     "947": {
         "unique_id": "947", 
@@ -1812,9 +1744,9 @@
         "gauge_type": "lcs", 
         "site_name": "Irwin Creek at West Blvd. FMB20", 
         "label": "Irwin Creek at West Blvd. FMB20", 
-        "lat": 35.2176, 
-        "lon": -80.8726, 
-        "msl": 605.142, 
+        "lat": 35.2179, 
+        "lon": -80.8728, 
+        "msl": 605.508, 
         "or_sensor_id": "20", 
         "ref_values": [
             {
@@ -3154,6 +3086,24 @@
             }
         ]
     }, 
+    "6524": {
+        "unique_id": "6524", 
+        "site_id": "6524", 
+        "or_site_id": "711", 
+        "gauge_type": "stage", 
+        "site_name": "McALPINE CREEK at SR3150 nr IDLEWILD", 
+        "label": "6524: McALPINE CREEK at SR3150 nr IDLEWILD", 
+        "lat": 35.17583, 
+        "lon": -80.71917, 
+        "msl": 613.19, 
+        "or_sensor_id": "2", 
+        "ref_values": [
+            {
+                "label": "floodstage", 
+                "value": 629.7
+            }
+        ]
+    }, 
     "6525": {
         "unique_id": "6525", 
         "site_id": "6525", 
@@ -3749,24 +3699,6 @@
             }
         ]
     }, 
-    "6524": {
-        "unique_id": "6524", 
-        "site_id": "6524", 
-        "or_site_id": "711", 
-        "gauge_type": "stage", 
-        "site_name": "McALPINE CREEK at SR3150 nr IDLEWILD", 
-        "label": "6524: McALPINE CREEK at SR3150 nr IDLEWILD", 
-        "lat": 35.17583, 
-        "lon": -80.71917, 
-        "msl": 613.19, 
-        "or_sensor_id": "2", 
-        "ref_values": [
-            {
-                "label": "floodstage", 
-                "value": 629.7
-            }
-        ]
-    }, 
     "6546": {
         "unique_id": "6546", 
         "site_id": "6546", 
@@ -3919,15 +3851,6 @@
         "label": "LSC @ Brandywine Rd", 
         "lat": 35.17276, 
         "lon": -80.84654, 
-        "gauge_type": "camera"
-    }, 
-    "CAM1": {
-        "unique_id": "CAM1", 
-        "site_id": "1", 
-        "site_name": "LSC @ Kings Drive Area", 
-        "label": "LSC @ Kings Drive Area", 
-        "lat": 35.20709, 
-        "lon": -80.83673, 
         "gauge_type": "camera"
     }, 
     "MC38": {

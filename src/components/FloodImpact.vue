@@ -3,7 +3,6 @@
         class="ma-3 d-flex flex-wrap justify-center px-2 pb-2"
         outlined
         flat
-        tile
     >
        <v-list-item one-line>
             <v-list-item-content>

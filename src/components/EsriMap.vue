@@ -95,18 +95,6 @@
                 
         </v-container>
 
-        <!-- Reading Filter Holder  -->
-        <v-container 
-            fluid
-            class="pa-2"
-            style="position: absolute; z-index: 8; left: 0px;"
-            :style="is_mobile ? 'width:100%; top: 0px;' : 'width:430px; top: 82px;'"
-            v-show="filter_holder && [ 0, 1 ].includes( top_tab )"
-        >
-           <ReadingFilter />
-
-        </v-container>
-
         <!-- Radar Control Holder -->
         <v-container 
             fluid
@@ -177,6 +165,7 @@
             style="z-index: 6 !important;"
             :style="is_mobile ? 'padding-top: 60px;' : 'padding-top: 140px;'"
         >
+            <ReadingFilter v-show="filter_holder && [ 0, 1 ].includes( top_tab )" />
             <Site />                
             <FloodImpact />
             <WeatherForecast />  
@@ -265,13 +254,10 @@
     import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer"
     import FeatureLayer from "@arcgis/core/layers/FeatureLayer"
     import MapImageLayer from "@arcgis/core/layers/MapImageLayer"
-    import Query from "@arcgis/core/rest/support/Query"
     import Locate from "@arcgis/core/widgets/Locate"
-    import * as WatchUtils from "@arcgis/core/core/watchUtils"
-    import { GetAlertData, GetContrailData, GetNWSDetail, GetStoredContrailData } from "../js/getFINSData"
+    import { GetAlertData, GetNWSDetail, GetStoredContrailData } from "../js/getFINSData"
     import { FormatAsGeoJSON, GetGeoJSONURL, GetGeoJSONTemplate, GetGeoJSONRenderer, GetGeoJSONLabelInfo, InterpolatePrcp} from "../js/geoJSON"
     import { GetStrmXingTemplate, GetNWSWarnTemplate, GetNWSWatchTemplate, GetRARRBldgTemplate, GetRARRStrmXingTemplate, GetRARRRoadTemplate } from "../js/popupTemplate"
-    import IsObjEqual from "../js/isObjEqual"
     import GetNewRoute from "../js/getNewRoute"
     import Moment from "moment"
     import gaugeInfo from "../assets/gauge_info.json" 
@@ -801,7 +787,9 @@
                         ret_val = false
 
                     }else if( ( _this.last_route.name.search( /Range/ ) > -1 && new_route_name.search( /Range/ ) > -1 ) ){
-                        if( hasSimilarGauges( ) && new_route_params.period === _this.last_route.params.period ){
+                        if( hasSimilarGauges( ) && 
+                            new_route_params.startdate === _this.last_route.params.startdate &&
+                            new_route_params.enddate === _this.last_route.params.enddate ){
                             ret_val = false
 
                         }
@@ -815,9 +803,7 @@
                         }
 
                     }else if( _this.last_route.name.search( /Period/ ) > -1 && new_route_name.search( /Period/ ) > -1 ){
-                        if( hasSimilarGauges( ) && 
-                            new_route_params.startdate === _this.last_route.params.startdate &&
-                            new_route_params.enddate === _this.last_route.params.enddate ){
+                        if( hasSimilarGauges( ) && new_route_params.period === _this.last_route.params.period ){
                             ret_val = false
 
                         }

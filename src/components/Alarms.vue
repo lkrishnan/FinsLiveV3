@@ -240,7 +240,3 @@
     }
     
 </script>
-
-<style>
-       
-</style>

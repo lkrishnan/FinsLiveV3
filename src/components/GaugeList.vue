@@ -42,8 +42,8 @@
 				<v-btn
 					icon
 					color="primary"
-					v-show="[ 0, 1 ].includes( top_tab )"
-					@click="filter_holder=true"
+					v-show="[ 0, 1 ].includes( top_tab ) && !filter_holder"
+					@click="onFilterSwitchClick()"
 					v-bind="attrs"
 					v-on="on"
 				>
@@ -263,6 +263,14 @@
 				}
                                 
             },
+
+			onFilterSwitchClick( ){
+				const _this = this
+
+				_this.filter_holder = true
+				_this.info_drawer = true
+
+			},
 
 		}
       

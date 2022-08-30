@@ -1,6 +1,7 @@
 import axios from "axios"
 import Vue from "vue"
 import Vuex from "vuex"
+import router from "./router"
 
 Vue.use( Vuex )
 
@@ -349,10 +350,12 @@ export default new Vuex.Store( {
 				
 		add_dash_site( state, payload ){
 			state.dash_sites.push( payload )
+
 		},
 		
 		remove_dash_site( state, payload ){
 			state.dash_sites = state.dash_sites.filter( item => item !== payload )
+		
 		},
 
 		//login
@@ -392,6 +395,8 @@ export default new Vuex.Store( {
 					localStorage.setItem( "token", JSON.stringify( item ) )
 					commit( "auth", reply.token )
 					commit( "error_msgs", { login: null } )
+
+					router.go( -1 )
 
 				}else{
 					commit( "error_msgs", { login: "Unable to login, try again." } )

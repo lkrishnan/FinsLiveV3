@@ -5,7 +5,7 @@
 		<!-- Button to show navigation drawer -->
 		<v-app-bar-nav-icon
 			color="primary"
-			class="d-sm-none mr-2"
+			class="d-md-none mr-2"
 			@click.stop="nav_drawer = !nav_drawer"
 		>
 		</v-app-bar-nav-icon>
@@ -242,7 +242,6 @@
 
 				if( _this.srch_selection ){
 					document.activeElement.blur( )
-					console.log( _this.srch_selection )			
 					_this.last_search_result = _this.srch_selection
 				}
 				

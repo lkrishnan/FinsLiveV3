@@ -125,9 +125,7 @@
             class="mx-2"
             v-show="readings.length>0 && sel_tab === 1"
         >
-            <v-col
-                cols="12"
-            >
+            <v-col>
                 <v-data-table
                     :headers="headers"
                     :items="readings"
@@ -144,16 +142,28 @@
                     </template>
                     
                 </v-data-table>
-                <div class="text-center pb-2 pt-0">
-                    <v-pagination
-                        v-model="pg_no"
-                        :length="pg_cnt"
-                        :total-visible="per_pg"
-                        circle
-                    ></v-pagination>
-        
-                </div>
+                
             </v-col>
+        </v-row>
+
+         <!-- Pagination -->
+         <v-row
+            no-gutters
+			class="mx-2"
+            v-show="readings.length>0 && sel_tab === 1"
+        >
+            <v-col
+                class="text-center py-2"
+            >
+                <v-pagination
+                    v-model="pg_no"
+                    :length="pg_cnt"
+                    :total-visible="per_pg"
+                    circle
+                ></v-pagination>
+
+            </v-col>
+
         </v-row>
    
         <!-- Reference Images -->
@@ -421,8 +431,6 @@
                     _this.getGraph( )
 
                 }
-
-                console.log("dynamic data")
 
             },
 

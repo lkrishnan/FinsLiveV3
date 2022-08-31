@@ -101,6 +101,7 @@
 						</v-btn>
 
 						<v-badge
+							class="d-none d-lg-flex" 
 							:content="(dash_sites.length + '')"
 							offset-x="20"
 							offset-y="20"
@@ -109,10 +110,8 @@
 						>
 							<v-btn 
 								outlined
-								class="ma-2 d-none d-lg-flex" 
-								color="purple darken-2"
+								class="ma-2" 
 								@click="takeAction('Dashboard')"
-								v-if="( route_name !== 'Dashboard' )"
 							>
 								<v-icon>mdi-view-dashboard</v-icon>
 								Dashboard

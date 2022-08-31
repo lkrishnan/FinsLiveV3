@@ -193,8 +193,8 @@
 				const _this = this
 				
 				if( !_this.dash_sites.includes( uniqueid ) ){
-					console.log( "clear refresh id")	
 					_this.$store.commit( "update_dash_refreshid", { [ uniqueid ]: window.clearInterval( _this.dash_refreshid[ uniqueid ] )  } )
+					
 				}
 				
 				

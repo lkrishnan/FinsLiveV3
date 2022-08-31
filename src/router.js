@@ -249,7 +249,7 @@ const getGauges = ( input_list) => {
 			},
 
 		}, {
-			path: "/camera",
+			path: "/camera/",
 			name: "AllCamera",
 			component: EsriMap
 
@@ -309,8 +309,8 @@ const getGauges = ( input_list) => {
 	router = new VueRouter( {
 		routes,
 		mode: "history",
-		//base: "/finslive/"
-		base: "/"
+		base: "/finslive/"
+		//base: "/"
 		
 	} )
 

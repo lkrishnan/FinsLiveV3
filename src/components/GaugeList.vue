@@ -5,7 +5,7 @@
 		<!-- Button to show navigation drawer -->
 		<v-app-bar-nav-icon
 			color="primary"
-			class="d-sm-none mr-2"
+			class="d-md-none mr-2"
 			@click.stop="nav_drawer = !nav_drawer"
 		>
 		</v-app-bar-nav-icon>

@@ -12,6 +12,7 @@ export default new Vuex.Store( {
 		tabs: [
 			{ 
 				label: [ "Rain", "Gauge" ], 
+				short_label: "Rain",
 				icon: "mdi-weather-rainy", 
 				gauges: [ "rain" ], 
 				last_route_name: "AllPeriod", 
@@ -19,6 +20,7 @@ export default new Vuex.Store( {
 
 			}, { 
 				label: [ "Stage & Lake", "Gauge" ], 
+				short_label: "Stage & Lake",
 				icon: "mdi-wave", 
 				gauges: [ "stage" , "lcs", "lake" ], 
 				last_route_name: "AllPeriod", 
@@ -26,6 +28,7 @@ export default new Vuex.Store( {
 
 			}, { 
 				label: [ "Creek", "Cam" ], 
+				short_label: "Cam",
 				icon: "mdi-camera-enhance-outline", 
 				gauges: [ "cam" ], 
 				last_route_name: "AllCamera", 
@@ -361,7 +364,6 @@ export default new Vuex.Store( {
 		},
 
 		update_dash_refreshid( state, payload ){
-			console.log( payload)
 			state.dash_refreshid = { ...state.dash_refreshid, ...payload }
 		
 		},

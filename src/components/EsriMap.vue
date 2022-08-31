@@ -172,29 +172,32 @@
             <About />              
 		</v-navigation-drawer>
 
-        <v-bottom-navigation
-			color="secondary"
-			class="d-flex d-sm-none"
-			fixed
-			v-model="top_tab"
-			@change="takeAction('Tab')"
-		>
-			<v-btn>
-				Rain Gauge
-				<v-icon>mdi-weather-rainy</v-icon>
-			</v-btn>
+        <v-card
+            class="d-flex d-md-none mb-2 mr-5"
+            style="margin: 0; position: absolute; bottom: 0; right: 0; z-index: 7;"
+            elevation="2"
+            outlined
+        >
+            <v-btn-toggle
+                v-model="top_tab" 
+                tile
+                color="primary"
+                background-color="transparent"
+                group
+                @change="takeAction('Tab')"
+            >
+                <v-btn 
+                    v-for="(tab, i) in tabs"
+                	:key="'bottom_tab' + i"
+                    class="ma-0"
+                    small
+                    >
+                    {{tab.short_label}}
+                    
+                </v-btn>
+            </v-btn-toggle>
 
-			<v-btn>
-				<span>Stage Gauge</span>
-				<v-icon>mdi-wave</v-icon>
-			</v-btn>
-
-			<v-btn>
-				<span>Creek Cam</span>
-				<v-icon>mdi-camera-enhance-outline</v-icon>
-			</v-btn>
-
-  		</v-bottom-navigation>
+        </v-card>
 
         <v-dialog
       		v-model="dialog.show"

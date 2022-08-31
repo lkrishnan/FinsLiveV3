@@ -35,6 +35,8 @@
             </v-col>
 
         </v-row>    
+
+        <!-- Chart -->
         <v-row
 			no-gutters
 			class="mx-2"
@@ -47,6 +49,8 @@
             </v-col>
             
         </v-row>
+
+        <!-- Reference Labels -->
         <v-row
 			no-gutters
 			class="mx-2"
@@ -62,36 +66,50 @@
             </v-col>
             
         </v-row>
+
+        <!-- Tabular data of readings -->
         <v-row
             no-gutters
 			class="mx-2"
             v-show="site_tab === 1 && site_tabs[ site_tab ].show && [ 'SelectedPeriod', 'SelectedRange', 'SelectedDatePeriod' ].includes( route_name )"
         >
-            <v-data-table
-                :headers="headers"
-                :items="readings"
-                hide-default-footer
-                :page.sync="pg"
-                :items-per-page="items_per_pg"
-                @page-count="pg_count = $event"
+            <v-col>
+                <v-data-table
+                    :headers="headers"
+                    :items="readings"
+                    hide-default-footer
+                    :page.sync="pg"
+                    :items-per-page="items_per_pg"
+                    @page-count="pg_count = $event"
+                >
+                    <template v-slot:item.datetime="{item}">
+                        {{ formatTheDate( item.datetime ) }}
+                    </template>
+                    <template v-slot:item.reading="{item}">
+                        {{ parseFloat( item.reading ).toFixed( 3 ) }}
+                    </template>
+                    
+                </v-data-table>
+
+            </v-col>
+        </v-row>
+
+        <!-- Pagination -->
+        <v-row
+            no-gutters
+			class="mx-2"
+            v-show="site_tab === 1 && site_tabs[ site_tab ].show && [ 'SelectedPeriod', 'SelectedRange', 'SelectedDatePeriod' ].includes( route_name )"
+        >
+            <v-col
+                class="text-center pt-2"
             >
-                <template v-slot:item.datetime="{item}">
-					{{ formatTheDate( item.datetime ) }}
-				</template>
-                <template v-slot:item.reading="{item}">
-					{{ parseFloat( item.reading ).toFixed( 3 ) }}
-				</template>
-				
-            </v-data-table>
-            <div class="text-center pt-2">
                 <v-pagination
                     v-model="pg"
                     :length="pg_count"
                     :total-visible="5"
                     circle
                 ></v-pagination>
-      
-            </div>
+            </v-col>
         </v-row>
 
         <!-- Reference Images -->

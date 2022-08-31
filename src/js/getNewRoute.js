@@ -59,14 +59,14 @@ export default function getNewRoute( chg_params ){
 
 		new_route = { name: new_route_name, params: new_params } 
 
-		//set last_param in store
+		//set last_param in store -- needs to be cleaned up to just use tab.gauges.join( "," ) === old_params.gauges
 		store.getters[ "tabs" ].forEach( tab => {
-			if( tab.gauges.join( "," ) === old_params.gauges ){
+			if( ( tab.gauges.join( "," ) === old_params.gauges ) || ( old_route_name.toLowerCase( ).includes( tab.gauges.join( "," ) ) ) ){
 				tab.last_route_name = old_route_name
 				tab.last_param = old_params
 				
 			}
-
+		
 		} ) 
 
 		store.commit( "last_route", { 

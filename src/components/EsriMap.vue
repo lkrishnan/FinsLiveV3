@@ -98,9 +98,9 @@
         <!-- Radar Control Holder -->
         <v-container 
             fluid
-            class="py-2 px-4"
-            style="position: absolute; z-index: 7; right: 0px;"
-            :style="is_mobile ? 'width:100%; bottom: 64px;' : 'width:430px; bottom: 10px;'"
+            :class="is_mobile ? 'py-2 pl-14 pr-4' : 'py-2 px-4'"
+            style="position: absolute; z-index: 1; right: 0px;"
+            :style="is_mobile ? 'width:100%; bottom: 38px;' : 'width:430px; bottom: 10px;'"
             v-show="getSourceSwitch( 'radar' )"
         >
            <RadarControl />
@@ -571,14 +571,22 @@
             info_drawer( ){
                 const _this = this
 
-                _this.map_view.padding = { ..._this.map_view.padding, left: ( _this.info_drawer && !_this.is_mobile ? 420 : 0 ) }
+                _this.map_view.padding = { 
+                    ..._this.map_view.padding, 
+                    left: ( _this.info_drawer && !_this.overlay_drawer && !_this.is_mobile ? 420 : 0 ),
+                    right: ( _this.overlay_drawer && !_this.info_drawer && !_this.is_mobile ? 420 : 0 ) 
+                }
                                 
             },
 
             overlay_drawer( ){
                 const _this = this
 
-                _this.map_view.padding = { ..._this.map_view.padding, right: ( _this.info_drawer && !_this.is_mobile ? 420 : 0 ) }
+                _this.map_view.padding = { 
+                    ..._this.map_view.padding, 
+                    right: ( _this.overlay_drawer && !_this.info_drawer && !_this.is_mobile ? 420 : 0 ), 
+                    left: ( _this.info_drawer && !_this.overlay_drawer && !_this.is_mobile ? 420 : 0 ),
+                }
                                 
             },
 

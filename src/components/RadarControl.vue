@@ -3,61 +3,48 @@
 		class="px-2 subtitle-2"
 		color="white"
 	>
-		<v-toolbar
-			flat
-			dense
+		<v-row 
+			class="d-flex justify-space-between pl-2 py-0"
 		>
-			<v-toolbar-title>
-				<span class="subheading">Weather Radar</span>
-			</v-toolbar-title>
-			<v-spacer></v-spacer>
-			<!-- Closes radar loop control and also removed weather radar layer  -->
-			<v-btn
-				icon
-				color="secondary"
-				@click="overlay_switch = overlay_switch.filter( overlay => overlay !== 'radar' )"
+			<v-col
+				class="d-flex align-center text-h6"
+				cols="11"
 			>
-				<v-icon>mdi-close</v-icon>
-			</v-btn>
-			
-		</v-toolbar>
+				<span class="secondary--text">Weather Radar</span>
+		
+			</v-col>
 
-			<v-card-text>
-			<v-row
-				class="mb-1"
-				justify="space-between"
+			<v-col
+				class="d-flex justify-end"
+				cols="1"
 			>
-				<v-col class="text-left">
-					<span
-						class="text-h3 font-weight-light"
-						v-text="( radar_tick < 12 ? 60 - ( radar_tick * 5 ) : 'Now' )"
-					></span>
-					<span class="subheading font-weight-light mr-1">{{ radar_tick === 12 ? "" : "Minutes Ago" }}</span>
-				</v-col>
-				<v-col class="text-right">
-					<v-btn
-						:color="(radar_plyng ? 'red' : 'primary')"
-						dark
-						depressed
-						fab
-						@click="radarAnimate"
-					>
-						<v-icon large>
-						{{ radar_plyng ? 'mdi-pause' : 'mdi-play' }}
-						</v-icon>
-					</v-btn>
-				</v-col>
-			</v-row>
-			
+				<v-btn
+					icon
+					color="secondary"
+					@click="overlay_switch = overlay_switch.filter( overlay => overlay !== 'radar' )"
+				>
+					<v-icon>mdi-close</v-icon>
+				</v-btn>
+		
+			</v-col>
+        
+        </v-row>
+
+		<v-card-text
+			class="px-4 py-0"
+		>
 			<v-slider
 				v-model="radar_tick"
+				:prepend-icon="radar_plyng ? 'mdi-pause' : 'mdi-play'"
+				:label="String( 60 - ( radar_tick * 5 ) ).padStart(2, '0') + ' mins ago'"
 				max="12"
 				step="1"
 				ticks="always"
 				tick-size="4"
+				@click:prepend="radarAnimate"
 			>
 			</v-slider>
-	
+			
 		</v-card-text>
 
 	</v-card>

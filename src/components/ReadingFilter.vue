@@ -328,8 +328,8 @@
 </template>
 
 <script>
-	import Moment from "moment"
 	import GetNewRoute from "../js/getNewRoute"
+	import { SubtractFromDate, FormatDate } from "../js/vanillaMoment"
 
   	export default{
       	name: "readingfilter",
@@ -359,17 +359,16 @@
 				{ text: "Year(s)", value: "Y" },
 				
 			],
-			//start_date: ( new Date( Date.now( ) - ( new Date( ) ).getTimezoneOffset( ) * 60000) ).toISOString( ).substr( 0, 10 ),
-			start_date: Moment( new Date( ) ).subtract( 1, 'd' ).format( 'YYYY-MM-DD' ),
-			end_date: Moment( new Date( ) ).format( 'YYYY-MM-DD' ),
-			start_date_frmt: Moment( new Date( ) ).subtract( 1, 'd' ).format( 'L' ),
-			end_date_frmt: Moment( new Date( ) ).format( 'L' ),
+			start_date: FormatDate( "YYYY-MM-DD", SubtractFromDate( 1, "days" ) ),
+			end_date: FormatDate( "YYYY-MM-DD" ),
+			start_date_frmt: FormatDate( "MM/DD/YYYY", SubtractFromDate( 1, "days" ) ),
+			end_date_frmt: FormatDate( "MM/DD/YYYY" ),
 			menu1: false,
 			menu2: false,
 			menu3: false,
 			menu4: false,
-			period_date: Moment( new Date( ) ).format( 'YYYY-MM-DD' ),
-			period_time: Moment( new Date( ) ).format( 'HH:mm' ),
+			period_date: FormatDate( "YYYY-MM-DD" ),
+			period_time: FormatDate( "hh:mm" ),
 			duration_rules: [
                 v => !!v || "Required",
 				v => v && ( v.match( /^\d+$/ ) ? true : false ) || "Only Numbers",
@@ -411,12 +410,12 @@
 
 		watch: {
             start_date( val ){
-        		this.start_date_frmt = Moment( this.start_date ).format( 'L' )
+        		this.start_date_frmt = FormatDate( "MM/DD/YYYY", this.start_date )
 				
       		},
 
 			end_date( val ){
-        		this.end_date_frmt = Moment( this.end_date ).format( 'L' )
+        		this.end_date_frmt = FormatDate( "MM/DD/YYYY", this.end_date )
 
       		},
 
@@ -449,7 +448,7 @@
 					case "period_date":
 						if( _this.$refs.form.validate( ) ){
 							new_route = GetNewRoute( { 
-								enddate: Moment( _this.period_date + " " + _this.period_time ).format( "YYYY-MM-DDTHH:mmZ" ), 
+								enddate: FormatDate( "YYYY-MM-DDTHH:mmZ", _this.period_date + " " + _this.period_time ), 
 								period: _this.getISO8601Duration( _this.duration, _this.designator ),
 
 							} )
@@ -460,8 +459,8 @@
 
 					case "range":
 						new_route = GetNewRoute( { 
-								startdate: Moment( this.start_date + " 00:00" ).format( "YYYY-MM-DDTHH:mmZ" ),
-								enddate: Moment( this.end_date + " 23:59" ).format( "YYYY-MM-DDTHH:mmZ" ),
+								startdate: FormatDate( "YYYY-MM-DDTHH:mmZ", this.start_date + " 00:00" ),
+								enddate: FormatDate( "YYYY-MM-DDTHH:mmZ", this.end_date + " 23:59" ),
 
 							} )
 

@@ -165,7 +165,7 @@
             style="z-index: 6 !important;"
             :style="is_mobile ? 'padding-top: 60px;' : 'padding-top: 140px;'"
         >
-            <ReadingFilter v-show="filter_holder && [ 0, 1 ].includes( top_tab )" />
+            <ReadingFilter v-if="filter_holder && [ 0, 1 ].includes( top_tab )" />
             <Site />                
             <FloodImpact />
             <WeatherForecast />  
@@ -261,8 +261,8 @@
     import { GetAlertData, GetNWSDetail, GetStoredContrailData } from "../js/getFINSData"
     import { FormatAsGeoJSON, GetGeoJSONURL, GetGeoJSONTemplate, GetGeoJSONRenderer, GetGeoJSONLabelInfo, InterpolatePrcp} from "../js/geoJSON"
     import { GetStrmXingTemplate, GetNWSWarnTemplate, GetNWSWatchTemplate, GetRARRBldgTemplate, GetRARRStrmXingTemplate, GetRARRRoadTemplate } from "../js/popupTemplate"
+    import { FormatDate } from "../js/vanillaMoment"
     import GetNewRoute from "../js/getNewRoute"
-    import Moment from "moment"
     import gaugeInfo from "../assets/gauge_info.json" 
                             
     export default {
@@ -840,12 +840,12 @@
                             //setup the 3 minute refresh loop 
                             _this.refreshid.gauge = self.setInterval( ( ) => {
                                 _this.addGaugesToMap( params )
-                                _this.last_refresh = "Last Refresh " + Moment( ).format ( "MM/DD/YYYY hh:mm A" )
+                                _this.last_refresh = "Refreshed: " + FormatDate( "MM/DD/YYYY hh:mm:ss A" )
 
                             }, 180000 )
                             
                             _this.addGaugesToMap( params )
-                            _this.last_refresh = "Last Refresh " + Moment( ).format ( "MM/DD/YYYY hh:mm A" )
+                            _this.last_refresh = "Refreshed: " + FormatDate( "MM/DD/YYYY hh:mm:ss A" )
 
                             break
 
@@ -1060,7 +1060,7 @@
                             const details = await GetNWSDetail( `https://api.weather.gov/alerts/${ attrb.cap_id }` )
                             
                             _this.dialog.title = attrb.prod_type
-                            _this.dialog.subtitle = `${ Moment( attrb.issuance ).format( "M/D/YYYY h:mmA" ) } through ${Moment( attrb.expiration ).format( "M/D/YYYY h:mmA" ) }`
+                            _this.dialog.subtitle = `${ FormatDate( "M/D/YYYY h:mmA", Date.parse( attrb.issuance ) ) } through ${FormatDate( "M/D/YYYY h:mmA", Date.parse( attrb.expiration ) ) }`
                             _this.dialog.headline = details.properties.headline
                             _this.dialog.description = details.properties.description
                             _this.dialog.instruction = details.properties.instruction

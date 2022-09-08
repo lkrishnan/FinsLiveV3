@@ -33,104 +33,104 @@ module.exports = {
 			display:"standalone",
 		  	icons: [
 			  	{
-				  	"src": "./img/icons/16x16.png",
+				  	"src": "./img/icons/16x16.webp",
 				  	"sizes": "16x16",
-				  	"type": "image/png"
+				  	"type": "image/webp"
 
 			  	},{
-				  	"src": "./img/icons/32x32.png",
+				  	"src": "./img/icons/32x32.webp",
 				  	"sizes": "32x32",
-				  	"type": "image/png"
+				  	"type": "image/webp"
 
 			  	},{
-				  	"src": "./img/icons/48x48.png",
+				  	"src": "./img/icons/48x48.webp",
 				  	"sizes": "48x48",
-				  	"type": "image/png"
+				  	"type": "image/webp"
 
 			  	},{
-					"src": "./img/icons/72x72.png",
+					"src": "./img/icons/72x72.webp",
 					"sizes": "72x72",
-					"type": "image/png"
+					"type": "image/webp"
 
 			  	},{
-					"src": "./img/icons/76x76.png",
+					"src": "./img/icons/76x76.webp",
 					"sizes": "76x76",
-					"type": "image/png"
+					"type": "image/webp"
 
 			  	},{
-					"src": "./img/icons/96x96.png",
+					"src": "./img/icons/96x96.webp",
 					"sizes": "96x96",
-					"type": "image/png"
+					"type": "image/webp"
 
 			  	},{
-					"src": "./img/icons/120x120.png",
+					"src": "./img/icons/120x120.webp",
 					"sizes": "120x120",
-					"type": "image/png"
+					"type": "image/webp"
 			  
 				},{
-					"src": "./img/icons/144x144.png",
+					"src": "./img/icons/144x144.webp",
 					"sizes": "144x144",
-					"type": "image/png"
+					"type": "image/webp"
 			  
 				},{
-					"src": "./img/icons/152x152.png",
+					"src": "./img/icons/152x152.webp",
 					"sizes": "152x152",
-					"type": "image/png"
+					"type": "image/webp"
 			  	
 				},{
-					"src": "./img/icons/180x180.png",
+					"src": "./img/icons/180x180.webp",
 					"sizes": "180x180",
-					"type": "image/png"
+					"type": "image/webp"
 			  	
 				},{
-					"src": "./img/icons/192x192.png",
+					"src": "./img/icons/192x192.webp",
 					"sizes": "192x192",
-					"type": "image/png"
+					"type": "image/webp"
 			  
 				},{
-					"src": "./img/icons/270x270.png",
+					"src": "./img/icons/270x270.webp",
 					"sizes": "270x270",
-					"type": "image/png"
+					"type": "image/webp"
 			  
 				},{
-					"src": "./img/icons/512x512.png",
+					"src": "./img/icons/512x512.webp",
 					"sizes": "512x512",
-					"type": "image/png"
+					"type": "image/webp"
 			  
 				},{
-					"src": "./img/icons/48x48-maskable.png",
+					"src": "./img/icons/48x48-maskable.webp",
 					"sizes": "48x48",
-					"type": "image/png",
+					"type": "image/webp",
 					"purpose": "maskable"
 
 			  	},{
-					"src": "./img/icons/72x72-maskable.png",
+					"src": "./img/icons/72x72-maskable.webp",
 					"sizes": "72x72",
-					"type": "image/png",
+					"type": "image/webp",
 					"purpose": "maskable"
 
 			  	},{
-					"src": "./img/icons/96x96-maskable.png",
+					"src": "./img/icons/96x96-maskable.webp",
 					"sizes": "96x96",
-					"type": "image/png",
+					"type": "image/webp",
 					"purpose": "maskable"
 
 			  	},{
-					"src": "./img/icons/144x144-maskable.png",
+					"src": "./img/icons/144x144-maskable.webp",
 					"sizes": "144x144",
-					"type": "image/png",
+					"type": "image/webp",
 					"purpose": "maskable"
 
 			  	},{
-					"src": "./img/icons/192x192-maskable.png",
+					"src": "./img/icons/192x192-maskable.webp",
 					"sizes": "192x192",
-					"type": "image/png",
+					"type": "image/webp",
 					"purpose": "maskable"
 			  
 				},{
-					"src": "./img/icons/512x512-maskable.png",
+					"src": "./img/icons/512x512-maskable.webp",
 					"sizes": "512x512",
-					"type": "image/png",
+					"type": "image/webp",
 					"purpose": "maskable"
 
 			  	}

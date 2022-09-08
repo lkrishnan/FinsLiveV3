@@ -31,7 +31,7 @@
 						
 						<v-img
 							alt="Vuetify Name"
-							src="./assets/finslive_logo.png"
+							src="./assets/finslive_logo.webp"
 							max-width="140"
 							v-if="!is_mobile"
 						/>
@@ -544,4 +544,5 @@ export default {
 
 <style>
 	html { overflow-y: auto; }
+
 </style>

@@ -1,9 +1,9 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
 import EsriMap from "./components/EsriMap.vue"
-import Moment from "moment"
 import store from "./store"
 import ValidateString from "./js/validateString"
+import { FormatDate, isValidDate, SubtractFromDate, GetDateDiffinSecs } from "./js/vanillaMoment"
 
 Vue.use( VueRouter )
 
@@ -21,35 +21,32 @@ const getGauges = ( input_list) => {
 
 	},
 	getRangeDate = ( startdate, enddate ) => {
-		const inpt = {
-			startdate: Moment( startdate, "YYYY-MM-DDTHH:mmZ", true ),
-			enddate: Moment( enddate, "YYYY-MM-DDTHH:mmZ", true ),
+		let retval = {
+				startdate: FormatDate( "YYYY-MM-DDTHH:mmZ", SubtractFromDate( 1, "days" ) ),
+				enddate: FormatDate( "YYYY-MM-DDTHH:mmZ", new Date( ) ),
 
-		}
-
-		if( inpt.startdate.isValid( ) && inpt.enddate.isValid( ) && inpt.enddate.diff( inpt.startdate, "seconds" ) > 0 ){
-			return { startdate: startdate, enddate: enddate, }
-
-		}else{
-			return {
-				startdate: Moment( new Date( ) ).subtract( 1, "d" ).format( "YYYY-MM-DDTHH:mmZ" ),
-				enddate: Moment( new Date( ) ).format( "YYYY-MM-DDTHH:mmZ" ),
-	
 			}
 
+		if( isValidDate( startdate ) && isValidDate( enddate ) ){
+			startdate = new Date( Date.parse( startdate ) )
+			enddate = new Date( Date.parse( enddate ) )
+	
+			if( GetDateDiffinSecs( startdate, enddate ) > 0 ){
+				retval = { 
+					startdate: ( enddate > startdate ? FormatDate( "YYYY-MM-DDTHH:mmZ", startdate ) : FormatDate( "YYYY-MM-DDTHH:mmZ", enddate ) ),
+					enddate: ( enddate > startdate ? FormatDate( "YYYY-MM-DDTHH:mmZ", enddate ) : FormatDate( "YYYY-MM-DDTHH:mmZ", startdate ) ),
+	
+				}
+	
+			}
+	
 		}
+
+		return retval
 
 	},
 	getEndDate = ( enddate ) => {
-		const inpt_enddate = Moment( enddate, "YYYY-MM-DDTHH:mmZ", true ) 
-
-		if( inpt_enddate.isValid( ) ){
-			return enddate
-
-		}else{
-			return Moment( new Date( ) ).format( "YYYY-MM-DDTHH:mmZ" )
-	
-		}
+		return FormatDate( "YYYY-MM-DDTHH:mmZ", ( isValidDate( enddate ) ? new Date( Date.parse( enddate ) ) : new Date( ) ) )
 
 	},
 	getUniqueID = ( gauges, uniqueid ) => {
@@ -309,8 +306,7 @@ const getGauges = ( input_list) => {
 	router = new VueRouter( {
 		routes,
 		mode: "history",
-		base: "/finslive/"
-		//base: "/"
+		base: process.env.NODE_ENV === "production" ? "/finslive/" : "/",
 		
 	} )
 

@@ -1,11 +1,11 @@
-import Moment from "moment"
 import LabelClass from "@arcgis/core/layers/support/LabelClass"
 import Interpolate from "@turf/interpolate"
-import RainIcon from "../assets/rain.png"
-import NoReadingIcon from "../assets/noreading.png"
+import RainIcon from "../assets/rain.webp"
+import NoReadingIcon from "../assets/noreading.webp"
 import CamIcon from "../assets/camera-enhance-outline.svg"
 import DetailsIcon from "../assets/file-table-box-outline.svg"
 import store from "../store"
+import {GetDateAsEpoch} from "./vanillaMoment"
 
 export function FormatAsGeoJSON( gauge_arr, data_arr, gauge_info ){
 	let geojson = { type: "FeatureCollection", features: [ ] },
@@ -75,7 +75,8 @@ export function FormatAsGeoJSON( gauge_arr, data_arr, gauge_info ){
 				
 				if( parseInt( site.rank ) === 1 ){
 					site_obj[ unique_id ].measure_unit = "ft"
-					site_obj[ unique_id ].lastreading_epoch = Moment( site.data_time ).valueOf( )
+					//site_obj[ unique_id ].lastreading_epoch = Moment( site.data_time ).valueOf( )
+					site_obj[ unique_id ].lastreading_epoch = ( gauge === "lcs" ? GetDateAsEpoch( site.date_utc ) : GetDateAsEpoch( site.datetime ) )
 					site_obj[ unique_id ].reading = ( isNaN( parseFloat( site.reading ) ) ? "" : parseFloat( site.reading ).toFixed( 2 ) )
 					site_obj[ unique_id ][ "icon" ] = ( isNaN( parseFloat( site.reading ) ) ? "nr" : ( gauge === "lcs" ? "stage" : gauge  ) ) 
 

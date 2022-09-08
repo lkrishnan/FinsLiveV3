@@ -185,9 +185,9 @@
 </template>
 
 <script>
-    import Moment from "moment"
     import RoundNum from "../js/roundNum"
     import { AsUCWords } from "../js/formatStr"
+    import { FormatDate, AsMilliSeconds } from "../js/vanillaMoment"
 
 	export default{
       	name: "weatherForecast",
@@ -242,15 +242,11 @@
 
 		methods: {
             formatTime( epoch, idx=1 ){
-                return ( idx > 0 ? Moment.unix( epoch ).format('hA') : "Now" ) 
+                return ( idx > 0 ? FormatDate( "hA", AsMilliSeconds( epoch, "seconds" ) ) : "Now" ) 
 
             },
             formatDay( epoch, idx ){
-                return ( idx > 0 ? Moment.unix( epoch ).format('ddd') : "Today" ) 
-
-            },
-            formatDateTime( epoch ){
-                return Moment.unix( epoch ).format( "ddd, h:mm A" )
+                return ( idx > 0 ? FormatDate( "ddd", AsMilliSeconds( epoch, "seconds" ) ) : "Today" ) 
 
             },
             getIcon( icon_name ){
@@ -271,7 +267,7 @@
                         const weather_data = await response.json( )
               
                         _this.curr = {
-                            datetime: Moment.unix( weather_data.current.dt ).format( "ddd, h:mm A" ),
+                            datetime: FormatDate( "ddd, h:mm A", AsMilliSeconds( weather_data.current.dt, "seconds" ) ),
                             temp: `${RoundNum( weather_data.current.temp, 0 )}°F`,
                             short_forecast: AsUCWords( weather_data.current.weather[ 0 ].description ),
                             icon: _this.getIcon( weather_data.current.weather[ 0 ].icon ),
@@ -288,9 +284,8 @@
                             { title: "Clouds", value:`${weather_data.current.clouds}%`, icon: "mdi-weather-cloudy" },
                             { title: "UV Index", value: _this.noDecimal( weather_data.current.uvi ), icon: "mdi-white-balance-sunny" },
                             { title: "Visibility", value:`${weather_data.current.visibility/1000} mi`, icon: "mdi-eye" },
-                            { title: "Sunrise", value: Moment.unix( weather_data.current.sunrise ).format('h:m A'), icon: "mdi-weather-sunset-up" },
-                            { title: "Sunset", value: Moment.unix( weather_data.current.sunset ).format('h:m A'), icon: "mdi-weather-sunset-down" },
-
+                            { title: "Sunrise", value: FormatDate( "h:mm A", AsMilliSeconds( weather_data.current.sunrise, "seconds" ) ), icon: "mdi-weather-sunset-up" },
+                            { title: "Sunset", value: FormatDate( "h:mm A", AsMilliSeconds( weather_data.current.sunset, "seconds" ) ), icon: "mdi-weather-sunset-down" },
                             
                         ]
                             

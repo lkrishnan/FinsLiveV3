@@ -120,7 +120,7 @@
                     response_array.push( response )
                 
                 }
-                
+
                 //remove alarms that are not associated with sites
                 active_alarms = response_array.filter( elem => valid_or_site_ids.indexOf( elem.or_site_id ) > -1 )
                 
@@ -163,7 +163,6 @@
                 _this.refreshid = self.setInterval( ( ) => { _this.getActiveAlarms( all_alarms ) }, 180000 )    
 
                 _this.getActiveAlarms( all_alarms )
-
 
             },
 

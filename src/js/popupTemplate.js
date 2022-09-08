@@ -1,6 +1,6 @@
 import DetailsIcon from "../assets/file-table-box-outline.svg"
 import imageIcon from "../assets/image.svg"
-import Moment from "moment"
+import { FormatDate } from "../js/vanillaMoment"
 
 export function GetStrmXingTemplate( ){
 	return {
@@ -138,7 +138,8 @@ export function GetNWSWarnTemplate( ){
 export function GetNWSWatchTemplate( ){
 	return {
 		title: feature => { 
-			return `<h2>${feature.graphic.attributes.prod_type}</h2><div class='text-subtitle-2 font-weight-regular pt-2'>${Moment( feature.graphic.attributes.issuance ).format("M/D/YYYY h:mmA")} through ${Moment( feature.graphic.attributes.expiration ).format("M/D/YYYY h:mmA")}</div>` 
+			return `<h2>${feature.graphic.attributes.prod_type}</h2><div class='text-subtitle-2 font-weight-regular pt-2'>${FormatDate( "M/D/YYYY h:mmA", feature.graphic.attributes.issuance )} through ${FormatDate( "M/D/YYYY h:mmA", feature.graphic.attributes.expiration )}</div>` 
+
 		},
 		outFields: [ "*" ],
 		actions: [ 
@@ -146,6 +147,7 @@ export function GetNWSWatchTemplate( ){
 				title: "Watch Details",
 				id: "watch_detail",
 				image: DetailsIcon,
+
 			} 
 
 		]

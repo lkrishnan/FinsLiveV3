@@ -207,7 +207,7 @@
 
 <script>
 	import * as d3 from "d3"
-    import Moment from "moment"
+    import { FormatDate } from "../js/vanillaMoment"
     import ValidateString from "../js/validateString"
     import RoundNum from "../js/roundNum"
     import GetLineChart from "../js/getLineChart"
@@ -395,14 +395,14 @@
                 _this.$store.commit( "update_dash_refreshid", { 
                     [ uniqueid ]: self.setInterval( ( ) => { 
                             _this.getDynamicData( )
-                            _this.last_refresh = "Refreshed: " + Moment( ).format ( "MM/DD/YYYY hh:mm:ss A" ) 
+                            _this.last_refresh = "Refreshed: " + FormatDate( "MM/DD/YYYY hh:mm:ss A" ) 
                         }, _this.refresh_period )
 
                 } )
                
                 _this.getDynamicData( )
                 _this.getStaticData( )
-                _this.last_refresh = "Refreshed: " + Moment( ).format ( "MM/DD/YYYY hh:mm:ss A" )
+                _this.last_refresh = "Refreshed: " + FormatDate( "MM/DD/YYYY hh:mm:ss A" )
 
             },
 
@@ -559,7 +559,7 @@
             },
 
             formatTheDate( input_date ){
-                return Moment( input_date ).format( "MM/DD/YYYY h:mm A" )
+                return FormatDate( "MM/DD/YYYY hh:mm A", input_date )
                 
 			},
 

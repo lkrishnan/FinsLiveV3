@@ -52,7 +52,7 @@
 </template>
 
 <script>
-	import Moment from "moment"
+	import { SubtractFromDate } from "../js/vanillaMoment"
 
 	export default{
       	name: "radarControl",
@@ -100,10 +100,10 @@
                 const _this = this
 
                 _this.map_sources.radar.timeExtent = {
-                        start: Moment( ).subtract( 60 - ( _this.radar_tick * 5 ), "minutes" ).valueOf( ),
-                        end: Moment( ).subtract( 60 - ( _this.radar_tick * 5 ), "minutes" ).valueOf( ),
+					start: SubtractFromDate( ( 60 - ( _this.radar_tick * 5 ) ), "minutes", new Date( ), true ),
+					end: SubtractFromDate( ( 60 - ( _this.radar_tick * 5 ) ), "minutes", new Date( ), true ),
 
-                    }
+				}
 
             },
 

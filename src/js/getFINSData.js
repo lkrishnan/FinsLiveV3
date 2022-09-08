@@ -3,7 +3,7 @@ import store from "../store"
 import JSONToURL from "./jsontourl"
 import * as txml from "txml"
 import { parse, toSeconds } from "iso8601-duration"
-import Moment from "moment"
+import {FormatDate, SubtractFromDate} from "./vanillaMoment"
 
 export async function GetAlertData( gauge, info, qrystr ){
 	const axios_inst = axios.create( { 
@@ -26,8 +26,10 @@ export async function GetContrailData( systm, qrystr ){
 			xml_str = await response.text( )
 
 		if( response.ok ){
-			return txml.simplify( txml.parse( xml_str ) ).onerain.response.general.row
-				
+			const response = txml.simplify( txml.parse( xml_str ) ).onerain.response
+
+			return ( typeof response.general === "object" ? response.general.row : [ ] )
+							
 		}else{
 			throw Error( `${response.status} ${response.statusText}` )
 
@@ -68,30 +70,33 @@ export function getContrailParams( qrystr, site_info ){
 	}
 
 	if( qrystr.hasOwnProperty( "period" ) ){
-		const duration_secs = toSeconds( parse( qrystr.period ) )
+		const duration_secs = toSeconds( parse( qrystr.period ) ) 
 
-		ret_val.data_start = ( qrystr.hasOwnProperty( "enddate" ) ? Moment( qrystr.enddate ) : Moment( ) )
-									.subtract( duration_secs, "seconds" )
-									.utc( )
-									.format( "YYYY-MM-DD HH:mm:ss" )
-		ret_val.data_end = ( qrystr.hasOwnProperty( "enddate" ) ? Moment( qrystr.enddate ) : Moment( ) )
-									.utc( )
-									.format( "YYYY-MM-DD HH:mm:ss" )
+		ret_val = { 
+			...ret_val, 
+			data_start: FormatDate( "YYYY-MM-DD HH:mm:ss", SubtractFromDate( duration_secs, "seconds", qrystr.enddate ), true ),
+			data_end: FormatDate( "YYYY-MM-DD HH:mm:ss", qrystr.enddate, true ),  
+
+		}
 					
 		
 	}else if( qrystr.hasOwnProperty( "startdate" ) & qrystr.hasOwnProperty( "enddate" ) ){
-		ret_val.data_start = Moment( qrystr.startdate )
-								.utc( )
-								.format( "YYYY-MM-DD HH:mm:ss" )
-		ret_val.data_end = Moment( qrystr.enddate )
-								.utc( )
-								.format( "YYYY-MM-DD HH:mm:ss" )
+		ret_val = { 
+			...ret_val, 
+			data_start: FormatDate( "YYYY-MM-DD HH:mm:ss", qrystr.startdate, true ),
+			data_end: FormatDate( "YYYY-MM-DD HH:mm:ss", qrystr.enddate, true ),  
+
+		}
 
 	}
 
 	if( qrystr.hasOwnProperty( "uniqueid" ) ){
-		ret_val.or_site_id = qrystr.uniqueid
-		ret_val.or_sensor_id = site_info.or_sensor_id //or_sensor_is needs to be passed to get the readings with msl
+		ret_val = { 
+			...ret_val, 
+			or_site_id: qrystr.uniqueid,
+			or_sensor_id: site_info.or_sensor_id, //or_sensor_is needs to be passed to get the readings with msl 
+
+		}
 		
 	}
 		

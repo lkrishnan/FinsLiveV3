@@ -233,7 +233,7 @@
     import GetLineChart from "../js/getLineChart"
     import ValidateString from "../js/validateString"
     import * as d3 from "d3"
-    import Moment from "moment"
+    import { FormatDate } from "../js/vanillaMoment"
     import gaugeInfo from "../assets/gauge_info.json"
     import { AsUCWords } from "../js/formatStr"
 
@@ -347,7 +347,7 @@
 
 		methods: {
             formatTheDate( input_date ){
-                return Moment( input_date ).format( "MM/DD/YYYY h:mm A" )
+                return FormatDate( "MM/DD/YYYY hh:mm A", input_date )
                 
 			},
 
@@ -393,12 +393,12 @@
                     case "SelectedCamera":
                         _this.refreshid = self.setInterval( ( ) => {
                             _this.showSnapshot( params )
-                            _this.last_refresh = "Last Refresh " + Moment( ).format ( "MM/DD/YYYY hh:mm A" )
+                            _this.last_refresh = "Refreshed: " + FormatDate( "MM/DD/YYYY hh:mm:ss A" )
                         
                         }, 20000 ) 
                         
                         _this.showSnapshot( params )
-                        _this.last_refresh = "Last Refresh " + Moment( ).format ( "MM/DD/YYYY hh:mm A" )
+                        _this.last_refresh = "Refreshed: " + FormatDate( "MM/DD/YYYY hh:mm:ss A" )
                         
                         break
 

@@ -10,6 +10,13 @@ module.exports = {
 	transpileDependencies: [
 	  	"vuetify"
 	],
+
+	/*configureWebpack: { 
+		externals: {
+			myDataFileVariable: [ "./resources" ]
+		},
+
+	},*/
 	
 	chainWebpack: config => {
 		config

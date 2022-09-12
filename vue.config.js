@@ -1,3 +1,5 @@
+//const PreloadPlugin = require('@vue/preload-webpack-plugin')
+
 module.exports = {
 	publicPath: process.env.NODE_ENV === "production" ? "/finslive/" : "/",
 	
@@ -27,6 +29,20 @@ module.exports = {
 			  return args
 
 		  } )
+
+		/*config
+		  	.plugin('preload')
+		  	.use(PreloadPlugin, [{
+				rel: 'preload',
+				//include: 'initial',
+				//fileBlacklist: [/\.map$/, /hot-update\.js$/],
+				as(entry) {
+			  		//if (/\.css$/.test(entry)) return 'style';
+			  		if (/\.webp$/.test(entry)) return 'image';
+	
+			  		return 'script';
+				}
+		  	}]).after('html')*/
 				
 	},
 

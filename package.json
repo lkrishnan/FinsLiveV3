@@ -10,8 +10,8 @@
   	  	"zipnodelete": "powershell Compress-Archive -Path dist/* -DestinationPath finslive_bundle.zip",
   	  	"zip": "powershell Remove-Item finslive_bundle.zip -Recurse -Force && powershell Compress-Archive -Path dist/* -DestinationPath finslive_bundle.zip",
   	  	"copy": "powershell Copy-Item –Path finslive_bundle.zip –Destination //gisags2v/c$/temp",
-		"copy2public": "powershell Remove-Item public/assets/*.* -Recurse -Force && powershell Copy-Item –Path src/resources/*.* –Destination public/assets -Recurse -Force",
-  	  	"pub2prod": "npm run build && npm run move2prod",
+		"cpassets": "powershell Copy-Item –Path node_modules/@arcgis/core/assets/* –Destination public/assets -Recurse -Force",
+		"pub2prod": "npm run build && npm run move2prod",
   	  	"pub2dev": "npm run build && npm run move2dev"
   	},
   	"dependencies": {

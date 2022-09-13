@@ -733,7 +733,7 @@
                         _this.map_sources.rarrbldg,
                         _this.map_sources.rarrroad,
                         _this.map_sources.rarrstrmxing, 
-                        _this.map_sources.loc,  
+                        _this.map_sources.loc,
                         
                     ], 
                     
@@ -758,9 +758,9 @@
                 } )
        
                 //actions to be carried out when buttons are clicked in a popup box
-                _this.popupAction( )
+                //_this.popupAction( )
 
-                _this.addFloodImpact( )                
+                _this.addFloodImpact( )
 
             },
 
@@ -793,7 +793,7 @@
 
                 let ret_val = true
 
-                if( _this.last_route.hasOwnProperty( "name" ) ){
+                if( _this.last_route.hasOwnProperty( "name" ) && _this.last_route.name ){
                     if( _this.last_route.name.search( /Camera/ ) > -1 && new_route_name.search( /Camera/ ) > -1 ){
                         ret_val = false
 

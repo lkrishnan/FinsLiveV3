@@ -406,7 +406,14 @@ export default new Vuex.Store( {
 					commit( "auth", reply.token )
 					commit( "error_msgs", { login: null } )
 
-					router.go( -1 )
+					//if( this.state.last_route.hasOwnProperty( "name" ) ){
+						//router.go( -1 )	
+					//	console.log( "yes" )
+
+					//}else{
+						//router.push( state.last_gauge_cam_route )
+					//	console.log( "no" )
+					//}
 
 				}else{
 					commit( "error_msgs", { login: "Unable to login, try again." } )

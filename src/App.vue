@@ -57,6 +57,7 @@
 							<v-tab
 								v-for="(tab, i) in tabs"
                 				:key="'tab'+i"
+								:data-cy="'tab'+i"
 							>
 								<v-icon class="d-none d-md-flex">{{tab.icon}}</v-icon>
 								&nbsp;{{tab.label[ 0 ]}}<span class="d-none d-md-flex">&nbsp;{{tab.label[ 1 ]}}</span>

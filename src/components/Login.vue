@@ -24,6 +24,7 @@
 							<v-text-field 
 								v-model="userName" 
 								label="User Name"
+								data-cy="username"
 								:error-messages="userNameErrors"
 								@input="$v.userName.$touch( )"
 								@blur="$v.userName.$touch( )" 
@@ -32,6 +33,7 @@
 							<v-text-field 
 								v-model="password" 
 								label="Password"
+								data-cy="password"
 								:type="'password'"
 								:error-messages="passwordErrors"
 								@input="$v.password.$touch( )"
@@ -39,8 +41,8 @@
 								required>
 							</v-text-field>
 							<v-row class="my-1">
-								<v-btn @click="login" outlined color="primary"  class="ml-4">Login</v-btn>
-								<v-btn @click="back" outlined color="primary" class="ml-4">Back</v-btn>
+								<v-btn @click="login" data-cy="login_btn" outlined color="primary" class="ml-4">Login</v-btn>
+								<v-btn @click="back" data-cy="login_back_btn" outlined color="primary" class="ml-4">Back</v-btn>
 								<p v-if="error_msgs.login" class="ml-4 red--text">{{ error_msgs.login }}</p>
 							</v-row>
 						</v-container>
@@ -74,7 +76,7 @@
 
 <script>
   	import { validationMixin } from 'vuelidate'
-  	import { required, maxLength, email } from 'vuelidate/lib/validators'
+  	import { required } from 'vuelidate/lib/validators'
   
   	export default{
     	name: "login",
@@ -94,6 +96,11 @@
     	},  
     
 		computed: {
+			last_route( ){
+				return this.$store.state.last_route
+			
+			},
+			
       		auth( ){
         		return this.$store.state.token
       		
@@ -177,8 +184,14 @@
 		    authenticate( ){
 				const _this = this
 			
-				if( _this.auth !== '' ){
-					_this.$router.go( -1 )
+				if( _this.auth !== "" ){
+					if( _this.last_route.name ){
+						_this.$router.go( -1 )	
+					
+					}else{
+						_this.$router.push( { name: "AllPeriod", params: { gauges: "rain", period: "P1D" } } )
+
+					}
 
 				}
 							

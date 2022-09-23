@@ -7,11 +7,18 @@
 			flat
 		>
 			<SiteCard
+				v-for="dash_site in dash_sites"
+        		:key="dash_site"
+				:data="site_info[dash_site]"
+			/>
+			<!--<v-alert
 				v-for="(dash_site, n) in dash_sites"
         		:key="'dash_site' + n"
-				:data="getSiteInfo( dash_site )"
-
-			/>
+				dark
+				dense
+			>
+				{{dash_site}}	
+			</v-alert>-->
 
 		</v-card>
 
@@ -146,17 +153,13 @@
 				}
 
 			},
+
+			site_info( ){
+				return gaugeInfo
+			}
 			                	
 		},
     
-		watch: {
-      		dash_sites( ){
-				const _this = this
-
-			}
-    
-		},
-
 		data: ( ) => ( {
 			site_types: [ 
 				{ label: "Rain Gauges", value: "rain" },
@@ -173,6 +176,7 @@
     
 		methods: {
 			getSiteInfo( uniqueid ){
+				console.log( gaugeInfo[ uniqueid ] )
 				return { ...gaugeInfo[ uniqueid ], ...{ readings_per_pg: 6 } }
 
             },

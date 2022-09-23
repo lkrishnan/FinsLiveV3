@@ -117,7 +117,8 @@
 			right 
 			:width=drawer_width
             v-touch="{ left: ( ) => { overlay_drawer=!overlay_drawer } }"
-            style="z-index: 5 !important; padding-top: 80px;"
+            style="z-index: 5 !important;"
+            :style="is_mobile ? 'padding-top: 60px;' : 'padding-top: 80px;'"
 
         >
             <v-row 
@@ -174,7 +175,7 @@
 
         <v-card
             class="d-flex d-md-none mb-2 mr-5"
-            style="margin: 0; position: absolute; bottom: 0; right: 0; z-index: 7;"
+            style="margin: 0; position: absolute; bottom: 0; right: 0; z-index: 4;"
             elevation="2"
             outlined
         >
@@ -190,6 +191,7 @@
                     v-for="(tab, i) in tabs"
                 	:key="'bottom_tab' + i"
                     class="ma-0"
+                    :data-cy="'btmtab'+i"
                     small
                     >
                     {{tab.short_label}}
@@ -212,6 +214,18 @@
                 <v-card-subtitle v-show="dialog.subtitle">
                     {{ dialog.subtitle }}
                 </v-card-subtitle>
+
+                <v-carousel
+                    v-show="dialog.imgs.length > 0"
+                >
+                    <v-carousel-item
+                        v-for="(img,i) in dialog.imgs"
+                        :key="'carousel'+i"
+                        :src="img"
+                
+                    ></v-carousel-item>
+                
+                </v-carousel>
 
         		<v-card-text>
                     <div class="text-body-2" v-show="dialog.headline">
@@ -628,6 +642,7 @@
                 show: false,
                 title: null,
                 subtitle: null,
+                imgs: [ ],
                 headline: null,
                 description: null,
                 instruction: null,
@@ -758,7 +773,7 @@
                 } )
        
                 //actions to be carried out when buttons are clicked in a popup box
-                //_this.popupAction( )
+                _this.popupAction( )
 
                 _this.addFloodImpact( )
 
@@ -1036,8 +1051,19 @@
                 // Event handler that fires each time an action is clicked in the map popup.
                 _this.map_view.popup.on( "trigger-action", async( event ) => {
                     const attrb = _this.map_view.popup.selectedFeature.attributes
-
                     let new_route
+
+                    //reset digalog object
+                    _this.dialog = {
+                        show: false,
+                        title: null,
+                        subtitle: null,
+                        imgs: [ ],
+                        headline: null,
+                        description: null,
+                        instruction: null,
+
+                    }
                     
                     switch( event.action.id ){
                         case "cam_snapshot":
@@ -1053,7 +1079,21 @@
                             break
 
                         case "strmxing_photos":
-                            console.log( "show photo" )
+                            const photo_attrbs = [ "photo_dsc", "photo_dsf", "photo_usc", "photo_usf", "sketch_i_1" ]
+                            _this.dialog.title = `${attrb.strm_name} CROSSING ${attrb.xing_desc}`
+
+                            photo_attrbs.forEach( photo_file => {
+                                if( photo_file != "noimage" ){
+                                    _this.dialog.imgs.push( "https://mecklenburgcounty.exavault.com/p/stormwater/Stream%20Crossing/Images/" + 
+                                        attrb[ photo_file ].toUpperCase( ) + 
+                                        ( attrb[ photo_file ].toUpperCase( ).indexOf( ".jpg" ) == -1 ? ".jpg" : "" ) )
+
+                                }
+
+                            } )
+
+                            //show dialog
+                            _this.dialog.show = true
                             break
 
                         case "watch_detail": case "warn_detail":
@@ -1148,7 +1188,7 @@
 
             takeAction( action ){
                 const _this = this
-                
+
                 switch( action ){
                     case "ToggleOverlayCtrl":
                         _this.overlay_drawer = !_this.overlay_drawer
@@ -1189,5 +1229,6 @@
     }
 
     .esri-view .esri-view-surface--inset-outline:focus::after {  outline: none !important;}
+
 
 </style>

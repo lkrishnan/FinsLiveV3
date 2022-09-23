@@ -8,7 +8,7 @@
         "label": "Briar Creek @ Park Rd FMP1", 
         "lat": 35.1581, 
         "lon": -80.8487, 
-        "msl": 565.358, 
+        "msl": 566.092, 
         "or_sensor_id": "5"
     }, 
     "941": {
@@ -18,9 +18,9 @@
         "gauge_type": "lcs", 
         "site_name": "Kings Branch at Lexington Green Apartments FMB49", 
         "label": "Kings Branch at Lexington Green Apartments FMB49", 
-        "lat": 35.1519, 
+        "lat": 35.1517, 
         "lon": -80.8904, 
-        "msl": 596.642, 
+        "msl": 596.0, 
         "or_sensor_id": "20"
     }, 
     "989": {
@@ -32,7 +32,7 @@
         "label": "Little Sugar Creek at Wellingford St. FMP37", 
         "lat": 35.2591, 
         "lon": -80.7916, 
-        "msl": 693.3, 
+        "msl": 693.208, 
         "or_sensor_id": "19"
     }, 
     "905": {
@@ -44,7 +44,7 @@
         "label": "Mallard Creek at Mallard Creek Greenway FMB31", 
         "lat": 35.3253, 
         "lon": -80.7823, 
-        "msl": 641.717, 
+        "msl": 641.533, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -80,7 +80,7 @@
         "label": "Polk Ditch at Canvasback Dr on foot bridge FMB26", 
         "lat": 35.1002, 
         "lon": -80.964, 
-        "msl": 563.675, 
+        "msl": 563.308, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -107,42 +107,6 @@
             }
         ]
     }, 
-    "961": {
-        "unique_id": "961", 
-        "site_id": "005", 
-        "or_site_id": "961", 
-        "gauge_type": "lcs", 
-        "site_name": "Edwards Branch at Commonwealth Ave. FMB63", 
-        "label": "Edwards Branch at Commonwealth Ave. FMB63", 
-        "lat": 35.2085, 
-        "lon": -80.7906, 
-        "msl": 648.083, 
-        "or_sensor_id": "19", 
-        "ref_values": [
-            {
-                "label": "at top of bank", 
-                "value": 659.2
-            }, 
-            {
-                "label": "at road surface", 
-                "value": 661.6
-            }
-        ], 
-        "alarms": [
-            {
-                "label": "alert", 
-                "value": 658.0
-            }, 
-            {
-                "label": "investigate", 
-                "value": 661.0
-            }, 
-            {
-                "label": "emergency", 
-                "value": 662.0
-            }
-        ]
-    }, 
     "997": {
         "unique_id": "997", 
         "site_id": "007", 
@@ -154,42 +118,6 @@
         "lon": -80.7949, 
         "msl": 637.142, 
         "or_sensor_id": "19"
-    }, 
-    "927": {
-        "unique_id": "927", 
-        "site_id": "013", 
-        "or_site_id": "927", 
-        "gauge_type": "lcs", 
-        "site_name": "Paw Creek at Toddville Rd FMB10", 
-        "label": "Paw Creek at Toddville Rd FMB10", 
-        "lat": 35.2557, 
-        "lon": -80.927, 
-        "msl": 654.058, 
-        "or_sensor_id": "19", 
-        "ref_values": [
-            {
-                "label": "at top of bank", 
-                "value": 670.5
-            }, 
-            {
-                "label": "at road surface", 
-                "value": 673.0
-            }
-        ], 
-        "alarms": [
-            {
-                "label": "alert", 
-                "value": 669.0
-            }, 
-            {
-                "label": "investigate", 
-                "value": 672.0
-            }, 
-            {
-                "label": "emergency", 
-                "value": 674.0
-            }
-        ]
     }, 
     "1085": {
         "unique_id": "1085", 
@@ -244,7 +172,7 @@
         "label": "Stewart Creek at W Trade St. FMB13", 
         "lat": 35.2504, 
         "lon": -80.8662, 
-        "msl": 639.654, 
+        "msl": 639.838, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -280,7 +208,7 @@
         "label": "Mallard Creek at W Sugar Creek Rd. FMB30", 
         "lat": 35.3287, 
         "lon": -80.8012, 
-        "msl": 698.15, 
+        "msl": 697.967, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -316,7 +244,7 @@
         "label": "Six Mile Creek @ Fawn Hill Rd FMP6", 
         "lat": 35.0574, 
         "lon": -80.7529, 
-        "msl": 636.25, 
+        "msl": 636.067, 
         "or_sensor_id": "3"
     }, 
     "1071": {
@@ -328,7 +256,7 @@
         "label": "McAlpine Creek at Carmel Country Club FMP83", 
         "lat": 35.1046, 
         "lon": -80.8171, 
-        "msl": 529.575, 
+        "msl": 529.85, 
         "or_sensor_id": "4", 
         "ref_values": [
             {
@@ -364,7 +292,7 @@
         "label": "McMullen Creek Tributary FMP70", 
         "lat": 35.1784, 
         "lon": -80.7862, 
-        "msl": 668.533, 
+        "msl": 668.442, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -400,7 +328,7 @@
         "label": "Briar Creek at Randolph Rd. FMP67", 
         "lat": 35.1994, 
         "lon": -80.8128, 
-        "msl": 618.35, 
+        "msl": 617.983, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -436,7 +364,7 @@
         "label": "Little Sugar Creek at Sharon Rd Greenway FMP52", 
         "lat": 35.1184, 
         "lon": -80.8679, 
-        "msl": 543.308, 
+        "msl": 543.492, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -459,6 +387,18 @@
             }
         ]
     }, 
+    "927": {
+        "unique_id": "927", 
+        "site_id": "0245", 
+        "or_site_id": "927", 
+        "gauge_type": "lcs", 
+        "site_name": "Paw Creek at Toddville Rd FMP10", 
+        "label": "Paw Creek at Toddville Rd FMP10", 
+        "lat": 35.2567, 
+        "lon": -80.9276, 
+        "msl": 654.242, 
+        "or_sensor_id": "19"
+    }, 
     "975": {
         "unique_id": "975", 
         "site_id": "0246", 
@@ -468,7 +408,7 @@
         "label": "Little Sugar Creek at Alexander St. Park Foot Bridge FMP43", 
         "lat": 35.2274, 
         "lon": -80.8272, 
-        "msl": 638.276, 
+        "msl": 638.734, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -508,7 +448,7 @@
         "label": "Sugar Creek at Edgegreen Dr. FMP23", 
         "lat": 35.1595, 
         "lon": -80.9122, 
-        "msl": 564.017, 
+        "msl": 564.475, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -556,7 +496,7 @@
         "label": "Toby Creek UNCC Campus FMP33", 
         "lat": 35.3066, 
         "lon": -80.7387, 
-        "msl": 592.75, 
+        "msl": 594.767, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -618,7 +558,7 @@
         "label": "Walker Branch at Smith Rd. FMP27", 
         "lat": 35.097, 
         "lon": -80.972, 
-        "msl": 559.175, 
+        "msl": 556.15, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -654,7 +594,7 @@
         "label": "McMullen Creek at Johnny Cake Ln. FMP73", 
         "lat": 35.1334, 
         "lon": -80.8232, 
-        "msl": 567.1, 
+        "msl": 567.192, 
         "or_sensor_id": "19"
     }, 
     "1017": {
@@ -706,7 +646,7 @@
         "label": "Four Mile Creek at Reverdy Lane FMP89", 
         "lat": 35.0982, 
         "lon": -80.7552, 
-        "msl": 566.867, 
+        "msl": 567.142, 
         "or_sensor_id": "4", 
         "ref_values": [
             {
@@ -826,7 +766,7 @@
         "label": "Briar Creek at Kildare Dr FMP57", 
         "lat": 35.2438, 
         "lon": -80.7653, 
-        "msl": 680.533, 
+        "msl": 680.9, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -866,7 +806,7 @@
         "label": "Torrence Creek at Wynfield Creek Pkwy FMP06", 
         "lat": 35.4118, 
         "lon": -80.8796, 
-        "msl": 677.543, 
+        "msl": 678.277, 
         "or_sensor_id": "19"
     }, 
     "495": {
@@ -878,7 +818,7 @@
         "label": "Little Sugar Creek @ E 4th St FMP5", 
         "lat": 35.2172, 
         "lon": -80.8339, 
-        "msl": 624.008, 
+        "msl": 624.283, 
         "or_sensor_id": "5"
     }, 
     "461": {
@@ -888,9 +828,9 @@
         "gauge_type": "lcs", 
         "site_name": "Little Sugar Creek @ Park Rd FMP2", 
         "label": "Little Sugar Creek @ Park Rd FMP2", 
-        "lat": 35.16003, 
-        "lon": -80.8488, 
-        "msl": 569.592, 
+        "lat": 35.1599, 
+        "lon": -80.849, 
+        "msl": 569.775, 
         "or_sensor_id": "5"
     }, 
     "487": {
@@ -914,7 +854,7 @@
         "label": "Little Sugar Creek E 18th St. FMB42", 
         "lat": 35.2338, 
         "lon": -80.822, 
-        "msl": 653.756, 
+        "msl": 654.031, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -1002,7 +942,7 @@
         "label": "McAlpine Creek at Old Providence Rd. FMP81", 
         "lat": 35.1249, 
         "lon": -80.7885, 
-        "msl": 537.542, 
+        "msl": 538.275, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -1038,7 +978,7 @@
         "label": "Stewart Creek at Norwood Dr. FMP17", 
         "lat": 35.2489, 
         "lon": -80.8719, 
-        "msl": 639.67, 
+        "msl": 639.395, 
         "or_sensor_id": "19"
     }, 
     "915": {
@@ -1050,8 +990,20 @@
         "label": "Mallard Creek at David Taylor Dr. FMP32", 
         "lat": 35.3211, 
         "lon": -80.7555, 
-        "msl": 590.433, 
+        "msl": 590.617, 
         "or_sensor_id": "19"
+    }, 
+    "1069": {
+        "unique_id": "1069", 
+        "site_id": "0267", 
+        "or_site_id": "1069", 
+        "gauge_type": "lcs", 
+        "site_name": "Kings Branch at Arrowood Rd. FMP54", 
+        "label": "Kings Branch at Arrowood Rd. FMP54", 
+        "lat": 35.1366, 
+        "lon": -80.8867, 
+        "msl": 580.933, 
+        "or_sensor_id": "4"
     }, 
     "1015": {
         "unique_id": "1015", 
@@ -1072,8 +1024,8 @@
         "gauge_type": "lcs", 
         "site_name": "Mallard Creek at Mallard Creek WWTP FMB34", 
         "label": "Mallard Creek at Mallard Creek WWTP FMB34", 
-        "lat": 35.3323, 
-        "lon": -80.7001, 
+        "lat": 35.3317, 
+        "lon": -80.6986, 
         "msl": 565.017, 
         "or_sensor_id": "19"
     }, 
@@ -1084,8 +1036,8 @@
         "gauge_type": "lcs", 
         "site_name": "Irwin Creek at W Oaklawn Cemetery FMB14", 
         "label": "Irwin Creek at W Oaklawn Cemetery FMB14", 
-        "lat": 35.2505, 
-        "lon": -80.8454, 
+        "lat": 35.2506, 
+        "lon": -80.8453, 
         "msl": 641.2, 
         "or_sensor_id": "19", 
         "ref_values": [
@@ -1122,7 +1074,7 @@
         "label": "Irvins Creek at Lebanon Rd. FMB88", 
         "lat": 35.1663, 
         "lon": -80.6897, 
-        "msl": 647.808, 
+        "msl": 647.9, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -1190,7 +1142,7 @@
         "label": "Derita Branch at Craighead Rd. FMB38", 
         "lat": 35.2647, 
         "lon": -80.8051, 
-        "msl": 701.742, 
+        "msl": 701.65, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -1226,7 +1178,7 @@
         "label": "Briar Creek at Ruth Dr FMB56", 
         "lat": 35.2483, 
         "lon": -80.7596, 
-        "msl": 690.882, 
+        "msl": 690.607, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -1276,8 +1228,8 @@
         "gauge_type": "lcs", 
         "site_name": "Stewart Creek at Rozzelles Ferry Rd. FMB16", 
         "label": "Stewart Creek at Rozzelles Ferry Rd. FMB16", 
-        "lat": 35.2474, 
-        "lon": -80.8687, 
+        "lat": 35.2473, 
+        "lon": -80.8686, 
         "msl": 642.7, 
         "or_sensor_id": "19", 
         "ref_values": [
@@ -1318,7 +1270,7 @@
         "label": "Little Sugar Creek at 6317 Birmingham Dr. FMB51", 
         "lat": 35.1391, 
         "lon": -80.8614, 
-        "msl": 552.425, 
+        "msl": 552.7, 
         "or_sensor_id": "4", 
         "ref_values": [
             {
@@ -1354,7 +1306,7 @@
         "label": "McMullen Creek @ Providence Rd FMB3", 
         "lat": 35.1599, 
         "lon": -80.7997, 
-        "msl": 632.333, 
+        "msl": 632.242, 
         "or_sensor_id": "5"
     }, 
     "1121": {
@@ -1369,73 +1321,65 @@
         "msl": 571.22, 
         "or_sensor_id": "3"
     }, 
-    "985": {
-        "unique_id": "985", 
-        "site_id": "056", 
-        "or_site_id": "985", 
-        "gauge_type": "lcs", 
-        "site_name": "Briar Creek at Twiford Pl. FMB68", 
-        "label": "Briar Creek at Twiford Pl. FMB68", 
-        "lat": 35.1873, 
-        "lon": -80.8158, 
-        "msl": 607.243, 
-        "or_sensor_id": "19", 
-        "ref_values": [
-            {
-                "label": "at top of bank", 
-                "value": 621.5
-            }
-        ], 
-        "alarms": [
-            {
-                "label": "alert", 
-                "value": 652.2
-            }, 
-            {
-                "label": "investigate", 
-                "value": 652.9
-            }, 
-            {
-                "label": "emergency", 
-                "value": 653.5
-            }
-        ]
-    }, 
     "1001": {
         "unique_id": "1001", 
-        "site_id": "062", 
+        "site_id": "063", 
         "or_site_id": "1001", 
         "gauge_type": "lcs", 
         "site_name": "Little Hope Creek at E Woodlawn Rd. FMB47", 
         "label": "Little Hope Creek at E Woodlawn Rd. FMB47", 
         "lat": 35.1723, 
         "lon": -80.8556, 
-        "msl": 611.479, 
+        "msl": 611.112, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
-                "label": "at walking path", 
-                "value": 625.8
+                "label": "at top of bank", 
+                "value": 528.7
             }, 
             {
-                "label": "at top of bank", 
-                "value": 625.9
+                "label": "at greenway path", 
+                "value": 534.4
             }
         ], 
         "alarms": [
             {
                 "label": "alert", 
-                "value": 625.0
+                "value": 528.0
             }, 
             {
                 "label": "investigate", 
-                "value": 626.0
+                "value": 534.8
             }, 
             {
                 "label": "emergency", 
-                "value": 628.0
+                "value": 535.6
             }
         ]
+    }, 
+    "961": {
+        "unique_id": "961", 
+        "site_id": "0651", 
+        "or_site_id": "961", 
+        "gauge_type": "lcs", 
+        "site_name": "Edwards Branch at Commonwealth Ave. FMP63", 
+        "label": "Edwards Branch at Commonwealth Ave. FMP63", 
+        "lat": 35.2085, 
+        "lon": -80.7906, 
+        "msl": 647.9, 
+        "or_sensor_id": "19"
+    }, 
+    "985": {
+        "unique_id": "985", 
+        "site_id": "0652", 
+        "or_site_id": "985", 
+        "gauge_type": "lcs", 
+        "site_name": "Briar Creek at Twiford Pl. FMP68", 
+        "label": "Briar Creek at Twiford Pl. FMP68", 
+        "lat": 35.1873, 
+        "lon": -80.8159, 
+        "msl": 606.602, 
+        "or_sensor_id": "19"
     }, 
     "951": {
         "unique_id": "951", 
@@ -1444,9 +1388,9 @@
         "gauge_type": "lcs", 
         "site_name": "Stewart Creek at Southwest Blvd. FMB12", 
         "label": "Stewart Creek at Southwest Blvd. FMB12", 
-        "lat": 35.264, 
-        "lon": -80.8687, 
-        "msl": 663.755, 
+        "lat": 35.2639, 
+        "lon": -80.8688, 
+        "msl": 662.93, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -1482,7 +1426,7 @@
         "label": "Briar Creek @ Galway Dr FMB100", 
         "lat": 35.2411, 
         "lon": -80.7586, 
-        "msl": 696.417, 
+        "msl": 696.508, 
         "or_sensor_id": "5"
     }, 
     "1089": {
@@ -1494,7 +1438,7 @@
         "label": "Briar Creek at Perth Crt. FMB071", 
         "lat": 35.2445, 
         "lon": -80.7498, 
-        "msl": 709.192, 
+        "msl": 708.917, 
         "or_sensor_id": "3", 
         "ref_values": [
             {
@@ -1518,42 +1462,6 @@
             {
                 "label": "emergency", 
                 "value": 718.6
-            }
-        ]
-    }, 
-    "1069": {
-        "unique_id": "1069", 
-        "site_id": "076", 
-        "or_site_id": "1069", 
-        "gauge_type": "lcs", 
-        "site_name": "Kings Branch at Arrowood Rd. FMB54", 
-        "label": "Kings Branch at Arrowood Rd. FMB54", 
-        "lat": 35.1366, 
-        "lon": -80.8867, 
-        "msl": 582.217, 
-        "or_sensor_id": "4", 
-        "ref_values": [
-            {
-                "label": "at top of bank", 
-                "value": 586.0
-            }, 
-            {
-                "label": "at road surface", 
-                "value": 595.0
-            }
-        ], 
-        "alarms": [
-            {
-                "label": "alert", 
-                "value": 586.0
-            }, 
-            {
-                "label": "investigate", 
-                "value": 593.0
-            }, 
-            {
-                "label": "emergency", 
-                "value": 595.6
             }
         ]
     }, 
@@ -1602,7 +1510,7 @@
         "label": "McMullen Creek Trib@ Addison Rd FMB96", 
         "lat": 35.1724, 
         "lon": -80.7872, 
-        "msl": 656.825, 
+        "msl": 656.55, 
         "or_sensor_id": "3"
     }, 
     "1073": {
@@ -1650,7 +1558,7 @@
         "label": "Irvins Creek at Sam Newell Rd. FMB94", 
         "lat": 35.1342, 
         "lon": -80.7176, 
-        "msl": 634.096, 
+        "msl": 634.646, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -1680,9 +1588,9 @@
         "gauge_type": "lcs", 
         "site_name": "Four Mile Creek at E Charles St. FMB95", 
         "label": "Four Mile Creek at E Charles St. FMB95", 
-        "lat": 35.1082, 
-        "lon": -80.7065, 
-        "msl": 673.571, 
+        "lat": 35.1083, 
+        "lon": -80.7066, 
+        "msl": 673.296, 
         "or_sensor_id": "19", 
         "ref_values": [
             {
@@ -1732,9 +1640,9 @@
         "gauge_type": "lcs", 
         "site_name": "Sixmile Creek Trib at Providence Country Club Dr. FMB090", 
         "label": "Sixmile Creek Trib at Providence Country Club Dr. FMB090", 
-        "lat": 35.0393, 
+        "lat": 35.0391, 
         "lon": -80.786, 
-        "msl": 606.833, 
+        "msl": 606.283, 
         "or_sensor_id": "3"
     }, 
     "947": {
@@ -1744,8 +1652,8 @@
         "gauge_type": "lcs", 
         "site_name": "Irwin Creek at West Blvd. FMB20", 
         "label": "Irwin Creek at West Blvd. FMB20", 
-        "lat": 35.2179, 
-        "lon": -80.8728, 
+        "lat": 35.2178, 
+        "lon": -80.8727, 
         "msl": 605.508, 
         "or_sensor_id": "20", 
         "ref_values": [
@@ -2567,7 +2475,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 615.9
             }
         ]
@@ -2585,7 +2493,7 @@
         "or_sensor_id": "5", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 575.7
             }
         ]
@@ -2603,7 +2511,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 574.3
             }
         ], 
@@ -2628,17 +2536,17 @@
     "6504": {
         "unique_id": "6504", 
         "site_id": "6504", 
-        "or_site_id": "53", 
+        "or_site_id": "1192", 
         "gauge_type": "stage", 
         "site_name": "BRIAR CREEK ab COLONY ROAD", 
         "label": "6504: BRIAR CREEK ab COLONY ROAD", 
-        "lat": 35.17694, 
-        "lon": -80.83028, 
+        "lat": 35.17528, 
+        "lon": -80.83083, 
         "msl": 598.02, 
-        "or_sensor_id": "3", 
+        "or_sensor_id": "1", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 613.0
             }
         ], 
@@ -2666,7 +2574,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 533.5
             }
         ]
@@ -2684,7 +2592,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 539.0
             }
         ], 
@@ -2720,7 +2628,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 580.5
             }
         ]
@@ -2738,7 +2646,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 580.4
             }
         ], 
@@ -2774,7 +2682,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 626.3
             }
         ], 
@@ -2811,7 +2719,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 606.8
             }
         ], 
@@ -2847,7 +2755,7 @@
         "or_sensor_id": "1", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 590.2
             }
         ]
@@ -2865,7 +2773,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 610.3
             }
         ], 
@@ -2901,7 +2809,7 @@
         "or_sensor_id": "4", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 549.9
             }
         ]
@@ -2919,7 +2827,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 545.2
             }
         ]
@@ -2937,7 +2845,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 677.5
             }
         ], 
@@ -2973,7 +2881,7 @@
         "or_sensor_id": "4", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 660.9
             }
         ]
@@ -2991,7 +2899,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 665.0
             }
         ]
@@ -3009,7 +2917,7 @@
         "or_sensor_id": "4", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 571.3
             }
         ]
@@ -3027,7 +2935,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 630.3
             }
         ]
@@ -3045,7 +2953,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 627.4
             }
         ]
@@ -3063,7 +2971,7 @@
         "or_sensor_id": "4", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 578.7
             }
         ]
@@ -3081,7 +2989,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 625.5
             }
         ]
@@ -3099,7 +3007,7 @@
         "or_sensor_id": "2", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 629.7
             }
         ]
@@ -3117,7 +3025,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 673.5
             }
         ]
@@ -3135,7 +3043,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 640.54
             }
         ], 
@@ -3167,7 +3075,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 631.4
             }
         ], 
@@ -3202,7 +3110,7 @@
         "or_sensor_id": "4", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 680.6
             }
         ]
@@ -3220,7 +3128,7 @@
         "or_sensor_id": "4", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 577.7
             }
         ]
@@ -3238,7 +3146,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 644.5
             }
         ], 
@@ -3270,7 +3178,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 683.5
             }, 
             {
@@ -3296,7 +3204,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 697.2
             }
         ]
@@ -3314,7 +3222,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 640.8
             }
         ]
@@ -3332,7 +3240,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 622.5
             }, 
             {
@@ -3357,7 +3265,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 661.8
             }
         ], 
@@ -3393,7 +3301,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 645.0
             }
         ]
@@ -3411,7 +3319,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 607.4
             }
         ], 
@@ -3445,7 +3353,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 595.6
             }
         ]
@@ -3463,7 +3371,7 @@
         "or_sensor_id": "1", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 608.7
             }
         ]
@@ -3480,7 +3388,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 622.0
             }
         ]
@@ -3498,7 +3406,7 @@
         "or_sensor_id": "4", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 607.31
             }
         ]
@@ -3516,7 +3424,7 @@
         "or_sensor_id": "3", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 566.5
             }
         ]
@@ -3534,7 +3442,7 @@
         "or_sensor_id": "2", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 663.4
             }
         ]
@@ -3552,7 +3460,7 @@
         "or_sensor_id": "2", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 627.33
             }
         ]
@@ -3594,7 +3502,7 @@
         "or_sensor_id": "2", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 611.1
             }
         ]
@@ -3612,7 +3520,7 @@
         "or_sensor_id": "2", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 573.3
             }
         ]
@@ -3654,7 +3562,7 @@
         "or_sensor_id": "2", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 689.5
             }
         ]
@@ -3672,7 +3580,7 @@
         "or_sensor_id": "2", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 679.0
             }
         ]
@@ -3690,7 +3598,7 @@
         "or_sensor_id": "2", 
         "ref_values": [
             {
-                "label": "floodstage", 
+                "label": "NWS floodstage", 
                 "value": 661.2
             }, 
             {

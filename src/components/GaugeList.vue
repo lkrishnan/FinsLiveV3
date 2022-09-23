@@ -15,7 +15,8 @@
 			v-model="sel_gauge_cam"
 			:items="list"
 			:label=combobox_label
-  			hide-details
+			data-cy="gauge_select"
+			hide-details
 			class="body-2"
 		>
 		</v-combobox>

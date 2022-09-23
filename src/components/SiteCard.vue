@@ -19,8 +19,23 @@
             <v-col
                 cols="1"
                 class="d-flex justify-end align-center pa-1"
-                width="20"
             >
+                <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                            icon
+                            small
+                            color="white"
+                            v-bind="attrs"
+                            v-on="on"
+                            @click="getData( )"
+                        >
+                            <v-icon>mdi-cached</v-icon>
+                        </v-btn>
+                    </template>
+                    <span>{{last_refresh}}</span>
+                </v-tooltip>
+
                 <v-btn
                     icon
                     small
@@ -29,6 +44,52 @@
                 >
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
+
+            </v-col>
+
+        </v-row>
+
+       <!-- Progress -->
+       <v-row
+            no-gutters
+            class="ma-5"
+            v-show="show_progress"
+        >    
+            <v-col
+                class="d-flex align-center justify-center text-h6"
+            >
+                <v-progress-circular
+                    :size="70"
+                    :width="7"
+                    color="primary"
+                    indeterminate
+                ></v-progress-circular>
+                
+            </v-col>
+
+        </v-row>
+
+        <!-- No readings available -->
+        <v-row
+            no-gutters
+            class="ma-5"
+            v-show="readings.length == 0 && !snapshot && !show_progress"
+        >    
+            <v-col
+                class="d-flex align-center justify-center text-h6"
+            >
+                <v-icon
+                    x-large
+                    color="orange darken-2"
+                >
+                    mdi-database-alert
+                
+                </v-icon>
+                
+                <span class="ml-2">
+                    No readings were recorded
+                
+                </span>
 
             </v-col>
 
@@ -50,7 +111,9 @@
                         :key="'site_tab'+ i"
                     >
                         <v-icon>{{tab.icon}}</v-icon>
-                        <span class="ml-2">{{tab.label}}</span>
+                        <span 
+                            class="ml-2"
+                        >{{tab.label}}</span>
                     </v-tab>
                 </v-tabs>
             
@@ -58,59 +121,50 @@
             
         </v-row>    
 
-        <!-- Refresh Info -->
-        <v-row
-            no-gutters
-            class="mx-2 pt-2"
-            v-show="snapshot || (readings.length > 0 && [ 0, 1 ].includes( sel_tab ))"
-        >
-            <v-col
-                class="d-flex justify-end align-center subtitle-2"
-            >
-                {{last_refresh}}
-                
-            </v-col>
-            <v-col
-                class="d-flex justify-end align-center"
-                cols="1"
-            >
-                <v-btn
-                    icon
-                    small
-                    color="primary"
-                    @click="getData( )"
-                >
-                    <v-icon>mdi-cached</v-icon>
-                </v-btn>
-                
-            </v-col>
-            
-        </v-row>
-
+        <!-- All Chart controls -->
+        
         <!-- Chart -->
         <v-row
             no-gutters
-            class="mx-2"
+            class="mx-2 mt-2"
             v-show="readings.length>0 && sel_tab === 0"
         >
             <v-col
                 :id="'dash_chart_' + data.unique_id"
-                class="d-flex justify-center pa-5"
+                class="d-flex justify-center px-5"
             >
                 
             </v-col>
             
         </v-row>
 
+        <v-row
+            no-gutters
+            class="mx-5 mb-5"
+            v-show="sel_tab===0"
+        >
+            <v-col
+                class="d-flex justify-start align-start"
+            >
+                <v-switch
+                    v-model="use_msl"
+                    label="Add MSL"
+                    hide-details
+                    v-show="show_add_msl_switch"
+                ></v-switch>
+            </v-col>
+
+        </v-row>
+
         <!-- Reference Labels -->
         <v-row
-			no-gutters
-			class="mx-2"
+            no-gutters
+            class="mx-2 mb-2"
             v-show="readings.length>0 && sel_tab === 0"
         >
             <v-col
                 cols="6"
-                class="d-flex justify-start px-5 pb-5 caption"
+                class="d-flex justify-start px-5 pb-2 caption"
                 v-for="(ref_lbl, i) in ref_labels"
                 :key="'ref_lbl'+ i"
             >
@@ -118,8 +172,8 @@
             </v-col>
             
         </v-row>
-
-        <!-- Readings -->
+     
+        <!-- Readings and Pagination -->
         <v-row
             no-gutters
             class="mx-2"
@@ -145,11 +199,9 @@
                 
             </v-col>
         </v-row>
-
-         <!-- Pagination -->
-         <v-row
+        <v-row
             no-gutters
-			class="mx-2"
+			class="mx-2 mb-2"
             v-show="readings.length>0 && sel_tab === 1"
         >
             <v-col
@@ -186,21 +238,21 @@
         <!-- Creek Camera Snapshots -->
         <v-row
             no-gutters
-            class="mx-2"
             v-show="snapshot"
+            class="px-5 pb-5"
         >
             <v-col
-                class="d-flex justify-center align-stretch pb-3 px-2"
+                class="d-flex justify-center align-stretch"
             >
                 <v-img
                     :src="snapshot"
                     width="100"
-                ></v-img>    
+                />
                 
             </v-col>
             
         </v-row>
-
+        
 	</v-card>
 	
 </template>
@@ -223,8 +275,8 @@
 
         },
 
-		mounted: function( ){
-			this.getData( )
+        mounted: function( ){
+            this.getData( )
 
         },
     
@@ -354,7 +406,10 @@
 		},
     
 		watch: {
-      		
+            use_msl( ){
+                this.getData( )
+
+            }
     
 		},
 
@@ -373,9 +428,13 @@
 			pg_cnt: 0,
             per_pg: 6,
 
+            use_msl: true,
+            show_add_msl_switch: false,
+            show_progress: true,
+
             //refresh parameters
             last_refresh: null,
-			
+            			
   		} ),
     
 		methods: {
@@ -411,19 +470,19 @@
                     					
                 if( ValidateString( _this.data.unique_id, "isRainGauge" ) ){ 
 					_this.readings = await GetAlertData( "rain", "readings", getAlertParams( { uniqueid: _this.data.unique_id, period: 'P1D' } ) )
-						
+                    						
 				}else if( ValidateString( _this.data.unique_id, "isStageGauge" ) ){ 
 					_this.readings = _this.formatStageReadings( await GetAlertData( "stage", "readings", getAlertParams( { uniqueid: _this.data.unique_id, period: 'PT12H' } ) ) )
-													
+                    													
 				}else if( ValidateString( _this.data.unique_id, "isLakeGauge" ) ){ 
 					_this.readings = await GetAlertData( "lake", "readings", getAlertParams( { uniqueid: _this.data.unique_id, period: 'P1D' } ) )
-													
+                    													
 				}else if( ValidateString( _this.data.unique_id, "isLCSGauge" ) ){
 					_this.readings = _this.formatLCSReadings( await GetContrailData( "contrail", getContrailParams( { uniqueid: _this.data.unique_id, period: 'PT12H' }, _this.data ) ) )
-				
+                    				
 				}else if( ValidateString( _this.data.unique_id, "isCamera" ) ){
                     _this.snapshot = GetSnapshot( _this.data.site_id, ( _this.data.hasOwnProperty( "key ") ? _this.data.key : null ) )
-                
+                                                        
                 }
 
                 if( _this.readings.length > 0 ){
@@ -431,6 +490,8 @@
                     _this.getGraph( )
 
                 }
+
+                _this.show_progress = false
 
             },
 
@@ -481,50 +542,59 @@
                         chart_params.width = 400
                         chart_params.height = 350
                         chart_params.unit = "in"
+
+                        _this.show_add_msl_switch = false
                         break
 
                     case "stage": case "lcs": 
                         chart_params = { 
                             x: d => new Date( d.datetime ),
-                            y: d => d.reading_with_msl,
+                            y: d => ( _this.use_msl ? parseFloat( d.reading ) + _this.data.msl: parseFloat( d.reading ) ),
                             color: "#1976D2",
-                            yLabel: "Stream Level above MSL (ft)",
+                            yLabel: `Stream Level" ${( _this.use_msl ? " above MSL": "" )} (ft)`,
                             width: 400,
                             height: 320,
                             unit: "ft",
                             xType: d3.scaleTime, //xscale in local time (EST/EDT)
 
                         }
-                        
+
                         yscale_nums = [ 
-                            Math.min(..._this.readings.map( r => r.reading_with_msl ) ), 
-                            Math.max(..._this.readings.map( r => r.reading_with_msl ) ),
+                            Math.min(..._this.readings.map( r => ( _this.use_msl ? RoundNum( parseFloat( r.reading ) + _this.data.msl, 2 ): parseFloat( r.reading ) ) ) ), 
+                            Math.max(..._this.readings.map( r => ( _this.use_msl ? RoundNum( parseFloat( r.reading ) + _this.data.msl, 2 ): parseFloat( r.reading )) ) ),
                             
                         ]
-
-                        if( _this.data.hasOwnProperty( "msl" ) ){
+                        
+                        if( _this.use_msl ){
                             chart_params.msl = _this.data.msl
                             yscale_nums.push( _this.data.msl )
 
                         } 
                         
                         if( _this.data.hasOwnProperty( "ref_values" ) ){
-                            chart_params.refs = _this.data.ref_values
-                            yscale_nums.push( ..._this.data.ref_values.map( ref => ref.value ) )
+                            chart_params.refs = _this.data.ref_values.map( ref => {
+                                return { ...ref, ...{ value : ( _this.use_msl ? ref.value : RoundNum( ref.value - _this.data.msl, 2 ) ) } }  
+                            } )
+                            yscale_nums.push( ..._this.data.ref_values.map( ref => ( _this.use_msl ? ref.value : RoundNum( ref.value - _this.data.msl, 2 ) ) ) )
                             
                         }
 
                         if( _this.data.hasOwnProperty( "alarms" ) ){
-                            chart_params.alarms = _this.data.alarms
-                            yscale_nums.push( ..._this.data.alarms.map( alarm => alarm.value ) )
+                            chart_params.alarms = _this.data.alarms.map( alarm => {
+                                return { ...alarm, ...{ value : ( _this.use_msl ? alarm.value : RoundNum( alarm.value - _this.data.msl, 2 ) ) } }  
+                            } )
+                            yscale_nums.push( ..._this.data.alarms.map( alarm => ( _this.use_msl ? alarm.value : RoundNum( alarm.value - _this.data.msl, 2 ) ) ) )
                             
                         }
 
+                        //setting yaxis max and min
                         chart_params.yDomain = [ 
-                            Math.floor( Math.min( ...yscale_nums ) ) - 5, 
+                            ( _this.use_msl ? Math.floor( Math.min( ...yscale_nums ) ) - 5 : 0 ), 
                             Math.ceil( Math.max( ...yscale_nums ) ) + 5 
                             
                         ]
+
+                        _this.show_add_msl_switch = true
 
                         break
 
@@ -538,12 +608,14 @@
                             ],
                             color: "#1976D2",
                             yLabel: "Lake Level (ft)",
-                            width: 320,
-                            height: 320,
+                            width: 400,
+                            height: 350,
                             unit: "ft",
                             xType: d3.scaleTime, //xscale in local time (EST/EDT)
 
                         }
+
+                        _this.show_add_msl_switch = false
                         break
 
                 }

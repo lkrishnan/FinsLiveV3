@@ -4,18 +4,68 @@
         outlined
         v-show="sel_gauge_cam"
     >
+        <!-- Gauge Camera title  -->
         <v-row
             no-gutters
         >
             <v-col
                 class="d-flex justify-start text-subtitle-1 font-weight-medium pa-2 accent"
+                data-cy="site_name"
             >
                 {{( sel_gauge_cam ? sel_gauge_cam.text : "NA" )}}
             </v-col>
         </v-row>
+        
+        <!-- Progress -->
         <v-row
             no-gutters
-            v-show="[ 'SelectedPeriod', 'SelectedRange', 'SelectedDatePeriod' ].includes( route_name )"
+            class="ma-5"
+            v-show="show_progress"
+        >    
+            <v-col
+                class="d-flex align-center justify-center text-h6"
+            >
+                <v-progress-circular
+                    :size="70"
+                    :width="7"
+                    color="primary"
+                    indeterminate
+                ></v-progress-circular>
+                
+            </v-col>
+
+        </v-row>
+
+        <!-- No readings available -->
+        <v-row
+            no-gutters
+            class="ma-5"
+            v-show="[ 'SelectedPeriod', 'SelectedRange', 'SelectedDatePeriod', 'SelectedCamera' ].includes( route_name ) && readings.length == 0 && !snapshot && !show_progress"
+        >    
+            <v-col
+                class="d-flex align-center justify-center text-h6"
+            >
+                <v-icon
+                    x-large
+                    color="orange darken-2"
+                >
+                    mdi-database-alert
+                
+                </v-icon>
+                
+                <span class="ml-2">
+                    No readings were recorded
+                
+                </span>
+
+            </v-col>
+
+        </v-row>
+
+        <!-- Tabs -->
+        <v-row
+            no-gutters
+            v-show="[ 'SelectedPeriod', 'SelectedRange', 'SelectedDatePeriod' ].includes( route_name ) && readings.length > 0"
         >
             <v-col
                 class="d-flex justify-start"
@@ -28,7 +78,9 @@
                         :key="'tab'+ i"
                     >
                         <v-icon>{{tab.icon}}</v-icon>
-                        <span class="ml-2">{{tab.label}}</span>
+                        <span 
+                            class="ml-2"
+                        >{{tab.label}}</span>
                     </v-tab>
                 </v-tabs>
             
@@ -36,7 +88,7 @@
 
         </v-row>    
 
-        <!-- Chart -->
+        <!-- Chart and Reference Labels -->
         <v-row
 			no-gutters
 			class="mx-2"
@@ -49,8 +101,6 @@
             </v-col>
             
         </v-row>
-
-        <!-- Reference Labels -->
         <v-row
 			no-gutters
 			class="mx-2"
@@ -58,7 +108,7 @@
 		>
             <v-col
                 cols="6"
-                class="d-flex justify-start pa-5 caption"
+                class="d-flex justify-start px-5 pt-2 caption"
                 v-for="(ref_lbl, i) in ref_labels"
                 :key="'ref_lbl'+ i"
             >
@@ -67,7 +117,7 @@
             
         </v-row>
 
-        <!-- Tabular data of readings -->
+        <!-- Tabular data of readings and Pagination -->
         <v-row
             no-gutters
 			class="mx-2"
@@ -93,8 +143,6 @@
 
             </v-col>
         </v-row>
-
-        <!-- Pagination -->
         <v-row
             no-gutters
 			class="mx-2"
@@ -131,97 +179,99 @@
        </v-row>
 
        <!-- Creek Camera Snapshots -->
-       <div
+        <v-row
+            no-gutters
+            class="mx-0"
             v-show="[ 'SelectedCamera' ].includes( route_name )"
         >
-            <v-row
-                no-gutters
-                class="mx-2"
+            <v-col>
+                <v-img
+                    data-cy="site_snapshot"
+                    :src="snapshot"
+                />
+                                
+            </v-col>
+            
+        </v-row>
+        <v-row
+            no-gutters
+            class="mx-2 mt-2"
+        >
+            <v-col
+                class="d-flex justify-end subtitle-2"
             >
-                <v-col
-                    class="d-flex justify-end pt-5 px-5 subtitle-2"
-                >
-                    {{last_refresh}}
-                    
-                </v-col>
+                {{last_refresh}}
                 
-            </v-row>
-            <v-row
-                no-gutters
-                class="mx-2"
-            >
-                <v-col
-                    class="d-flex justify-center px-5 pb-5"
-                >
-                    <v-img
-                        :src="snapshot"
-                    ></v-img>    
-                    
-                </v-col>
-                
-            </v-row>
+            </v-col>
+            
+        </v-row>
 
-       </div>
+       <!-- Add to dashboard button and MSL switch-->
+       <v-row
+            no-gutters
+            class="mx-5 "
+            v-show="[ 'SelectedPeriod', 'SelectedCamera' ].includes( route_name ) && ( readings.length > 0 || snapshot )"
+        >
 
-       <!-- Add to dashboard button -->
-       <div
-            v-show="[ 'SelectedPeriod', 'SelectedCamera' ].includes( route_name )"
-       >
-            <v-row
-                no-gutters
-                class="mx-2"
+            <v-col
+                class="d-flex align-center"
             >
-                <v-col
-                    class="d-flex justify-end pa-2"
-                >
-                    <v-btn 
-                        outlined
-                        class="ma-2" 
-                        color="primary"
-                        @click="addDashSite()"
-                        v-show="(!sel_gauge_cam || !dash_sites.includes( sel_gauge_cam.value ) && dash_sites.length<dash_limit)"
-                    >
-                            <v-icon>mdi-plus</v-icon>
-                            Add to Dashboard
-                    </v-btn>
-                    
-                    <v-btn 
-                        outlined
-                        class="ma-2" 
-                        color="primary"
-                        @click="removeDashSite()"
-                        v-show="(sel_gauge_cam && dash_sites.includes( sel_gauge_cam.value ))"
-                    >
-                            <v-icon>mdi-minus</v-icon>
-                            Remove from Dashboard
-                    </v-btn>
-                    
-                </v-col>
-                
-            </v-row>
-             <v-row
-                no-gutters
-                class="mx-2"
-                v-show="dash_sites.length>dash_limit-1"
-            >
-                <v-col
-                    class="d-flex justify-center pa-2"
-                >
-                    <v-alert
-                        outlined
-                        dense
-                        shaped
-                        text
-                        type="warning"
-                    >
-                        Reached dashboard limit of {{dash_limit}} sites
-                    </v-alert>
-                    
-                </v-col>
-                
-            </v-row>
-       </div>
+                <v-switch
+                    v-model="use_msl"
+                    v-show="show_add_msl_switch"
+                    label="Add MSL"
+                ></v-switch>
 
+            </v-col>
+            <v-col
+                class="d-flex justify-end align-center"
+            >
+                <v-btn 
+                    outlined
+                    color="primary"
+                    @click="addDashSite()"
+                    v-show="(!sel_gauge_cam || !dash_sites.includes( sel_gauge_cam.value ) && dash_sites.length<dash_limit)"
+                >
+                        <v-icon>mdi-plus</v-icon>
+                        to Dashboard
+                </v-btn>
+                
+                <v-btn 
+                    outlined
+                    class="ma-2" 
+                    color="primary"
+                    @click="removeDashSite()"
+                    v-show="(sel_gauge_cam && dash_sites.includes( sel_gauge_cam.value ))"
+                >
+                        <v-icon>mdi-minus</v-icon>
+                        from Dashboard
+                </v-btn>
+                
+            </v-col>
+                
+        </v-row>
+        <v-row
+            no-gutters
+            class="mx-2"
+            v-show="dash_sites.length>dash_limit-1"
+        >
+            <v-col
+                class="d-flex justify-center pa-2"
+            >
+                <v-alert
+                    outlined
+                    dense
+                    shaped
+                    text
+                    type="warning"
+                >
+                    Reached dashboard limit of {{dash_limit}} sites
+                </v-alert>
+                
+            </v-col>
+            
+        </v-row>
+       
   </v-card>
 
 </template>
@@ -269,7 +319,10 @@
             pg_count: 0,
             items_per_pg: 6,
             snapshot: null,
-            
+            use_msl: true,
+            show_add_msl_switch: false,
+            show_progress: true
+                        
 		} ),
       
       	computed: {
@@ -342,6 +395,13 @@
                 _this.parseRoute( )
 			
             },
+
+            use_msl( ){
+                const _this = this
+
+                _this.parseRoute( )
+
+            }
             
 		},
 
@@ -370,6 +430,7 @@
                     elem.show = false
 
                 } )
+                _this.show_progress = true
 
                 switch( name ){
                     case "SelectedPeriod": 
@@ -490,7 +551,7 @@
                                                     return { 
                                                         datetime: a.datetime, 
                                                         reading: a.reading,
-                                                        reading_with_msl: a.reading + site_info.msl, 
+                                                        reading_with_msl: a.reading + site_info.msl,
                                                 }
 
                                             } )
@@ -502,10 +563,12 @@
 
                         _this.site_tabs[ 1 ].show = true
                         _this.addGraph( gauge_type, site_info )
-
+                        
                     }
                     
                 }
+
+                _this.show_progress = false
                 
             },
 
@@ -535,50 +598,59 @@
                         chart_params.width = 320
                         chart_params.height = 350
                         chart_params.unit = "in"
+
+                        _this.show_add_msl_switch = false
                         break
 
                     case "stage": case "lcs": 
                         chart_params = { 
                             x: d => new Date( d.datetime ),
-                            y: d => d.reading_with_msl,
+                            y: d => ( _this.use_msl ? parseFloat( d.reading ) + site_info.msl: parseFloat( d.reading ) ),
                             color: "#1976D2",
-                            yLabel: "Stream Level above MSL (ft)",
+                            yLabel: "Stream Level" + ( _this.use_msl ? " above MSL": "" ) + " (ft)",
                             width: 320,
                             height: 320,
                             unit: "ft",
                             xType: d3.scaleTime, //xscale in local time (EST/EDT)
 
                         }
-                        
+
                         yscale_nums = [ 
-                            Math.min(..._this.readings.map( r => r.reading_with_msl ) ), 
-                            Math.max(..._this.readings.map( r => r.reading_with_msl ) ),
+                            Math.min(..._this.readings.map( r => ( _this.use_msl ? RoundNum( parseFloat( r.reading ) + site_info.msl, 2 ): parseFloat( r.reading ) ) ) ), 
+                            Math.max(..._this.readings.map( r => ( _this.use_msl ? RoundNum( parseFloat( r.reading ) + site_info.msl, 2 ): parseFloat( r.reading )) ) ),
                             
                         ]
 
-                        if( site_info.hasOwnProperty( "msl" ) ){
+                        if( _this.use_msl ){
                             chart_params.msl = site_info.msl
                             yscale_nums.push( site_info.msl )
 
                         } 
-                        
+
                         if( site_info.hasOwnProperty( "ref_values" ) ){
-                            chart_params.refs = site_info.ref_values
-                            yscale_nums.push( ...site_info.ref_values.map( ref => ref.value ) )
+                            chart_params.refs = site_info.ref_values.map( ref => {
+                                return { ...ref, ...{ value : ( _this.use_msl ? ref.value : RoundNum( ref.value - site_info.msl, 2 ) ) } }  
+                            } )
+                            yscale_nums.push( ...site_info.ref_values.map( ref => ( _this.use_msl ? ref.value : RoundNum( ref.value - site_info.msl, 2 ) ) ) )
                             
                         }
 
                         if( site_info.hasOwnProperty( "alarms" ) ){
-                            chart_params.alarms = site_info.alarms
-                            yscale_nums.push( ...site_info.alarms.map( alarm => alarm.value ) )
+                            chart_params.alarms = site_info.alarms.map( alarm => {
+                                return { ...alarm, ...{ value : ( _this.use_msl ? alarm.value : RoundNum( alarm.value - site_info.msl, 2 ) ) } }  
+                            } )
+                            yscale_nums.push( ...site_info.alarms.map( alarm => ( _this.use_msl ? alarm.value : RoundNum( alarm.value - site_info.msl, 2 ) ) ) )
                             
                         }
 
+                        //setting yaxis max and min
                         chart_params.yDomain = [ 
-                            Math.floor( Math.min( ...yscale_nums ) ) - 5, 
+                            ( _this.use_msl ? Math.floor( Math.min( ...yscale_nums ) ) - 5 : 0 ), 
                             Math.ceil( Math.max( ...yscale_nums ) ) + 5 
                             
                         ]
+
+                        _this.show_add_msl_switch = true
 
                         break
 
@@ -598,6 +670,8 @@
                             xType: d3.scaleTime, //xscale in local time (EST/EDT)
 
                         }
+
+                        _this.show_add_msl_switch = false
                         break
 
                 }
@@ -611,15 +685,7 @@
                 chart_cont = d3.select( "#grph" ).append( ( ) => chart )
 
                 _this.site_tabs[ 0 ].show = true
-
-                //_this.addSwatch( )
                 
-            },
-
-            addSwatch( ){
-               
-
-
             },
 
             showSnapshot( params ){
@@ -635,6 +701,8 @@
                     )
 
                 }
+
+                _this.show_progress = false
                 
             },
 

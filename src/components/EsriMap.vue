@@ -1,36 +1,50 @@
 <template>
     <div id="map">
-        <v-btn
-            :class="is_mobile ? 'mx-2' : 'mx-4'"
-            fab
-            :small="is_mobile ? false : true"
-            :x-small="is_mobile ? true : false"
-            color="white"
-            style="margin: 0; position: absolute; z-index: 1;"
-            :style="is_mobile ? 'right: 0px; top: 80px;' : 'right: 0px; top: 94px;'"
-            @click="takeAction( 'ToggleOverlayCtrl' )"
-        >
-            <v-icon dark>
-                mdi-layers-outline
-            </v-icon>
-        </v-btn>
+        <v-tooltip left>
+            <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    :class="is_mobile ? 'mx-2' : 'mx-4'"
+                    fab
+                    :small="is_mobile ? false : true"
+                    :x-small="is_mobile ? true : false"
+                    color="white"
+                    style="margin: 0; position: absolute; z-index: 1;"
+                    :style="is_mobile ? 'right: 0px; top: 80px;' : 'right: 0px; top: 94px;'"
+                    v-bind="attrs"
+                    v-on="on"
+                    @click="takeAction( 'ToggleOverlayCtrl' )"
+                >
+                    <v-icon dark>
+                        mdi-layers-outline
+                    </v-icon>
+                </v-btn>
+            </template>
+            <span>Map Layers</span>
+        </v-tooltip>
     
-        <v-btn
-            :class="is_mobile ? 'mx-2' : 'mx-4'"
-            fab
-            :small="is_mobile ? false : true"
-            :x-small="is_mobile ? true : false"
-            color="white"
-            style="margin: 0; position: absolute; z-index: 1;"
-            :style="is_mobile ? 'right: 0px; top: 120px;' : 'right: 0px; top: 150px;'"
-            @click="takeAction( 'Geolocation' )"
-        >
-            <v-icon 
-                color="light-blue accent-4"
-            >
-                mdi-crosshairs-gps
-            </v-icon>
-        </v-btn>
+        <v-tooltip left>
+            <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    :class="is_mobile ? 'mx-2' : 'mx-4'"
+                    fab
+                    :small="is_mobile ? false : true"
+                    :x-small="is_mobile ? true : false"
+                    color="white"
+                    style="margin: 0; position: absolute; z-index: 1;"
+                    :style="is_mobile ? 'right: 0px; top: 120px;' : 'right: 0px; top: 150px;'"
+                    v-bind="attrs"
+                    v-on="on"
+                    @click="takeAction( 'Geolocation' )"
+                >
+                    <v-icon 
+                        color="light-blue accent-4"
+                    >
+                        mdi-crosshairs-gps
+                    </v-icon>
+                </v-btn>
+            </template>
+            <span>Geolocation</span>
+        </v-tooltip>
 
         <v-badge
             :color="( parseInt( active_alarm_cnt ) > 0 ? 'red' : 'green' )"
@@ -41,20 +55,27 @@
             :style="is_mobile ? 'right: 0px; top: 160px;' : 'right: 0px; top: 206px;'" 
             v-show="( auth !== '' )"
         >
-            <v-btn
-                :class="is_mobile ? 'mx-2' : 'mx-4'"
-                fab
-                :small="is_mobile ? false : true"
-                :x-small="is_mobile ? true : false"
-                color="white"
-                @click="takeAction( 'ToggleAlarmCtrl' )"
-            >
-                <v-icon 
-                    :color="( parseInt( active_alarm_cnt ) > 0 ? 'red' : 'green' )"
-                >
-                    mdi-alert-outline
-                </v-icon>
-            </v-btn>
+            <v-tooltip left>
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                        :class="is_mobile ? 'mx-2' : 'mx-4'"
+                        fab
+                        :small="is_mobile ? false : true"
+                        :x-small="is_mobile ? true : false"
+                        color="white"
+                        v-bind="attrs"
+                        v-on="on"
+                        @click="takeAction( 'ToggleAlarmCtrl' )"
+                    >
+                        <v-icon 
+                            :color="( parseInt( active_alarm_cnt ) > 0 ? 'red' : 'green' )"
+                        >
+                            mdi-alert-outline
+                        </v-icon>
+                    </v-btn>
+                </template>
+                <span>Alerts</span>
+            </v-tooltip>
             
         </v-badge>
         
@@ -882,6 +903,8 @@
                     }
                     
                 }
+
+                _this.map_view.popup.close( )
                                                 
             },
 
@@ -926,7 +949,7 @@
                     all_gauge_info = Object.values( gaugeInfo ).filter( obj => { return gauges_arr.includes( obj.gauge_type ) } ),
                     geojson_gauge = FormatAsGeoJSON( gauges_arr, await Promise.all( promises ), all_gauge_info ),
                     intrpltn_results = ( gauges === "rain" ? InterpolatePrcp( geojson_gauge ) : null )
-                    
+
                 //remove the gauge_cam and precipitation
                 _this.removeLyr( _this.map_sources.precip )
                 _this.removeLyr( _this.map_sources.gauge_cam )

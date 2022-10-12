@@ -5,7 +5,7 @@ import NoReadingIcon from "../assets/noreading.webp"
 import CamIcon from "../assets/camera-enhance-outline.svg"
 import DetailsIcon from "../assets/file-table-box-outline.svg"
 import store from "../store"
-import {GetDateAsEpoch} from "./vanillaMoment"
+import {GetDateAsEpoch, FormatDate} from "./vanillaMoment"
 
 export function FormatAsGeoJSON( gauge_arr, data_arr, gauge_info ){
 	let geojson = { type: "FeatureCollection", features: [ ] },
@@ -39,8 +39,6 @@ export function FormatAsGeoJSON( gauge_arr, data_arr, gauge_info ){
 		}
 
 	} )
-
-	
 
 	//loop through gauge data consumed through APIs
 	gauge_arr.forEach( ( gauge, idx ) => {
@@ -121,7 +119,7 @@ export function FormatAsGeoJSON( gauge_arr, data_arr, gauge_info ){
 	
 	//push features into the geojson feature collection
 	for( let unique_id in site_obj ){
-		const { longitude, latitude, ...prop } = site_obj[ unique_id ]
+		const { longitude, latitude, lastreading_epoch, ...prop } = site_obj[ unique_id ]
 
 		//Push features into the geojson layer
 		geojson.features.push( {
@@ -131,11 +129,17 @@ export function FormatAsGeoJSON( gauge_arr, data_arr, gauge_info ){
 				coordinates: [ longitude, latitude ]
 
 			},
-			properties: prop
+			properties: { ...prop, lastreading_epoch: lastreading_epoch }
 			
 		} )
 
-		gauge_data.push( site_obj[ unique_id ] )
+		gauge_data.push( { 
+			...prop, 
+			longitude: longitude, 
+			latitude: latitude, 
+			lastreading_date: FormatDate( "MM/DD/YYYY hh:mm A", lastreading_epoch )
+			
+		} )
 		
 	}
 

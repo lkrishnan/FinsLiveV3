@@ -176,7 +176,6 @@
     
 		methods: {
 			getSiteInfo( uniqueid ){
-				console.log( gaugeInfo[ uniqueid ] )
 				return { ...gaugeInfo[ uniqueid ], ...{ readings_per_pg: 6 } }
 
             },

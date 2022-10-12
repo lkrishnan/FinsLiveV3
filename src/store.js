@@ -38,7 +38,7 @@ export default new Vuex.Store( {
 				
 		],
 		last_route: { },
-		last_gauge_cam_route: { name: "AllPeriod", params: { gauges: "rain", period: "P1D" } },
+		last_gauge_cam_route: { name: "AllPeriod", params: { gauges: "rain", period: "P1D" }},
 		ws: {
 			fins: "https://maps.mecklenburgcountync.gov/api/fins/",
       		gis: "https://maps.mecklenburgcountync.gov/api/gis/",
@@ -46,7 +46,8 @@ export default new Vuex.Store( {
 			fm: "https://maps.mecklenburgcountync.gov/api/fm/",
 			contrail: "https://maps.mecklenburgcountync.gov/api/contrail",
 			alarm: "https://maps.mecklenburgcountync.gov/api/alarm",
-			camera: "https://maps.mecklenburgcountync.gov/api/camera",
+			//camera: "https://maps.mecklenburgcountync.gov/api/camera",
+			camera: "https://camera.onerain.com/api/",
 			dbopen: "https://api.mcmap.org/",
 			
   		},
@@ -405,15 +406,6 @@ export default new Vuex.Store( {
 					localStorage.setItem( "token", JSON.stringify( item ) )
 					commit( "auth", reply.token )
 					commit( "error_msgs", { login: null } )
-
-					//if( this.state.last_route.hasOwnProperty( "name" ) ){
-						//router.go( -1 )	
-					//	console.log( "yes" )
-
-					//}else{
-						//router.push( state.last_gauge_cam_route )
-					//	console.log( "no" )
-					//}
 
 				}else{
 					commit( "error_msgs", { login: "Unable to login, try again." } )

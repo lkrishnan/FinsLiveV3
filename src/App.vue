@@ -408,7 +408,7 @@ export default {
 						{ text: "Gauge/Camera", icon: "mdi-gauge", action: "GaugeCam", },
 						{ text: "Dashboard", icon: "mdi-view-dashboard", action: "Dashboard", },
 						{ text: "Help", icon: "mdi-help", action: "Help", },
-						{ text: "Data Download", icon: "mdi-download", action: "Download", },
+						{ text: "Data Download", icon: "mdi-download", action: "DownloadData", },
 						{ text: "Login", icon: "mdi-login", action: "Login", },
 
 					]

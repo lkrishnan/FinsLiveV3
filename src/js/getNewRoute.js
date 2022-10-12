@@ -69,7 +69,7 @@ export default function getNewRoute( chg_params ){
 		
 		} ) 
 
-		store.commit( "last_route", { 
+		/*store.commit( "last_route", { 
 			name: router.currentRoute.name, 
 			params: router.currentRoute.params 
 
@@ -77,9 +77,9 @@ export default function getNewRoute( chg_params ){
 
 		store.commit( "last_gauge_cam_route", { 
 			name: router.currentRoute.name, 
-			params: router.currentRoute.params
+			params: router.currentRoute.params,
 
-		} )
+		} )*/
 
 	}    
 		

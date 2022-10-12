@@ -120,6 +120,7 @@ export async function GetNWSDetail( url ){
 }
 
 export function GetSnapshot( site_id, site_key ){
+	console.log( site_key )
 	return ( site_key ? 
 		`${store.getters[ "ws" ].camera}?method=image&camera=${site_key}&api_key=55dcad90-e3ec-4954-b882-384bfd3bb9dd`: 
 		`${store.getters[ "ws" ].fins}v1/creekcam/${site_id}` )

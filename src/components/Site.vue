@@ -163,15 +163,15 @@
         <!-- Reference Images -->
         <v-row
             no-gutters
-			class="mx-2"
+			class="px-2 pt-2"
             v-show="site_tab === 2 && site_tabs[ site_tab ].show && [ 'SelectedPeriod', 'SelectedRange', 'SelectedDatePeriod' ].includes( route_name )"
         >
             <v-col
-                class="d-flex justify-center pa-5"
+                v-for="(ref_img, i) in ref_images"    
+                :key="'ref_img'+ i"
+                class="d-flex justify-center pb-2"
             >
                 <v-img
-                    v-for="(ref_img, i) in ref_images"
-                    :key="'ref_img'+ i"
                     :src="ref_img"
                 ></v-img>    
             </v-col>
@@ -209,7 +209,7 @@
        <!-- Add to dashboard button and MSL switch-->
        <v-row
             no-gutters
-            class="mx-5 "
+            class="mx-5 mb-2"
             v-show="[ 'SelectedPeriod', 'SelectedCamera' ].includes( route_name ) && ( readings.length > 0 || snapshot )"
         >
 
@@ -219,7 +219,7 @@
                 <v-switch
                     v-model="use_msl"
                     v-show="show_add_msl_switch"
-                    label="Add MSL"
+                    label="MSL"
                 ></v-switch>
 
             </v-col>
@@ -229,24 +229,13 @@
                 <v-btn 
                     outlined
                     color="primary"
-                    @click="addDashSite()"
-                    v-show="(!sel_gauge_cam || !dash_sites.includes( sel_gauge_cam.value ) && dash_sites.length<dash_limit)"
+                    :disabled="(dash_sites.length>dash_limit-1 && !dash_sites.includes( sel_gauge_cam.value ) ? true : false)"
+                    @click="toggleDashSite( sel_gauge_cam && dash_sites.includes( sel_gauge_cam.value ) )"
                 >
-                        <v-icon>mdi-plus</v-icon>
-                        to Dashboard
+                        <v-icon>{{((sel_gauge_cam && dash_sites.includes( sel_gauge_cam.value )) ? "mdi-minus" : "mdi-plus")}}</v-icon>
+                        {{((sel_gauge_cam && dash_sites.includes( sel_gauge_cam.value )) ? "from" : "to")}} Dashboard
                 </v-btn>
-                
-                <v-btn 
-                    outlined
-                    class="ma-2" 
-                    color="primary"
-                    @click="removeDashSite()"
-                    v-show="(sel_gauge_cam && dash_sites.includes( sel_gauge_cam.value ))"
-                >
-                        <v-icon>mdi-minus</v-icon>
-                        from Dashboard
-                </v-btn>
-                
+                                
             </v-col>
                 
         </v-row>
@@ -256,7 +245,7 @@
             v-show="dash_sites.length>dash_limit-1"
         >
             <v-col
-                class="d-flex justify-center pa-2"
+                class="d-flex justify-center"
             >
                 <v-alert
                     outlined
@@ -319,7 +308,7 @@
             pg_count: 0,
             items_per_pg: 6,
             snapshot: null,
-            use_msl: true,
+            use_msl: false,
             show_add_msl_switch: false,
             show_progress: true
                         
@@ -713,26 +702,27 @@
                     _this.ref_images = gaugeInfo[ params.uniqueid ][ "ref_images" ]
                                         .map( filename => `https://mecklenburgcounty.exavault.com/p/stormwater/Warning%20Sites/${params.uniqueid}/${filename}` )
 
+                    console.log( _this.ref_images )
+
                     _this.site_tabs[ 2 ].show = true
 
                 }
 
             },
 
-            addDashSite( ){
-                const _this = this
-                    
-                _this.$store.commit( "add_dash_site", _this.sel_gauge_cam.value )
-                                
-            },
-
-            removeDashSite( ){
+            toggleDashSite( remove ){
                 const _this = this
 
-                 //clear refresh loop
-                _this.$store.commit( "update_dash_refreshid", { [ _this.sel_gauge_cam.value ]: window.clearInterval( _this.dash_refreshid[ _this.sel_gauge_cam.value ] )  } )
-                _this.$store.commit( "remove_dash_site", _this.sel_gauge_cam.value )
-                
+                if( remove ){
+                    //clear refresh loop
+                    _this.$store.commit( "update_dash_refreshid", { [ _this.sel_gauge_cam.value ]: window.clearInterval( _this.dash_refreshid[ _this.sel_gauge_cam.value ] )  } )
+                    _this.$store.commit( "remove_dash_site", _this.sel_gauge_cam.value )
+
+                }else{
+                    _this.$store.commit( "add_dash_site", _this.sel_gauge_cam.value )
+
+                }
+
             },
            
         },

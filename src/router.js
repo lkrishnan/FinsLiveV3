@@ -81,10 +81,13 @@ const getGauges = ( input_list) => {
 
 	},
 	storeGaugeCamRoute = ( from ) => {
-		store.commit( "last_route", { name: from.name, params: from.params } )
+		if( store.getters.last_route.hasOwnProperty( "name" ) && store.getters.last_route.name ){
+			store.commit( "last_route", { name: from.name, params: from.params } )
 
-		if( [ "AllPeriod", "AllRange", "AllDatePeriod", "AllCamera", "SelectedCamera", "SelectedPeriod", "SelectedRange", "SelectedDatePeriod" ].includes( from.name ) ){
-			store.commit( "last_gauge_cam_route", { name: from.name, params: from.params } )
+			if( [ "AllPeriod", "AllRange", "AllDatePeriod", "AllCamera", "SelectedCamera", "SelectedPeriod", "SelectedRange", "SelectedDatePeriod" ].includes( from.name ) ){
+				store.commit( "last_gauge_cam_route", { name: from.name, params: from.params, } )
+
+			}
 
 		}
 
@@ -110,6 +113,8 @@ const getGauges = ( input_list) => {
 
 				}
 
+				storeGaugeCamRoute( from )
+
 				if( valid.gauges == to.params.gauges && valid.period == to.params.period ){
 					next( )
 					
@@ -131,6 +136,8 @@ const getGauges = ( input_list) => {
 					...getRangeDate( to.params.startdate, to.params.enddate )
 					
 				}
+
+				storeGaugeCamRoute( from )
 
 				if( valid.gauges == to.params.gauges && valid.startdate == to.params.startdate && valid.enddate == to.params.enddate ){
 					next( )
@@ -155,6 +162,8 @@ const getGauges = ( input_list) => {
 					
 				}
 
+				storeGaugeCamRoute( from )
+
 				if( valid.gauges == to.params.gauges && valid.enddate == to.params.enddate && valid.period == to.params.period ){
 					next( )
 
@@ -176,6 +185,8 @@ const getGauges = ( input_list) => {
 					period: ( ValidateString( to.params.period, "isISO8601" ) ? to.params.period : "P1D" ),
 										
 				}
+
+				storeGaugeCamRoute( from )
 
 				valid.uniqueid = getUniqueID( valid.gauges, to.params.uniqueid )
 
@@ -200,6 +211,8 @@ const getGauges = ( input_list) => {
 					...getRangeDate( to.params.startdate, to.params.enddate ),
 					
 				}
+
+				storeGaugeCamRoute( from )
 
 				valid.uniqueid = getUniqueID( valid.gauges, to.params.uniqueid )
 
@@ -229,6 +242,8 @@ const getGauges = ( input_list) => {
 					
 				}
 
+				storeGaugeCamRoute( from )
+
 				valid.uniqueid = getUniqueID( valid.gauges, to.params.uniqueid )
 
 				if( valid.gauges == to.params.gauges && 
@@ -248,13 +263,20 @@ const getGauges = ( input_list) => {
 		}, {
 			path: "/camera/",
 			name: "AllCamera",
-			component: EsriMap
+			component: EsriMap,
+			beforeEnter( to, from, next ){
+				storeGaugeCamRoute( from )
+				next( )
+
+			},
 
 		}, {
 			path: "/camera/:uniqueid",
 			name: "SelectedCamera",
 			component: EsriMap,
 			beforeEnter( to, from, next ){
+				storeGaugeCamRoute( from )
+				
 				if( ValidateString( to.params.uniqueid, "isCamera" ) ){
 					next( )
 

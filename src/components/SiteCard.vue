@@ -148,7 +148,7 @@
             >
                 <v-switch
                     v-model="use_msl"
-                    label="Add MSL"
+                    label="MSL"
                     hide-details
                     v-show="show_add_msl_switch"
                 ></v-switch>
@@ -428,7 +428,7 @@
 			pg_cnt: 0,
             per_pg: 6,
 
-            use_msl: true,
+            use_msl: false,
             show_add_msl_switch: false,
             show_progress: true,
 
@@ -481,7 +481,7 @@
 					_this.readings = _this.formatLCSReadings( await GetContrailData( "contrail", getContrailParams( { uniqueid: _this.data.unique_id, period: 'PT12H' }, _this.data ) ) )
                     				
 				}else if( ValidateString( _this.data.unique_id, "isCamera" ) ){
-                    _this.snapshot = GetSnapshot( _this.data.site_id, ( _this.data.hasOwnProperty( "key ") ? _this.data.key : null ) )
+                    _this.snapshot = GetSnapshot( _this.data.site_id, ( _this.data.hasOwnProperty( "key" ) ? _this.data.key : null ) )
                                                         
                 }
 

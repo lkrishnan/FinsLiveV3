@@ -26,25 +26,23 @@
 					</v-col>
 					<v-col
 						class="d-flex align-center flex-grow-0 flex-shrink-0 ml-8 my-2"
-						
+						v-if="!is_mobile"
 					>
-						
 						<v-img
 							alt="Vuetify Name"
 							src="./assets/finslive_logo.webp"
-							max-width="140"
-							v-if="!is_mobile"
-						/>
-						<div
-							width="140"
-							v-if="is_mobile && ![ 'AllPeriod', 'SelectedPeriod', 'AllRange', 'SelectedRange', 'AllDatePeriod', 'SelectedDatePeriod', 'AllCamera', 'SelectedCamera'  ].includes( route_name )"
-						>
-							FINS Live
-						</div>
+							max-width="140"/>
+												
 					</v-col>
 					<v-col
 						class="d-flex align-end"
 					>
+						<div
+							class="px-2 py-2 text-h6 font-weight-bold primary--text"
+							v-if="is_mobile && ![ 'AllPeriod', 'SelectedPeriod', 'AllRange', 'SelectedRange', 'AllDatePeriod', 'SelectedDatePeriod', 'AllCamera', 'SelectedCamera'  ].includes( route_name )"
+						>
+							FINS Live
+						</div>
 						<v-tabs
 							v-model="top_tab" 
 							align-with-title
@@ -156,6 +154,7 @@
 						</v-btn>
 						
 					</v-col>
+
 				</v-row>
 				
 			</v-card>
@@ -164,7 +163,7 @@
 
 		<v-navigation-drawer
 			v-model="nav_drawer"
-      		absolute
+      		fixed
       		temporary
 			style="z-index: 8 !important;"
 			width="280"
@@ -200,24 +199,20 @@
 				nav
         		dense
 			>
-				<v-list-item-group
-					v-model="nav_item"
-					color="primary"
+				<v-list-item
+					v-for="(item, i) in nav_items"
+					:key="i"
+					link
+					@click="takeAction( item.action )"
 				>
-					<v-list-item
-						v-for="(item, i) in nav_items"
-						:key="i"
-						@click="takeAction( item.action )"
-					>
-						<v-list-item-icon>
-							<v-icon v-text="item.icon"></v-icon>
-						</v-list-item-icon>
-						<v-list-item-content>
-							<v-list-item-title v-text="item.text"></v-list-item-title>
-						</v-list-item-content>
-					</v-list-item>
-				</v-list-item-group>
-            	</v-list>
+					<v-list-item-icon>
+						<v-icon v-text="item.icon"></v-icon>
+					</v-list-item-icon>
+					<v-list-item-content>
+						<v-list-item-title v-text="item.text"></v-list-item-title>
+					</v-list-item-content>
+				</v-list-item>
+            </v-list>
     	</v-navigation-drawer>
 
 		<v-main
@@ -389,10 +384,7 @@ export default {
 
   	data: ( ) => ( {
 		//hamburger menu navigation menu
-		nav_items: [
-						      	
-		],
-		nav_item: -1,
+		nav_items: [ ],
 
 		// refresh variables
 		refreshing: false,
@@ -402,10 +394,12 @@ export default {
   	} ),
 
   	methods: {
-		setNavItems( name ){
+		setNavItems( name, params ){
 			const _this = this,
 				all = [ 
-						{ text: "Gauge/Camera", icon: "mdi-gauge", action: "GaugeCam", },
+						{ text: "Rain Gauge", icon: "mdi-weather-rainy", action: "HamburgerRain", },
+						{ text: "Stage & Lake Gauge", icon: "mdi-wave", action: "HamburgerLCSStageLake", },
+						{ text: "Creek Cam", icon: "mdi-camera-enhance-outline", action: "HamburgerCam", },
 						{ text: "Dashboard", icon: "mdi-view-dashboard", action: "Dashboard", },
 						{ text: "Help", icon: "mdi-help", action: "Help", },
 						{ text: "Data Download", icon: "mdi-download", action: "DownloadData", },
@@ -414,18 +408,23 @@ export default {
 					]
 
 			switch( name ){
-					case "AllPeriod": case "SelectedPeriod": 
-				   	case "AllRange": case "SelectedRange": 
-				   	case "AllDatePeriod": case "SelectedDatePeriod":
-					case "AllCamera": case "SelectedCamera":
-					_this.nav_items = all.filter( item => item.action != "GaugeCam" )
+				case "AllPeriod": case "SelectedPeriod": case "AllRange": case "SelectedRange": case "AllDatePeriod": case "SelectedDatePeriod":
+					const { gauges, ...qrystr } = params
+					_this.nav_items = all.filter( item => item.action != ( gauges === "rain" ? "HamburgerRain" : "HamburgerLCSStageLake" ) )
 					break
+				
+				case "AllCamera": case "SelectedCamera":
+					_this.nav_items = all.filter( item => item.action != "HamburgerCam" )
+					break
+				
 				case "Dashboard":
 					_this.nav_items = all.filter( item => item.action != "Dashboard" )
 					break
+				
 				case "Help":
 					_this.nav_items = all.filter( item => item.action != "Help" )
 					break
+				
 				case "Login":
 					_this.nav_items = all.filter( item => item.action != "Login" )
 					break
@@ -469,7 +468,7 @@ export default {
 				}
 
 				//set the items in the hamburgurer button's navigation drawer
-				_this.setNavItems( name )
+				_this.setNavItems( name, params )
 
         },
 
@@ -506,6 +505,13 @@ export default {
 				case "Tab":
 					_this.sel_gauge_cam = null
 					_this.$router.push( GetNewRoute( { gauges: _this.tabs[ _this.top_tab ].gauges.join( "," ) } ) )
+					break
+
+				case "HamburgerRain": case "HamburgerLCSStageLake": case "HamburgerCam":
+					const lookup = { "HamburgerRain": 0, "HamburgerLCSStageLake": 1, "HamburgerCam": 2 } 
+
+					_this.top_tab = lookup[ action ]
+					_this.takeAction( "Tab" )
 					break
 
 				default:

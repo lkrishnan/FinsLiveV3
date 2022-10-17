@@ -5,6 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --modern",
+    "del": "powershell Remove-Item //gispolarisdev1v/c$/inetpub/wwwroot/finslive/* -Recurse -Force",
+    "move": "powershell Copy-Item –Path dist/* –Destination //gispolarisdev1v/c$/inetpub/wwwroot/finslive -Recurse -Force",
     "test:e2e": "vue-cli-service test:e2e",
     "copy": "powershell Copy-Item –Path finslive_bundle.zip –Destination //gisags2v/c$/temp",
     "cpassets": "powershell Copy-Item –Path node_modules/@arcgis/core/assets/* –Destination public/assets -Recurse -Force",
@@ -13,7 +15,8 @@
     "pub2dev": "npm run build && npm run move2dev",
     "pub2prod": "npm run build && npm run move2prod",
     "zip": "powershell Remove-Item finslive_bundle.zip -Recurse -Force && powershell Compress-Archive -Path dist/* -DestinationPath finslive_bundle.zip",
-    "zipnodelete": "powershell Compress-Archive -Path dist/* -DestinationPath finslive_bundle.zip"
+    "zipnodelete": "powershell Compress-Archive -Path dist/* -DestinationPath finslive_bundle.zip",
+    "build-report": "vue-cli-service build --report"
   },
   "dependencies": {
     "@arcgis/core": "^4.23.7",

@@ -1,6 +1,7 @@
 <template>
     <v-card
-        class="ma-5"
+        class="mx-5"
+        :class="card_margin"
         :data="data"
         :width="card_width"
         outlined
@@ -322,6 +323,15 @@
                 }
                  
             },
+
+            card_margin( ){
+				switch( this.$vuetify.breakpoint.name ){
+                    case "xs": case "sm": return "my-3"
+                    default: return "my-5"
+
+                }
+
+			},
 
             is_mobile( ){
                 switch( this.$vuetify.breakpoint.name ){

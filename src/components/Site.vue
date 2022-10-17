@@ -2,7 +2,7 @@
     <v-card
         class="ma-3"
         outlined
-        v-show="sel_gauge_cam"
+        v-if="sel_gauge_cam"
     >
         <!-- Gauge Camera title  -->
         <v-row

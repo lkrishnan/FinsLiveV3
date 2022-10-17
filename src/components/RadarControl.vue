@@ -69,7 +69,7 @@
 			//toggles
 			overlay_switch: {
 				set( overlay_switch ){
-                    this.$store.commit( "overlay_switch", overlay_switch )
+					this.$store.commit( "overlay_switch", overlay_switch )
 					
 				},
       			get( ){

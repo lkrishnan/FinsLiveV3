@@ -1,7 +1,6 @@
 <template>
     <div
         class="pa-5"
-        v-show="show_alarms"
     >
         <v-alert
             v-for="( alarm, i ) in active_alarms"

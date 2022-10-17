@@ -3,7 +3,8 @@
 	  	:style="padding"
 	>
 		<v-card
-			class="d-flex justify-center mb-6 flex-wrap grey lighten-3"
+			class="d-flex justify-center flex-wrap grey lighten-3"
+			:class="card_margin"
 			flat
 		>
 			<SiteCard
@@ -11,14 +12,6 @@
         		:key="dash_site"
 				:data="site_info[dash_site]"
 			/>
-			<!--<v-alert
-				v-for="(dash_site, n) in dash_sites"
-        		:key="'dash_site' + n"
-				dark
-				dense
-			>
-				{{dash_site}}	
-			</v-alert>-->
 
 		</v-card>
 
@@ -31,7 +24,8 @@
 			right 
 			:width=drawer_width
             v-touch="{ left: ( ) => { dash_drawer=!dash_drawer } }"
-            style="z-index: 5 !important; padding-top: 80px;"
+            style="z-index: 5 !important;"
+			:style="padding"
 
         >
 			 <v-container fluid>
@@ -102,21 +96,30 @@
 			//custom
             padding( ){
                 switch( this.$vuetify.breakpoint.name ){
-                    case "xs": case "sm": return "padding-top:70px;"
-                    default: return "padding-top:90px;"
+                    case "xs": case "sm": return "padding-top:45px;"
+                    default: return "padding-top:80px;"
 
                 }
                  
             },
 
 			drawer_width( ){
-                 switch( this.$vuetify.breakpoint.name ){
+                switch( this.$vuetify.breakpoint.name ){
                     case "xs": case "sm": return "100%"
                     default: return "432px"
 
                 }
                  
             },
+
+			card_margin( ){
+				switch( this.$vuetify.breakpoint.name ){
+                    case "xs": case "sm": return "my-3"
+                    default: return "my-5"
+
+                }
+
+			},
 
 			//query control			
 			dash_sites: {

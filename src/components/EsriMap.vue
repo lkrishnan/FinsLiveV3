@@ -124,7 +124,7 @@
             :style="is_mobile ? 'width:100%; bottom: 38px;' : 'width:430px; bottom: 10px;'"
             v-show="getSourceSwitch( 'radar' )"
         >
-           <RadarControl />
+           <RadarControl v-if="getSourceSwitch( 'radar' )"/>
 
         </v-container>
         
@@ -132,7 +132,7 @@
         <v-navigation-drawer
             id="overlay_drawer" 
             v-model="overlay_drawer" 
-			absolute 
+			fixed 
 			:permanent="overlay_drawer" 
 			stateless 
 			right 
@@ -144,6 +144,7 @@
         >
             <v-row 
                 class="d-flex justify-space-between pa-5"
+                v-if="overlay_drawer"
             >
                 <v-col
                     class="d-flex align-center text-h6"
@@ -169,8 +170,8 @@
 
             <v-divider />
 
-            <Overlays />
-            <Alarms />
+            <Overlays v-if="overlay_drawer || getSourceSwitch( 'radar' )" />
+            <Alarms v-if="overlay_drawer && show_alarms" />
             
 		</v-navigation-drawer>
 
@@ -178,8 +179,8 @@
         <v-navigation-drawer
             id="info_drawer" 
             v-model="info_drawer" 
-			absolute 
-			:permanent="info_drawer" 
+			fixed
+			:permanent="info_drawer"
 			stateless 
 			left 
 			:width=drawer_width
@@ -187,14 +188,14 @@
             style="z-index: 6 !important;"
             :style="is_mobile ? 'padding-top: 60px;' : 'padding-top: 140px;'"
         >
-            <ReadingFilter v-if="filter_holder && [ 0, 1 ].includes( top_tab )" />
+            <ReadingFilter v-if="filter_holder && [ 0, 1 ].includes( top_tab ) && info_drawer" />
             <Site />                
-            <FloodImpact />
-            <WeatherForecast />  
-            <About />              
+            <FloodImpact v-if="info_drawer" />
+            <WeatherForecast v-if="info_drawer" />  
+            <About v-if="info_drawer"/>              
 		</v-navigation-drawer>
 
-        <v-card
+        <!--<v-card
             class="d-flex d-md-none mb-2 mr-5"
             style="margin: 0; position: absolute; bottom: 0; right: 0; z-index: 4;"
             elevation="2"
@@ -220,7 +221,7 @@
                 </v-btn>
             </v-btn-toggle>
 
-        </v-card>
+        </v-card>-->
 
         <v-dialog
       		v-model="dialog.show"
@@ -318,22 +319,12 @@
 		},
 
         mounted: function( ){
-            const _this = this
-
             //set the assets path. very important for ESRI JSAPI to load controls properly
-            //esriConfig.assetsPath = ( process.env.NODE_ENV == "development" ? "/assets" : "./assets" )
             esriConfig.assetsPath = ( process.env.NODE_ENV == "development" ? "/" : "//" + window.location.hostname + "/finslive/" ) + "assets"
 
-            //find if display is on mobile device
-            //_this.onResize( )
-            //window.addEventListener( "resize", _this.onResize, { passive: true } )
-            
             //initialize map
-            _this.initMap( )
+            this.initMap( )
             
-            //do a search based on the passed query string
-            _this.parseRoute( )
-        
         },
 
         computed: {
@@ -676,7 +667,19 @@
             initMap( ){
                 const _this = this
 
-                _this.map_sources = {
+                _this.map = new Map( { basemap: "gray-vector", } )
+
+                _this.map_view = new MapView( {
+                    container: "map",
+                    map: _this.map,
+                    zoom: 9,
+                    center: [ -80.837, 35.270 ], //lon, lat
+                         		        
+                } )
+
+                _this.map_view.when( ( ) => {
+                    //initiate map sources
+                    _this.map_sources = {
                         opaque: new MapImageLayer( {
                             url: "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/stormwater/finslive/MapServer",
                             sublayers : _this.getSourceSwitch( "opaque" ),
@@ -757,9 +760,7 @@
 
                     }
 
-                _this.map = new Map( {
-                    basemap: "gray-vector",
-                    layers: [ 
+                    _this.map.addMany( [ 
                         _this.map_sources.opaque, 
                         _this.map_sources.transparent, 
                         _this.map_sources.strmxing, 
@@ -771,20 +772,23 @@
                         _this.map_sources.rarrstrmxing, 
                         _this.map_sources.loc,
                         
-                    ], 
-                    
+                    ] )
+
+                    //actions to be carried out when buttons are clicked in a popup box
+                    _this.popupAction( )
+
+                    //query flood impact data based on the extent of the map
+                    _this.addFloodImpact( )
+
+                    //do a search based on the passed query string
+                    _this.parseRoute( )
+
+                }, error => {
+                    // This function will execute if the promise is rejected due to an error
                 } )
 
-                _this.map_view = new MapView( {
-                    container: "map",
-                    map: _this.map,
-                    zoom: 9,
-                    center: [ -80.837, 35.270 ], //lon, lat
-                         		        
-                } )
-
-                _this.map_view.ui.remove( "attribution" )
-                _this.map_view.ui.move( "zoom", "bottom-left" )
+                _this.map_view.ui.remove( [ "attribution", "zoom" ] )
+                //_this.map_view.ui.move( "zoom", "bottom-left" )        
 
                 //initiate locate widget
                 _this.locate_widget = new Locate( {
@@ -792,12 +796,7 @@
                     scale: 20000,
 
                 } )
-       
-                //actions to be carried out when buttons are clicked in a popup box
-                _this.popupAction( )
-
-                _this.addFloodImpact( )
-
+                
             },
 
             getSourceSwitch( src ){

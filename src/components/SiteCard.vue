@@ -139,24 +139,6 @@
             
         </v-row>
 
-        <v-row
-            no-gutters
-            class="mx-5 mb-5"
-            v-show="sel_tab===0"
-        >
-            <v-col
-                class="d-flex justify-start align-start"
-            >
-                <v-switch
-                    v-model="use_msl"
-                    label="MSL"
-                    hide-details
-                    v-show="show_add_msl_switch"
-                ></v-switch>
-            </v-col>
-
-        </v-row>
-
         <!-- Reference Labels -->
         <v-row
             no-gutters
@@ -193,7 +175,7 @@
                         {{ formatTheDate( item.datetime ) }}
                     </template>
                     <template v-slot:item.reading="{item}">
-                        {{ parseFloat( item.reading ).toFixed( 3 ) }}
+                        {{ parseFloat( use_msl ? item.reading_with_msl: item.reading ).toFixed( 3 ) }}
                     </template>
                     
                 </v-data-table>
@@ -253,6 +235,25 @@
             </v-col>
             
         </v-row>
+
+        <!-- Add msl switch -->
+        <v-row
+            no-gutters
+            class="mx-5 mb-5"
+            v-if="show_add_msl_switch"
+        >
+            <v-col
+                class="d-flex justify-start align-start"
+            >
+                <v-switch
+                    v-model="use_msl"
+                    label="MSL"
+                    hide-details
+                ></v-switch>
+            </v-col>
+
+        </v-row>
+
         
 	</v-card>
 	
@@ -346,8 +347,8 @@
                 const _this = this,
                     headers = {
                             rain: [ { text: "Date/Time", value: 'datetime' }, { text: "Rain (in)", value: "reading" } ],
-                            stage: [ { text: "Date/Time", value: 'datetime' }, { text: "Stream Level (ft)", value: "reading" } ],
-                            lcs: [ { text: "Date/Time", value: 'datetime' }, { text: "Stream Level (ft)", value: "reading" } ],
+                            stage: [ { text: "Date/Time", value: 'datetime' }, { text: "Stream Level" + ( _this.use_msl ? " above MSL": "" ) + "(ft)", value: "reading" } ],
+                            lcs: [ { text: "Date/Time", value: 'datetime' }, { text: "Stream Level" + ( _this.use_msl ? " above MSL": "" ) + "(ft)", value: "reading" } ],
                             lake: [ { text: "Date/Time", value: 'datetime' }, { text: "Lake Level (ft)", value: "reading" } ],
 
                         }

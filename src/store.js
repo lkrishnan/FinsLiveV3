@@ -39,6 +39,7 @@ export default new Vuex.Store( {
 		],
 		last_route: { },
 		last_gauge_cam_route: { name: "AllPeriod", params: { gauges: "rain", period: "P1D" }},
+		gauge_info: null,
 		ws: {
 			fins: "https://maps.mecklenburgcountync.gov/api/fins/",
       		gis: "https://maps.mecklenburgcountync.gov/api/gis/",
@@ -94,7 +95,7 @@ export default new Vuex.Store( {
 			{ label: "Stream Crossings", value: "strmxing", source: "strmxing", switch: false },
 			{ label: "Creek and Streams", value: "crkstrm", source: "opaque", sublayers: [ 2 ], switch: false },
 			{ label: "FEMA Streams", value: "femastrm", source: "opaque", sublayers: [ 1 ], switch: false },
-			{ label: "Future Floodplains", value: "fldpln", source: "transparent", sublayers: [ 3 ], switch: false },
+			{ label: "Future Floodplains", value: "fldpln", source: "opaque", sublayers: [ 3 ], switch: false },
 			{ label: "500 Yr Floodplains", value: "500fldpln", source: "opaque", sublayers: [ 4 ], switch: false },
 			{ label: "Creek Basins", value: "crkbasin", source: "opaque", sublayers: [ 5 ], switch: false },
 			{ label: "Rescue Creek Locations", value: "rsccrkloc", source: "opaque", sublayers: [ 0 ], switch: false },
@@ -192,6 +193,7 @@ export default new Vuex.Store( {
 		tabs: state => state.tabs,
 		last_route: state => state.last_route,
 		last_gauge_cam_route: state => state.last_gauge_cam_route,
+		gauge_info: state => state.gauge_info,
 		svg_paths: state => state.svg_paths,
 		svg_colors: state => state.svg_colors,
 
@@ -250,6 +252,10 @@ export default new Vuex.Store( {
 		},
 		last_gauge_cam_route( state, payload ){
 			state.last_gauge_cam_route = payload
+
+		},
+		gauge_info( state, payload ){
+			state.gauge_info = payload
 
 		},
 				

@@ -109,7 +109,8 @@
                 fluid
                 class="pa-2"
                 style="position: absolute; z-index: 7; left: 0px;"
-                :style="is_mobile ? 'width:100%; top: 0px;' : 'width:430px; top: 82px;'"
+                :style="(is_mobile ? 'width:100%; top: 0px;' : 'width:430px; top: 82px;')"
+                v-show="( ( overlay_drawer && is_mobile ) ? false : true)"
         >
             <GaugeList v-if="curr_qry_ctrl==='gauge_cam'" />
             <Search v-if="curr_qry_ctrl==='map_search'" />
@@ -139,7 +140,7 @@
 			:width=drawer_width
             v-touch="{ left: ( ) => { overlay_drawer=!overlay_drawer } }"
             style="z-index: 5 !important;"
-            :style="is_mobile ? 'padding-top: 60px;' : 'padding-top: 80px;'"
+            :style="is_mobile ? 'padding-top: 0px;' : 'padding-top: 80px;'"
 
         >
             <v-row 
@@ -223,6 +224,25 @@
 
         </v-card>-->
 
+        <div 
+            class="d-flex justify-center align-center"
+            style="margin: 0; position: absolute; z-index: 1; top: 50%; left: 50%; transform: translate(-50%, -50%)"
+        >
+            <v-progress-circular
+                indeterminate
+                color="primary"
+                size="200"
+                v-if="map_loading"
+            ></v-progress-circular>
+            <div 
+                class="d-flex justify-center align-center primary text-center rounded-pill pa-2"
+                style="margin: 0; position: absolute; z-index: 1; top: 50%; left: 50%; transform: translate(-50%, -50%)"
+                v-if="map_loading"
+            >
+                <span class="white--text">Loading...</span>
+            </div>
+        </div>
+
         <v-dialog
       		v-model="dialog.show"
       		:width=dialog_width
@@ -296,10 +316,11 @@
     import Locate from "@arcgis/core/widgets/Locate"
     import { GetAlertData, GetNWSDetail, GetStoredContrailData } from "../js/getFINSData"
     import { FormatAsGeoJSON, GetGeoJSONURL, GetGeoJSONTemplate, GetGeoJSONRenderer, GetGeoJSONLabelInfo, InterpolatePrcp} from "../js/geoJSON"
-    import { GetStrmXingTemplate, GetNWSWarnTemplate, GetNWSWatchTemplate, GetRARRBldgTemplate, GetRARRStrmXingTemplate, GetRARRRoadTemplate } from "../js/popupTemplate"
+    import { GetStrmXingTemplate, GetNWSWarnTemplate, GetNWSWatchTemplate, GetRARRBldgTemplate, GetRARRStrmXingTemplate, GetRARRRoadTemplate, GetLocTemplate } from "../js/popupTemplate"
     import { FormatDate } from "../js/vanillaMoment"
     import GetNewRoute from "../js/getNewRoute"
-    import gaugeInfo from "../assets/gauge_info.json" 
+    //import gaugeInfo from "@/data/gauge_info.json" 
+    import GetRoadGraphics from "../js/getRoadGraphics"
                             
     export default {
         name: "themap",
@@ -352,6 +373,9 @@
           		return this.$store.state.last_route
 
       		},  
+            gauge_info( ){
+                return this.$store.state.gauge_info
+            },
 
             //toggles
             info_drawer: {
@@ -660,6 +684,8 @@
                 instruction: null,
 
             },
+
+            map_loading: true,
                    
         } ),
         
@@ -678,19 +704,14 @@
                 } )
 
                 _this.map_view.when( ( ) => {
+                    //const ctx = _this.findFirstDescendant( "map", "canvas" ).getContext( "2d", { willReadFrequently: true } )
+
                     //initiate map sources
                     _this.map_sources = {
                         opaque: new MapImageLayer( {
                             url: "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/stormwater/finslive/MapServer",
                             sublayers : _this.getSourceSwitch( "opaque" ),
                             
-                        } ),
-
-                        transparent: new MapImageLayer( {
-                            url: "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/stormwater/finslive/MapServer",
-                            sublayers: _this.getSourceSwitch( "transparent" ),
-                            opacity: 0.5
-                    
                         } ),
                         
                         strmxing: new FeatureLayer( {
@@ -756,13 +777,15 @@
                             
                         } ),
 
-                        loc: new GraphicsLayer( { opacity: 1.0 } ),
+                        loc: new GraphicsLayer( { 
+                            opacity: 1.0, 
+                            
+                        } ),
 
                     }
 
                     _this.map.addMany( [ 
                         _this.map_sources.opaque, 
-                        _this.map_sources.transparent, 
                         _this.map_sources.strmxing, 
                         _this.map_sources.radar, 
                         _this.map_sources.warn, 
@@ -787,8 +810,8 @@
                     // This function will execute if the promise is rejected due to an error
                 } )
 
-                _this.map_view.ui.remove( [ "attribution", "zoom" ] )
-                //_this.map_view.ui.move( "zoom", "bottom-left" )        
+                _this.map_view.ui.remove( [ "attribution" ] )
+                _this.map_view.ui.move( "zoom", "bottom-left" )        
 
                 //initiate locate widget
                 _this.locate_widget = new Locate( {
@@ -797,6 +820,13 @@
 
                 } )
                 
+            },
+
+            findFirstDescendant( parent, tagname ){
+                const descendants = document.getElementById( parent ).getElementsByTagName( tagname )
+
+                return ( descendants.length > 0 ? descendants[ 0 ]: null )
+
             },
 
             getSourceSwitch( src ){
@@ -829,6 +859,7 @@
                 let ret_val = true
 
                 if( _this.last_route.hasOwnProperty( "name" ) && _this.last_route.name ){
+                    
                     if( _this.last_route.name.search( /Camera/ ) > -1 && new_route_name.search( /Camera/ ) > -1 ){
                         ret_val = false
 
@@ -867,8 +898,9 @@
                     name = _this.$router.currentRoute.name,
                     params = _this.$router.currentRoute.params
 
-                if( _this.getDataFromAPI( name, params ) ){
+                    if( _this.getDataFromAPI( name, params ) ){
                     _this.refreshid.gauge = window.clearInterval( _this.refreshid.gauge )
+                    _this.map_loading = true
 
                     switch( name ){
                         case "AllPeriod": case "SelectedPeriod": 
@@ -895,16 +927,17 @@
 
                     }
 
+                    //close popup of open
+                    _this.map_view.popup.close( )
+
                 }else{
                     if( params.hasOwnProperty( "uniqueid" ) ){
-                        _this.zoomToGauge( gaugeInfo[ params.uniqueid ] )
+                        _this.zoomToGauge( _this.gauge_info[ params.uniqueid ] )
 
                     }
                     
                 }
-
-                _this.map_view.popup.close( )
-                                                
+                            
             },
 
             removeLyr( lyr ){
@@ -945,7 +978,7 @@
                         return row
 
                     } ),
-                    all_gauge_info = Object.values( gaugeInfo ).filter( obj => { return gauges_arr.includes( obj.gauge_type ) } ),
+                    all_gauge_info = Object.values( _this.gauge_info ).filter( obj => { return gauges_arr.includes( obj.gauge_type ) } ),
                     geojson_gauge = FormatAsGeoJSON( gauges_arr, await Promise.all( promises ), all_gauge_info ),
                     intrpltn_results = ( gauges === "rain" ? InterpolatePrcp( geojson_gauge ) : null )
 
@@ -985,9 +1018,11 @@
                 }
 
                 if( qrystr.hasOwnProperty( "uniqueid" ) ){
-                    _this.zoomToGauge( gaugeInfo[ qrystr.uniqueid ] )
+                    _this.zoomToGauge( _this.gauge_info[ qrystr.uniqueid ] )
 
                 }                
+
+                _this.map_loading = false
                                                                 
             },
 
@@ -1013,37 +1048,59 @@
 
                 if( params.hasOwnProperty( "uniqueid" ) ){
                     //zoom and camera
-                    _this.zoomToGauge( gaugeInfo[ params.uniqueid ] )
+                    _this.zoomToGauge( _this.gauge_info[ params.uniqueid ] )
 
                 }
 
+                _this.map_loading = false
+
             },
 
-            addLocPointer( ){
-                const _this = this,
-                    pointGraphic = new Graphic({
-                        geometry: { 
-                            type: "point", 
-                            longitude: _this.last_search_result.lon, 
-                            latitude: _this.last_search_result.lat 
-                        },
-                        symbol: {
-                            type: "simple-marker",
-                            color: _this.svg_colors.loc,
-                            size: "30px",
-                            outline: {
-                                color: [ 0, 0, 0, 1 ],
-                                width: "2px",
-                            },
-                            path: _this.svg_paths.loc,
-                        
-                        }
+            async addLocPointer( ){
+                const _this = this
 
-                    } )
-
+                //clear old loc point and close popup
                 _this.map_sources.loc.removeAll( )
-                _this.map_sources.loc.add( pointGraphic )
-                _this.map_view.goTo( { center: [ _this.last_search_result.lon, _this.last_search_result.lat ], zoom: 13 } )
+                _this.map_view.popup.close( )
+
+                switch( _this.last_search_result.tag ){
+                    case "ROAD":
+                        const grphs = [ await GetRoadGraphics( _this.last_search_result.stcode, _this.last_search_result.prefix, this.last_search_result.stname, this.last_search_result.suffix, this.last_search_result.juris ) ]
+                        _this.map_sources.loc.addMany( grphs )
+
+                        _this.map_view.goTo( grphs )
+                
+                        break
+
+                    default:
+                        const pointGraphic = new Graphic({
+                            geometry: { 
+                                type: "point", 
+                                longitude: _this.last_search_result.lon, 
+                                latitude: _this.last_search_result.lat 
+                            },
+                            symbol: {
+                                type: "simple-marker",
+                                color: _this.svg_colors.loc,
+                                size: "30px",
+                                outline: {
+                                    color: [ 0, 0, 0, 1 ],
+                                    width: "2px",
+                                },
+                                path: _this.svg_paths.loc,
+                            
+                            },
+                            attributes: {  ..._this.last_search_result },
+                            popupTemplate: GetLocTemplate( _this.last_search_result.tag ),
+
+                        } )
+
+                        _this.map_sources.loc.add( pointGraphic )
+                        _this.map_view.goTo( { center: [ _this.last_search_result.lon, _this.last_search_result.lat ], zoom: 13 } )
+                        
+                        break
+
+                }
 
             },
 
@@ -1152,6 +1209,9 @@
 
 				            }
 
+                        case "remove_loc":
+                            _this.map_sources.loc.removeAll( )
+                            _this.map_view.popup.close( )
                             break
 
                     }

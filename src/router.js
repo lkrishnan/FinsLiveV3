@@ -4,6 +4,7 @@ import EsriMap from "./components/EsriMap.vue"
 import store from "./store"
 import ValidateString from "./js/validateString"
 import { FormatDate, isValidDate, SubtractFromDate, GetDateDiffinSecs } from "./js/vanillaMoment"
+import { GetSiteInfo } from "./js/getFINSData"
 
 Vue.use( VueRouter )
 
@@ -80,7 +81,14 @@ const getGauges = ( input_list) => {
 		return ret_uniqueid
 
 	},
-	storeGaugeCamRoute = ( from ) => {
+	routePreProcess = async ( from ) =>{
+		//get and store gauge info from json file
+		if( !store.getters.gauge_info ){
+			store.commit( "gauge_info", await GetSiteInfo( ) )
+
+		}
+
+		//store gauge cam route
 		if( store.getters.last_route.hasOwnProperty( "name" ) && store.getters.last_route.name ){
 			store.commit( "last_route", { name: from.name, params: from.params } )
 
@@ -90,8 +98,7 @@ const getGauges = ( input_list) => {
 			}
 
 		}
-
-	},
+	}
 	routes = [
 		{
 			path: "/",
@@ -106,14 +113,14 @@ const getGauges = ( input_list) => {
 			path: "/period/:gauges/:period",
 			name: "AllPeriod",
 			component: EsriMap,
-			beforeEnter( to, from, next ){
+			async beforeEnter( to, from, next ){
 				const valid = {
 					gauges: getGauges( to.params.gauges ),
 					period: ( ValidateString( to.params.period, "isISO8601" ) ? to.params.period : "P1D" )
 
 				}
 
-				storeGaugeCamRoute( from )
+				routePreProcess( from )
 
 				if( valid.gauges == to.params.gauges && valid.period == to.params.period ){
 					next( )
@@ -137,7 +144,7 @@ const getGauges = ( input_list) => {
 					
 				}
 
-				storeGaugeCamRoute( from )
+				routePreProcess( from )
 
 				if( valid.gauges == to.params.gauges && valid.startdate == to.params.startdate && valid.enddate == to.params.enddate ){
 					next( )
@@ -162,7 +169,7 @@ const getGauges = ( input_list) => {
 					
 				}
 
-				storeGaugeCamRoute( from )
+				routePreProcess( from )
 
 				if( valid.gauges == to.params.gauges && valid.enddate == to.params.enddate && valid.period == to.params.period ){
 					next( )
@@ -186,7 +193,7 @@ const getGauges = ( input_list) => {
 										
 				}
 
-				storeGaugeCamRoute( from )
+				routePreProcess( from )
 
 				valid.uniqueid = getUniqueID( valid.gauges, to.params.uniqueid )
 
@@ -212,7 +219,7 @@ const getGauges = ( input_list) => {
 					
 				}
 
-				storeGaugeCamRoute( from )
+				routePreProcess( from )
 
 				valid.uniqueid = getUniqueID( valid.gauges, to.params.uniqueid )
 
@@ -242,7 +249,7 @@ const getGauges = ( input_list) => {
 					
 				}
 
-				storeGaugeCamRoute( from )
+				routePreProcess( from )
 
 				valid.uniqueid = getUniqueID( valid.gauges, to.params.uniqueid )
 
@@ -265,7 +272,7 @@ const getGauges = ( input_list) => {
 			name: "AllCamera",
 			component: EsriMap,
 			beforeEnter( to, from, next ){
-				storeGaugeCamRoute( from )
+				routePreProcess( from )
 				next( )
 
 			},
@@ -275,7 +282,7 @@ const getGauges = ( input_list) => {
 			name: "SelectedCamera",
 			component: EsriMap,
 			beforeEnter( to, from, next ){
-				storeGaugeCamRoute( from )
+				routePreProcess( from )
 				
 				if( ValidateString( to.params.uniqueid, "isCamera" ) ){
 					next( )
@@ -294,7 +301,7 @@ const getGauges = ( input_list) => {
 			// which is lazy-loaded when the route is visited.
 			component: ( ) => import( /* webpackChunkName: "help" */ "./components/Help.vue" ),
 			beforeEnter( to, from, next ){
-				storeGaugeCamRoute( from )
+				routePreProcess( from )
 				next( )
 
 			},
@@ -305,7 +312,7 @@ const getGauges = ( input_list) => {
 			// which is lazy-loaded when the route is visited.
 			component: ( ) => import( /* webpackChunkName: "dashboard" */ "./components/Dashboard.vue" ),
 			beforeEnter( to, from, next ){
-				storeGaugeCamRoute( from )
+				routePreProcess( from )
 				next( )
 
 			},
@@ -316,7 +323,7 @@ const getGauges = ( input_list) => {
 			// which is lazy-loaded when the route is visited.
 			component: ( ) => import( /* webpackChunkName: "about" */ "./components/Login.vue" ),
 			beforeEnter( to, from, next ){
-				storeGaugeCamRoute( from )
+				routePreProcess( from )
 				next( )
 
 			},

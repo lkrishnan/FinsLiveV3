@@ -1,4 +1,5 @@
 import DetailsIcon from "../assets/file-table-box-outline.svg"
+import DeleteIcon from "../assets/delete.svg"
 import imageIcon from "../assets/image.svg"
 import { FormatDate } from "../js/vanillaMoment"
 
@@ -151,6 +152,141 @@ export function GetNWSWatchTemplate( ){
 			} 
 
 		]
+			
+	}
+	
+}
+
+export function GetLocTemplate( tag ){
+
+	const content = {
+		"ADDRESS": [ {
+			type: "fields",
+			fieldInfos: [
+				{ fieldName: "address", label: "Address" },
+				{ fieldName: "lat", label: "Latitude" },
+				{ fieldName: "lon", label: "Longitude" },
+				{ fieldName: "x", label: "X Coord" },
+				{ fieldName: "y", label: "Y Coord" },
+				{ fieldName: "matid", label: "MAT ID" },
+			]
+	
+		} ],
+		"PARK": [ {
+			type: "fields",
+			fieldInfos: [
+				{ fieldName: "name", label: "Name" },
+				{ fieldName: "type", label: "Type" },
+				{ fieldName: "address", label: "Address" },
+				{ fieldName: "lat", label: "Latitude" },
+				{ fieldName: "lon", label: "Longitude" },
+				{ fieldName: "x", label: "X Coord" },
+				{ fieldName: "y", label: "Y Coord" },
+			]
+	
+		} ],
+		"SCHOOL": [ {
+			type: "fields",
+			fieldInfos: [
+				{ fieldName: "name", label: "Name" },
+				{ fieldName: "type", label: "Type" },
+				{ fieldName: "address", label: "Address" },
+				{ fieldName: "lat", label: "Latitude" },
+				{ fieldName: "lon", label: "Longitude" },
+				{ fieldName: "x", label: "X Coord" },
+				{ fieldName: "y", label: "Y Coord" },
+			]
+	
+		} ],
+		"LIBRARY": [ {
+			type: "fields",
+			fieldInfos: [
+				{ fieldName: "name", label: "Name" },
+				{ fieldName: "address", label: "Address" },
+				{ fieldName: "lat", label: "Latitude" },
+				{ fieldName: "lon", label: "Longitude" },
+				{ fieldName: "x", label: "X Coord" },
+				{ fieldName: "y", label: "Y Coord" },
+			]
+	
+		} ],
+		"BUSINESS": [ {
+			type: "fields",
+			fieldInfos: [
+				{ fieldName: "name", label: "Name" },
+				{ fieldName: "address", label: "Address" },
+				{ fieldName: "lat", label: "Latitude" },
+				{ fieldName: "lon", label: "Longitude" },
+				{ fieldName: "x", label: "X Coord" },
+				{ fieldName: "y", label: "Y Coord" },
+			]
+	
+		} ],
+		"BUS STOP": [ {
+			type: "fields",
+			fieldInfos: [
+				{ fieldName: "name", label: "Name" },
+				{ fieldName: "route", label: "Route" },
+				{ fieldName: "lat", label: "Latitude" },
+				{ fieldName: "lon", label: "Longitude" },
+				{ fieldName: "x", label: "X Coord" },
+				{ fieldName: "y", label: "Y Coord" },
+			]
+	
+		} ],
+		"LIGHT RAIL": [ {
+			type: "fields",
+			fieldInfos: [
+				{ fieldName: "name", label: "Name" },
+				{ fieldName: "address", label: "Address" },
+				{ fieldName: "lat", label: "Latitude" },
+				{ fieldName: "lon", label: "Longitude" },
+				{ fieldName: "x", label: "X Coord" },
+				{ fieldName: "y", label: "Y Coord" },
+			]
+	
+		} ],
+		"INTERSECTION": [ {
+			type: "fields",
+			fieldInfos: [
+				{ fieldName: "intersection", label: "Name" },
+				{ fieldName: "lat", label: "Latitude" },
+				{ fieldName: "lon", label: "Longitude" },
+				{ fieldName: "x", label: "X Coord" },
+				{ fieldName: "y", label: "Y Coord" },
+			]
+	
+		} ],
+		"ROAD": [ {
+			type: "fields",
+			fieldInfos: [
+				{ fieldName: "name", label: "Name" },
+				{ fieldName: "prefix", label: "Prefix" }, 
+                { fieldName: "stname", label: "Street Name" },
+                { fieldName: "suffix", label: "Suffix" }, 
+                { fieldName: "juris", label: "Jurisdiction" },
+				
+			]
+	
+		} ],
+		
+	}
+
+	return {
+		title: feature => { 
+			return `${feature.graphic.attributes.tag}` 
+
+		},
+		outFields: [ "*" ],
+		content: content[ tag ],
+		actions: [ 
+			{
+				title: "Remove",
+				id: "remove_loc",
+				image: DeleteIcon,
+			} 
+
+		],
 			
 	}
 	

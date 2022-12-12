@@ -4,10 +4,10 @@
   			fluid
 			style="margin: 0; position: absolute; left: 0px; top: 0px; z-index: 7;"
 			class="pa-0"
+			v-if="( is_mobile & [ 'AllPeriod', 'SelectedPeriod', 'AllRange', 'SelectedRange', 'AllDatePeriod', 'SelectedDatePeriod', 'AllCamera', 'SelectedCamera' ].includes( route_name ) ? false : true)"
 		>
 			<v-card
 				color="background"
-				v-if="!is_mobile || ( is_mobile && ![ 'AllPeriod', 'SelectedPeriod', 'AllRange', 'SelectedRange', 'AllDatePeriod', 'SelectedDatePeriod', 'AllCamera', 'SelectedCamera'  ].includes( route_name ) )"
 			>
 				<v-row
 					no-gutters
@@ -38,7 +38,7 @@
 						class="d-flex align-end"
 					>
 						<div
-							class="px-2 py-2 text-h6 font-weight-bold primary--text"
+							class="px-2 py-2 text-h6 primary--text"
 							v-if="is_mobile && ![ 'AllPeriod', 'SelectedPeriod', 'AllRange', 'SelectedRange', 'AllDatePeriod', 'SelectedDatePeriod', 'AllCamera', 'SelectedCamera'  ].includes( route_name )"
 						>
 							FINS Live
@@ -174,7 +174,7 @@
 				<v-col
 					class="d-flex align-center text-h6"
 				>
-					<span class="primary--text">Fins Live</span>
+					<span class="primary--text">FINS Live</span>
 			
 				</v-col>
 
@@ -312,6 +312,10 @@ export default {
 				default: return false
 
 			}
+
+		},
+		overlay_drawer( ){
+			return this.$store.state.overlay_drawer
 
 		},
 				

@@ -20,13 +20,24 @@ export default function getSearchParams( type, srch_obj ){
 		},
 
 		intersection: srch_str => {
+			const street1 = srch_obj.street1.split( "|" ),
+				street2 = srch_obj.street2.split( "|" ),
+				first_where = ( street1[ 1 ].length > 0 ? street1[ 1 ] : "(N|E|W|S)*" ) + "\\s*" + 
+								street1[ 2 ] + "\\s*" + 
+								( street1[ 3 ] > 0 ? street1[ 3 ] : "(AL|AV|BV|BY|CR|CS|CT|CV|DR|EP|EX|FR|HY|LN|LP|PL|PY|RA|RD|RN|RW|ST|TC|TL|TR|WY)*" ) + "\\s*" +
+								( street1[ 4 ] > 0 ? street1[ 4 ] : "(N|NW|SE|W|E|NE|S|SW|EXT|NB|SB|EB|WB|CONN)*" ),
+				second_where = ( street2[ 1 ].length > 0 ? street2[ 1 ] : "(N|E|W|S)*" ) + "\\s*" + 
+								street2[ 2 ] + "\\s*" + 
+								( street2[ 3 ] > 0 ? street2[ 3 ] : "(AL|AV|BV|BY|CR|CS|CT|CV|DR|EP|EX|FR|HY|LN|LP|PL|PY|RA|RD|RN|RW|ST|TC|TL|TR|WY)*" ) + "\\s*" +
+								( street2[ 4 ] > 0 ? street2[ 4 ] : "(N|NW|SE|W|E|NE|S|SW|EXT|NB|SB|EB|WB|CONN)*" )
+			
 			return {
 					type: type,
 					url:  store.getters[ "ws" ].gis + "v1/query/streetintersections_pt",
 					params: {
-						columns: `'INTERSECTION'::text as tag, replace( streets, '_', ' & ' ) as displaytext, ST_x( shape ) as x, ST_y( shape ) as y, replace( streets, '_', ' & ' ) as param`,
+						columns: `'INTERSECTION'::text as tag, replace( streets, '_', ' & ' ) as displaytext, ST_x( shape ) as x, ST_y( shape ) as y, ST_y( ST_transform( shape, 4326 ) ) as lat, ST_x( ST_transform( shape, 4326 ) ) as lon, replace( streets, '_', ' & ' ) as intersection`,
 						filter: `controltype in ( 3, 5 ) 
-							and ( streets ~* '^(${srch_obj.street1})(\\s*\\w*)*_(${srch_obj.street2})(\\s*\\w*)*' OR streets ~* '^(${srch_obj.street2})(\\s*\\w*)*_(${srch_obj.street1})(\\s*\\w*)*' )`,
+							and ( streets ~* '(${first_where}_${second_where})|(${second_where}_${first_where})' )`,
 						sort: `displaytext`,
 						limit: 10
 		
@@ -54,7 +65,8 @@ export default function getSearchParams( type, srch_obj ){
 								ELSE ''
 							END as displaytext, 
 							preaddrnum as prefix, streetname as stname, streettype as sttype, addrnumsuf as suffix,	municipality as juris,
-							coalesce( preaddrnum, '' ) || '|' || coalesce( streetname, '' ) || '|' || coalesce( streettype, '' ) || '|' || coalesce( addrnumsuf, '' ) || '|' || coalesce( municipality, '' ) as param`,
+							coalesce( preaddrnum, '' ) || '|' || coalesce( streetname, '' ) || '|' || coalesce( streettype, '' ) || '|' || coalesce( addrnumsuf, '' ) || '|' || coalesce( municipality, '' ) as param,
+							countystcode as stcode`,
 						filter: `admkey ~* $$${srch_obj.road}$$`,
 						sort: `displaytext`,
 						limit: 10
@@ -70,7 +82,7 @@ export default function getSearchParams( type, srch_obj ){
 					type: type,
 					url:  store.getters[ "ws" ].gis + "v1/query/parks_pt",
 					params: {
-						columns: `'PARK'::text as tag, UPPER(prkname) as displaytext, prkname || '<br />Type: ' || prktype || '<br />' || prkaddr as desc, ST_X( shape ) as x, ST_Y( shape ) as y`,
+						columns: `'PARK'::text as tag, UPPER(prkname) as displaytext, prkname as name, prktype as type, prkaddr as address, ST_X( shape ) as x, ST_Y( shape ) as y, ST_y( ST_transform( shape, 4326 ) ) as lat, ST_x( ST_transform( shape, 4326 ) ) as lon`,
 						filter: `prkname ~* $$${srch_obj.park_name}$$`,
 						sort: `displaytext`,
 						limit: 10
@@ -86,7 +98,7 @@ export default function getSearchParams( type, srch_obj ){
 					type: type,	
 					url:  store.getters[ "ws" ].gis + "v1/query/cms_schools_pt",
 					params: {
-						columns: `'SCHOOL'::text as tag, school as displaytext, coalesce( school, '' ) || '<br/>Type: PUBLIC - ' || coalesce( school_typ, '' ) || ' SCHOOL<br />' || coalesce( address, '' ) as desc, ST_X( shape ) as x, ST_Y( shape ) as y`,
+						columns: `'SCHOOL'::text as tag, school as displaytext, school as name, 'PUBLIC - ' || coalesce( school_typ, '' ) || ' SCHOOL' as type, address as address, ST_X( shape ) as x, ST_Y( shape ) as y, ST_y( ST_transform( shape, 4326 ) ) as lat, ST_x( ST_transform( shape, 4326 ) ) as lon`,
 						filter: `school ~* $$${srch_obj.school_name}$$`,
 						sort: `displaytext`,
 						limit: 10
@@ -102,7 +114,7 @@ export default function getSearchParams( type, srch_obj ){
 					type: type,	
 					url:  store.getters[ "ws" ].gis + "v1/query/schools_charter_pt",
 					params: {
-						columns: `'SCHOOL'::text as tag, UPPER( name ) as displaytext, coalesce( UPPER( name ), '' ) || '<br/>Type: CHARTER SCHOOL<br />' || coalesce( grade_level, '' ) || '<br />' || coalesce( address, '' ) as desc, ST_X( shape ) as x, ST_Y( shape ) as y`,
+						columns: `'SCHOOL'::text as tag, UPPER( name ) as displaytext, UPPER( name ) as name, 'CHARTER SCHOOL ' || coalesce( grade_level, '' ) as type, address, ST_X( shape ) as x, ST_Y( shape ) as y, ST_y( ST_transform( shape, 4326 ) ) as lat, ST_x( ST_transform( shape, 4326 ) ) as lon`,
 						filter: `name ~* $$${srch_obj.school_name}$$`,
 						sort: `displaytext`,
 						limit: 10
@@ -118,7 +130,7 @@ export default function getSearchParams( type, srch_obj ){
 					type: type,	
 					url:  store.getters[ "ws" ].gis + "v1/query/schools_private_pt",
 					params: {
-						columns: `'SCHOOL'::text as tag, UPPER( school ) as displaytext, coalesce( UPPER( school ), '' ) || '<br/>Type: PRIVATE SCHOOL<br />' || coalesce( address, '' ) as desc, ST_X( shape ) as x, ST_Y( shape ) as y`,
+						columns: `'SCHOOL'::text as tag, UPPER( school ) as displaytext, UPPER( school ) as name, 'PRIVATE SCHOOL' as type, address, ST_X( shape ) as x, ST_Y( shape ) as y, ST_y( ST_transform( shape, 4326 ) ) as lat, ST_x( ST_transform( shape, 4326 ) ) as lon`,
 						filter: `school ~* $$${srch_obj.school_name}$$`,
 						sort: `displaytext`,
 						limit: 10
@@ -134,7 +146,7 @@ export default function getSearchParams( type, srch_obj ){
 					type: type,						
 					url:  store.getters[ "ws" ].gis + "v1/query/libraries_pt",
 					params: {
-						columns: `'LIBRARY'::text as tag, name as displaytext, name || '<br />' || address as desc, ST_X( shape ) as x, ST_Y( shape ) as y`,
+						columns: `'LIBRARY'::text as tag, name as displaytext, name, address, ST_X( shape ) as x, ST_Y( shape ) as y, ST_y( ST_transform( shape, 4326 ) ) as lat, ST_x( ST_transform( shape, 4326 ) ) as lon`,
 						filter: `name ~* $$${srch_obj.library_name}$$`,
 						sort: `displaytext`,
 						limit: 10
@@ -150,7 +162,7 @@ export default function getSearchParams( type, srch_obj ){
 					type: type,	
 					url:  store.getters[ "ws" ].gis + "v1/query/businesswise_businesses_pt",
 					params: {
-						columns: `'BUSINESS'::text as tag, company||' ,'||address as displaytext, company || '<br />' || address || '<br />' || city || ' ' || state || ' ' || zip as desc, ST_X( shape ) as x, ST_Y( shape ) as y`,
+						columns: `'BUSINESS'::text as tag, company||' ,'||address as displaytext, company as name, address || ' ' || city || ' ' || state || ' ' || zip as address, ST_X( shape ) as x, ST_Y( shape ) as y, ST_y( ST_transform( shape, 4326 ) ) as lat, ST_x( ST_transform( shape, 4326 ) ) as lon`,
 						filter: `company ~* $$${srch_obj.business_name}$$`,
 						sort: `displaytext`,
 						limit: 10
@@ -166,7 +178,7 @@ export default function getSearchParams( type, srch_obj ){
 					type: type,	
 					url:  store.getters[ "ws" ].gis + "v1/query/cats_busstops_pt",
 					params: {
-						columns: `'BUS STOP'::text as tag, stopdesc as displaytext, stopdesc || '<br />Routes: ' || routes as desc, ST_X( shape ) as x, ST_Y( shape ) as y`,
+						columns: `'BUS STOP'::text as tag, stopdesc as displaytext, stopdesc as name, routes, ST_X( shape ) as x, ST_Y( shape ) as y, ST_y( ST_transform( shape, 4326 ) ) as lat, ST_x( ST_transform( shape, 4326 ) ) as lon`,
 						filter: `stopdesc ~* $$${srch_obj.bus_stop_name}$$`,
 						sort: `displaytext`,
 						limit: 10
@@ -182,7 +194,7 @@ export default function getSearchParams( type, srch_obj ){
 					type: type,	
 					url:  store.getters[ "ws" ].gis + "v1/query/cats_blueline_stations_pt",
 					params: {
-						columns: `'LIGHT RAIL'::text as tag, name as displaytext, address as desc, ST_X( shape ) as x, ST_Y( shape ) as y`,
+						columns: `'LIGHT RAIL'::text as tag, name as displaytext, name, address, ST_X( shape ) as x, ST_Y( shape ) as y, ST_y( ST_transform( shape, 4326 ) ) as lat, ST_x( ST_transform( shape, 4326 ) ) as lon`,
 						filter: `name ~* $$${srch_obj.station_name}$$`,
 						sort: `displaytext`,
 						limit: 10

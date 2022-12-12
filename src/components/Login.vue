@@ -141,7 +141,7 @@
 			//custom
             padding( ) {
                  switch( this.$vuetify.breakpoint.name ){
-                    case "xs": case "sm": return "padding-top:0px;"
+                    case "xs": case "sm": return "padding-top:50px;"
                     default: return "padding-top:100px;"
 
                 }

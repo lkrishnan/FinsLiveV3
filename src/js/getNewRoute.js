@@ -69,7 +69,7 @@ export default function getNewRoute( chg_params ){
 		
 		} ) 
 
-		/*store.commit( "last_route", { 
+		store.commit( "last_route", { 
 			name: router.currentRoute.name, 
 			params: router.currentRoute.params 
 
@@ -79,7 +79,7 @@ export default function getNewRoute( chg_params ){
 			name: router.currentRoute.name, 
 			params: router.currentRoute.params,
 
-		} )*/
+		} )
 
 	}    
 		

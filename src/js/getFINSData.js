@@ -126,3 +126,23 @@ export function GetSnapshot( site_id, site_key ){
 		`${store.getters[ "ws" ].fins}v1/creekcam/${site_id}` )
 		
 }
+
+export async function GetSiteInfo( ){
+	try{
+		const axios_inst = axios.create( { 
+			headers: { 
+				"Cache-Control": "max-age=0, no-cache, no-store",
+				"Pragma": "no-cache"  
+			}
+	  	} ),
+	  	url = "/assets/gauge_info.json",
+		response = await axios_inst.get( url )
+
+		return response.data 
+
+	}catch( error){
+		console.log( error )
+ 
+	}
+
+}

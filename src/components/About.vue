@@ -2,6 +2,16 @@
 	<div
 		class="px-4 pb-2"
 	>
+
+		<v-row>
+			<v-col
+				class="body-2 pb-0"
+			>
+				FINS Live was created by Mecklenburg County GIS. You can find the source code on <a href="https://github.com/lkrishnan/FinsLiveV3" target="_blank">Github</a>. Pull requests are welcome!
+				FINS Live was built with <a href="https://developers.arcgis.com/javascript/latest/" target="_blank">ArcGIS API for JavaScript</a>, <a href="https://vuejs.org/VueJS" target="_blank">Vue.js</a>, and <a href="https://vuetifyjs.com/en/" target="_blank">Vuetify</a>.
+			</v-col>
+		</v-row>
+
 		<v-row>
 			<v-col
 				class="subtitle-2 px-3 pt-2 pb-0"
@@ -13,6 +23,11 @@
 			<v-col
 				class="body-2 pb-0"
 			>
+				<v-img
+					alt="Charlotte Mecklenburg Storm Water Services"
+					src="../assets/CMSWS_GreenBlue_Logo_small.webp"
+					max-width="140"
+					class="mt-0 mb-4" />
 				​​​​​​​​​​​​​Established in the early 1990’s, Charlotte-Mecklenburg Storm Water Services is a joint municipal/county stormwater utility that includes the City of Charlotte, the surrounding towns of Cornelius, Davidson, Huntersville, Matthews, Mint Hill and Pineville and Mecklenburg County.
 			</v-col>
 		</v-row>
@@ -88,6 +103,11 @@
 			<v-col
 				class="body-2"
 			>
+				<v-img
+					alt="Charlotte Mecklenburg Storm Water Services"
+					src="../assets/gis_logo3.webp"
+					max-width="140"
+					class="mt-0 mb-4" />
 				​Mecklenburg County GIS's mission is to provide quality geospatial data and technology solutions, empowering customers of Mecklenburg County to make data-driven decisions.
 			</v-col>
 		</v-row>

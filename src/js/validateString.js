@@ -30,7 +30,7 @@ export default function validateString( str, type ){
 
 		isIntersection: str => {
 			//return ( str.match( /^\s*\w+(\s*\w+\s*)*(AND|&)\s*\w+(\s*\w+\s*)*$/ ) ? true : false )
-			return ( str.match( /^(\w+\s*){3}(AND|&)(\s*\w+){3}$/ ) ? true : false )
+			return ( str.match( /^(\w+\s*){3}(AND|&)(\s*\w*)$/ ) ? true : false )
 
 		},
 

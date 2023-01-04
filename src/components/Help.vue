@@ -40,6 +40,9 @@
 					v-model="tab"
 				>
 					<v-tab>
+						Tutorial Video
+					</v-tab>
+					<v-tab>
 						How To
 					</v-tab>
 					<v-tab>
@@ -50,6 +53,15 @@
 				<v-tabs-items 
 					v-model="tab"
 				>
+					<v-tab-item>
+						<v-card
+            				class="d-flex flex-wrap pa-10 justify-center"
+            				flat
+            				tile
+        				>
+							<iframe width="720" height="515" src="https://www.youtube.com/embed/xzWYFAp1D-8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+						</v-card>
+					</v-tab-item>
       				<v-tab-item>
 						<v-expansion-panels>
 							<v-expansion-panel

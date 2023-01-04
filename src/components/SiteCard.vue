@@ -560,7 +560,7 @@
                     case "stage": case "lcs": 
                         chart_params = { 
                             x: d => new Date( d.datetime ),
-                            y: d => ( _this.use_msl ? parseFloat( d.reading ) + _this.data.msl: parseFloat( d.reading ) ),
+                            y: d => d.reading + ( _this.use_msl ? _this.data.msl : 0 ), 
                             color: "#1976D2",
                             yLabel: `Stream Level" ${( _this.use_msl ? " above MSL": "" )} (ft)`,
                             width: 400,
@@ -571,8 +571,8 @@
                         }
 
                         yscale_nums = [ 
-                            Math.min(..._this.readings.map( r => ( _this.use_msl ? RoundNum( parseFloat( r.reading ) + _this.data.msl, 2 ): parseFloat( r.reading ) ) ) ), 
-                            Math.max(..._this.readings.map( r => ( _this.use_msl ? RoundNum( parseFloat( r.reading ) + _this.data.msl, 2 ): parseFloat( r.reading )) ) ),
+                            Math.min(..._this.readings.map( r => ( RoundNum( r.reading + ( _this.use_msl ? _this.data.msl : 0 ), 2 ) ) ) ), 
+                            Math.max(..._this.readings.map( r => ( RoundNum( r.reading + ( _this.use_msl ? _this.data.msl : 0 ), 2 ) ) ) ), 
                             
                         ]
                         
@@ -651,7 +651,7 @@
       		
 			},
 
-            formatLCSReadings( readings ){
+            formatLCSReadings( readings ){ //lcs values are reported as inches (feet = inches / 12)
                 return [ ...readings ]
                         .reverse( )
                         .map( a => {
@@ -659,7 +659,7 @@
 
                             return { 
                                 datetime: date_time_arr[ 0 ] + "T" + date_time_arr[ 1 ] + "Z", 
-                                reading: a.raw_value,
+                                reading: a.raw_value / 12,
                                 reading_with_msl: a.data_value, 
                             }
 

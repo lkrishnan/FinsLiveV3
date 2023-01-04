@@ -319,7 +319,6 @@
     import { GetStrmXingTemplate, GetNWSWarnTemplate, GetNWSWatchTemplate, GetRARRBldgTemplate, GetRARRStrmXingTemplate, GetRARRRoadTemplate, GetLocTemplate } from "../js/popupTemplate"
     import { FormatDate } from "../js/vanillaMoment"
     import GetNewRoute from "../js/getNewRoute"
-    //import gaugeInfo from "@/data/gauge_info.json" 
     import GetRoadGraphics from "../js/getRoadGraphics"
                             
     export default {
@@ -373,9 +372,9 @@
           		return this.$store.state.last_route
 
       		},  
-            gauge_info( ){
-                return this.$store.state.gauge_info
-            },
+            gauge_info(){
+				return this.$store.state.gauge_info
+			},
 
             //toggles
             info_drawer: {
@@ -705,6 +704,7 @@
 
                 _this.map_view.when( ( ) => {
                     //const ctx = _this.findFirstDescendant( "map", "canvas" ).getContext( "2d", { willReadFrequently: true } )
+                    //console.log( _this.findFirstDescendant( "map", "canvas" ).getContext('webgl') );
 
                     //initiate map sources
                     _this.map_sources = {
@@ -754,7 +754,7 @@
                         gauge_cam: null,
 
                         rarrbldg: new FeatureLayer( {
-                            url: "https://edmsmapserver.mecklenburgcountync.gov/agsadaptor/rest/services/RARR_Storm/Evnt20201112_Bldgs/FeatureServer/0",
+                            url: "https://edmsmapserver.mecklenburgcountync.gov/agsadaptor/rest/services/RARR_Storm/EvntLst24_Bldgs/MapServer/0",
                             visible: _this.getSourceSwitch( "rarrbldg" ),
                             popupTemplate: GetRARRBldgTemplate( ),
                             outFields: [ "Address", "PID", "FEMAStrm", "FldCatgry", "MstrAddrID" ],
@@ -762,7 +762,7 @@
                         } ),
 
                         rarrstrmxing: new FeatureLayer( {
-                            url: "https://edmsmapserver.mecklenburgcountync.gov/agsadaptor/rest/services/RARR_Storm/Evnt20201112_RoadsXings/FeatureServer/0",
+                            url: "https://edmsmapserver.mecklenburgcountync.gov/agsadaptor/rest/services/RARR_Storm/EvntLst24_RoadsXings/MapServer/0",
                             visible: _this.getSourceSwitch( "rarrstrmxing" ),
                             popupTemplate: GetRARRStrmXingTemplate( ),
                             outFields: [ "XingDesc", "XingClass", "XingType", "OvtpDpth", "FldCatgry" ],
@@ -770,7 +770,7 @@
                         } ),
 
                         rarrroad: new FeatureLayer( {
-                            url: "https://edmsmapserver.mecklenburgcountync.gov/agsadaptor/rest/services/RARR_Storm/Evnt20201112_RoadsXings/FeatureServer/1",
+                            url: "https://edmsmapserver.mecklenburgcountync.gov/agsadaptor/rest/services/RARR_Storm/EvntLst24_RoadsXings/MapServer/1",
                             visible: _this.getSourceSwitch( "rarrroad" ),
                             popupTemplate: GetRARRRoadTemplate( ),
                             outFields: [ "UseCtgry", "FldCatgry", "AvgFldDpth", "MaxFldDpth", "ll_add", "lr_add", "ul_add", "ur_add", "wholestnam" ],

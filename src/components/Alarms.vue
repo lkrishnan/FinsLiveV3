@@ -33,8 +33,7 @@
 <script>
     import GetNewRoute from "../js/getNewRoute"
     import { GetContrailData } from "../js/getFINSData"
-    import gaugeInfo from "../assets/gauge_info.json" 
-
+    
     export default {
         name: "thealarms",
 
@@ -46,6 +45,11 @@
         },
 
         computed: {
+            //app
+            gauge_info(){
+				return this.$store.state.gauge_info
+			},
+
             //map
 			zoom_to_gauge: {
                 set( payload ){
@@ -110,7 +114,7 @@
                         client_key: "b7624cc5-08f8-4716-8459-9630478f63f2" 
 
                     } ),
-                    valid_or_site_ids = Object.values( gaugeInfo ).map( elem => elem.or_site_id )
+                    valid_or_site_ids = Object.values( _this.gauge_info ).map( elem => elem.or_site_id )
 
                 if( Array.isArray( response ) ){
                     response_array = [ ...response ]
@@ -206,7 +210,7 @@
             zoomToGauge( idx ){
                 const _this = this,
 					active_alarm = _this.active_alarms[ idx ],
-                    site = Object.values( gaugeInfo )
+                    site = Object.values( _this.gauge_info )
                                     .filter( elem => elem.or_site_id === active_alarm.or_site_id )
 
                 if( site && site.length === 1 ){

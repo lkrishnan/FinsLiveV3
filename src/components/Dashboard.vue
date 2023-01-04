@@ -10,7 +10,7 @@
 			<SiteCard
 				v-for="dash_site in dash_sites"
         		:key="dash_site"
-				:data="site_info[dash_site]"
+				:data="gauge_info[dash_site]"
 			/>
 
 		</v-card>
@@ -75,9 +75,7 @@
 </template>
 
 <script>
-	import gaugeInfo from "../assets/gauge_info.json"
-
-  	export default{
+	export default{
     	name: "theDashboard",
 
 		components: {
@@ -93,6 +91,11 @@
         },
     
 		computed: {
+			//app
+            gauge_info(){
+				return this.$store.state.gauge_info
+			},
+
 			//custom
             padding( ){
                 switch( this.$vuetify.breakpoint.name ){
@@ -156,10 +159,6 @@
 				}
 
 			},
-
-			site_info( ){
-				return gaugeInfo
-			}
 			                	
 		},
     
@@ -179,7 +178,7 @@
     
 		methods: {
 			getSiteInfo( uniqueid ){
-				return { ...gaugeInfo[ uniqueid ], ...{ readings_per_pg: 6 } }
+				return { ..._this.gauge_info[ uniqueid ], ...{ readings_per_pg: 6 } }
 
             },
 
@@ -187,7 +186,7 @@
 				const _this = this
 
 				_this.site_types.forEach( site_type => {
-					_this.site_list.push( ...Object.values( gaugeInfo )
+					_this.site_list.push( ...Object.values( _this.gauge_info )
 												.filter( obj => obj.gauge_type.includes( site_type.value ) )
 												.map( obj => { return { label: obj.label, uniqueid: obj.unique_id, type: obj.gauge_type, } } ) )
 

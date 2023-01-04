@@ -81,14 +81,12 @@ const getGauges = ( input_list) => {
 		return ret_uniqueid
 
 	},
-	routePreProcess = async ( from ) =>{
-		//get and store gauge info from json file
+	storeGaugeCamRoute = async ( from ) => {
 		if( !store.getters.gauge_info ){
 			store.commit( "gauge_info", await GetSiteInfo( ) )
 
 		}
 
-		//store gauge cam route
 		if( store.getters.last_route.hasOwnProperty( "name" ) && store.getters.last_route.name ){
 			store.commit( "last_route", { name: from.name, params: from.params } )
 
@@ -98,7 +96,8 @@ const getGauges = ( input_list) => {
 			}
 
 		}
-	}
+
+	},
 	routes = [
 		{
 			path: "/",
@@ -113,14 +112,14 @@ const getGauges = ( input_list) => {
 			path: "/period/:gauges/:period",
 			name: "AllPeriod",
 			component: EsriMap,
-			async beforeEnter( to, from, next ){
+			beforeEnter( to, from, next ){
 				const valid = {
 					gauges: getGauges( to.params.gauges ),
 					period: ( ValidateString( to.params.period, "isISO8601" ) ? to.params.period : "P1D" )
 
 				}
 
-				routePreProcess( from )
+				storeGaugeCamRoute( from )
 
 				if( valid.gauges == to.params.gauges && valid.period == to.params.period ){
 					next( )
@@ -144,7 +143,7 @@ const getGauges = ( input_list) => {
 					
 				}
 
-				routePreProcess( from )
+				storeGaugeCamRoute( from )
 
 				if( valid.gauges == to.params.gauges && valid.startdate == to.params.startdate && valid.enddate == to.params.enddate ){
 					next( )
@@ -169,7 +168,7 @@ const getGauges = ( input_list) => {
 					
 				}
 
-				routePreProcess( from )
+				storeGaugeCamRoute( from )
 
 				if( valid.gauges == to.params.gauges && valid.enddate == to.params.enddate && valid.period == to.params.period ){
 					next( )
@@ -193,7 +192,7 @@ const getGauges = ( input_list) => {
 										
 				}
 
-				routePreProcess( from )
+				storeGaugeCamRoute( from )
 
 				valid.uniqueid = getUniqueID( valid.gauges, to.params.uniqueid )
 
@@ -219,7 +218,7 @@ const getGauges = ( input_list) => {
 					
 				}
 
-				routePreProcess( from )
+				storeGaugeCamRoute( from )
 
 				valid.uniqueid = getUniqueID( valid.gauges, to.params.uniqueid )
 
@@ -249,7 +248,7 @@ const getGauges = ( input_list) => {
 					
 				}
 
-				routePreProcess( from )
+				storeGaugeCamRoute( from )
 
 				valid.uniqueid = getUniqueID( valid.gauges, to.params.uniqueid )
 
@@ -272,7 +271,7 @@ const getGauges = ( input_list) => {
 			name: "AllCamera",
 			component: EsriMap,
 			beforeEnter( to, from, next ){
-				routePreProcess( from )
+				storeGaugeCamRoute( from )
 				next( )
 
 			},
@@ -282,7 +281,7 @@ const getGauges = ( input_list) => {
 			name: "SelectedCamera",
 			component: EsriMap,
 			beforeEnter( to, from, next ){
-				routePreProcess( from )
+				storeGaugeCamRoute( from )
 				
 				if( ValidateString( to.params.uniqueid, "isCamera" ) ){
 					next( )
@@ -301,7 +300,7 @@ const getGauges = ( input_list) => {
 			// which is lazy-loaded when the route is visited.
 			component: ( ) => import( /* webpackChunkName: "help" */ "./components/Help.vue" ),
 			beforeEnter( to, from, next ){
-				routePreProcess( from )
+				storeGaugeCamRoute( from )
 				next( )
 
 			},
@@ -312,7 +311,7 @@ const getGauges = ( input_list) => {
 			// which is lazy-loaded when the route is visited.
 			component: ( ) => import( /* webpackChunkName: "dashboard" */ "./components/Dashboard.vue" ),
 			beforeEnter( to, from, next ){
-				routePreProcess( from )
+				storeGaugeCamRoute( from )
 				next( )
 
 			},
@@ -323,7 +322,7 @@ const getGauges = ( input_list) => {
 			// which is lazy-loaded when the route is visited.
 			component: ( ) => import( /* webpackChunkName: "about" */ "./components/Login.vue" ),
 			beforeEnter( to, from, next ){
-				routePreProcess( from )
+				storeGaugeCamRoute( from )
 				next( )
 
 			},

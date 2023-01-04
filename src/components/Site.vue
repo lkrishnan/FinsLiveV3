@@ -271,7 +271,6 @@
     import ValidateString from "../js/validateString"
     import * as d3 from "d3"
     import { FormatDate } from "../js/vanillaMoment"
-    import gaugeInfo from "../assets/gauge_info.json"
     import { AsUCWords } from "../js/formatStr"
 
 	export default{
@@ -318,6 +317,9 @@
           		return this.$store.state.ws
 
       		},
+            gauge_info(){
+				return this.$store.state.gauge_info
+			},
 			//custom
             drawer_width( ) {
                 return ( this.is_mobile ? "100%" : "432px" )
@@ -460,7 +462,7 @@
             async showData( params ){
                 const _this = this,
                     { gauges, ...qrystr } = params,
-                    site_info = gaugeInfo[ qrystr.uniqueid ],
+                    site_info = _this.gauge_info[ qrystr.uniqueid ],
                     promises = await qrystr.uniqueid.split( ", ").map( async uniqueid => {
                         if( ValidateString( uniqueid, "isRainGauge" ) ){ 
                             
@@ -526,11 +528,13 @@
 
                                                 return { 
                                                     datetime: date_time_arr[ 0 ] + "T" + date_time_arr[ 1 ] + "Z", 
-                                                    reading: a.raw_value,
+                                                    reading: a.raw_value/12,
                                                     reading_with_msl: a.data_value, 
                                                 }
 
                                             } )
+
+                            console.log( _this.readings )
 
                         }else if( gauge_type === "stage" ){
                             _this.readings = readings
@@ -679,7 +683,7 @@
                 const _this = this
 
                 if( ValidateString( params.uniqueid, "isCamera" ) ){
-                    const site_info = gaugeInfo[ params.uniqueid ]
+                    const site_info = _this.gauge_info[ params.uniqueid ]
 
                     _this.snapshot = ( site_info.hasOwnProperty( "key" ) ? 
                         `${_this.ws.camera}?method=image&camera=${site_info.key}&api_key=55dcad90-e3ec-4954-b882-384bfd3bb9dd`: 
@@ -696,8 +700,8 @@
             addRefImages( params ){
                 const _this = this
 
-                if( gaugeInfo[ params.uniqueid ].hasOwnProperty( "ref_images" ) ){
-                    _this.ref_images = gaugeInfo[ params.uniqueid ][ "ref_images" ]
+                if( _this.gauge_info[ params.uniqueid ].hasOwnProperty( "ref_images" ) ){
+                    _this.ref_images = _this.gauge_info[ params.uniqueid ][ "ref_images" ]
                                         .map( filename => `https://mecklenburgcounty.exavault.com/p/stormwater/Warning%20Sites/${params.uniqueid}/${filename}` )
 
                     console.log( _this.ref_images )

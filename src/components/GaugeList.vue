@@ -76,7 +76,6 @@
 
 <script>
 	import GetNewRoute from "../js/getNewRoute"
-	import gaugeInfo from "../assets/gauge_info.json" 
 
   	export default {
       	name: "gaugecamlist",
@@ -97,6 +96,9 @@
 			tabs( ){
 				return this.$store.state.tabs
 			
+			},
+			gauge_info(){
+				return this.$store.state.gauge_info
 			},
 
 			//map
@@ -246,7 +248,7 @@
 
                 }
 
-				_this.list = Object.values( gaugeInfo )
+				_this.list = Object.values( _this.gauge_info )
 										.filter( obj => gauge_cam_arr.includes( obj.gauge_type ) )
 										.map( obj => { return { 
 											text: obj.label, 
@@ -256,7 +258,7 @@
 
 				//set gauge list choice based on query parameter
 				if( !_this.sel_gauge_cam !== params.uniqueid  && name.search( /Selected/ ) > -1 ){
-					_this.sel_gauge_cam = { text: gaugeInfo[ params.uniqueid ].label, value: params.uniqueid  }
+					_this.sel_gauge_cam = { text: _this.gauge_info[ params.uniqueid ].label, value: params.uniqueid  }
 
 				}else if( name.search( /All/ ) > -1 ){
 					_this.sel_gauge_cam = null

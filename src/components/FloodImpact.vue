@@ -75,7 +75,7 @@
                     @click="downloadData( )"
                 >
                     <v-icon>mdi-download</v-icon>
-                    Download Data
+                    Download Flood Impact
                 </v-btn>
             </v-col>
         </v-row>

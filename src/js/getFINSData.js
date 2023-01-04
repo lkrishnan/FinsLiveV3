@@ -135,7 +135,7 @@ export async function GetSiteInfo( ){
 				"Pragma": "no-cache"  
 			}
 	  	} ),
-	  	url = "/assets/gauge_info.json",
+		url = ( process.env.NODE_ENV == "development" ? "/" : "//" + window.location.hostname + "/finslive/" ) + "assets/gauge_info.json",
 		response = await axios_inst.get( url )
 
 		return response.data 

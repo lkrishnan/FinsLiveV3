@@ -137,6 +137,17 @@
 				>
 					<v-icon>mdi-twitter</v-icon>
 				</v-btn>
+
+				<v-btn
+					icon
+					color="red"
+					large
+					class="px-2 py-0"
+					href="https://www.youtube.com/@meckgis"
+					target="_blank"
+				>
+					<v-icon>mdi-youtube</v-icon>
+				</v-btn>
 				
           	</v-col>
 

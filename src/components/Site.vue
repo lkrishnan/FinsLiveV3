@@ -420,6 +420,7 @@
 
                 } )
                 _this.show_progress = true
+                _this.show_add_msl_switch = false
 
                 switch( name ){
                     case "SelectedPeriod": 
@@ -560,7 +561,7 @@
                 }
 
                 _this.show_progress = false
-                
+                                
             },
 
             addGraph( gauge_type, site_info ){
@@ -589,8 +590,7 @@
                         chart_params.width = 320
                         chart_params.height = 350
                         chart_params.unit = "in"
-
-                        _this.show_add_msl_switch = false
+                        
                         break
 
                     case "stage": case "lcs": 
@@ -662,7 +662,6 @@
 
                         }
 
-                        _this.show_add_msl_switch = false
                         break
 
                 }
@@ -703,8 +702,6 @@
                 if( _this.gauge_info[ params.uniqueid ].hasOwnProperty( "ref_images" ) ){
                     _this.ref_images = _this.gauge_info[ params.uniqueid ][ "ref_images" ]
                                         .map( filename => `https://mecklenburgcounty.exavault.com/p/stormwater/Warning%20Sites/${params.uniqueid}/${filename}` )
-
-                    console.log( _this.ref_images )
 
                     _this.site_tabs[ 2 ].show = true
 

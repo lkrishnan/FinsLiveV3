@@ -32,7 +32,8 @@
 			>
 				<v-card-title class="text-center justify-center py-6">
 				<h1 class="text-h5 font-weight-medium">
-					How can we help you?
+					<!--How can we help you?-->
+					Help
 				</h1>
 				</v-card-title>
 
@@ -42,12 +43,12 @@
 					<v-tab>
 						Tutorial Video
 					</v-tab>
-					<v-tab>
+					<!--<v-tab>
 						How To
 					</v-tab>
 					<v-tab>
 						Glossary
-					</v-tab>
+					</v-tab>-->
 				</v-tabs>
 
 				<v-tabs-items 
@@ -58,11 +59,26 @@
             				class="d-flex flex-wrap pa-10 justify-center"
             				flat
             				tile
-        				>
-							<iframe width="720" height="515" src="https://www.youtube.com/embed/xzWYFAp1D-8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        				>	
+							<div 
+								style="padding-bottom:56.25%; 
+								position:relative; 
+								display:block; 
+								width: 100%"
+							>
+								<iframe width="100%" height="100%"
+									src="https://www.youtube.com/embed/sMxNbFNujXQ" 
+									frameborder="0" 
+									allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+									allowfullscreen 
+									style="position:absolute; top:0; left: 0"
+									title="Quick Start Tutorial" 
+								>
+								</iframe>
+							</div>
 						</v-card>
 					</v-tab-item>
-      				<v-tab-item>
+      				<!--<v-tab-item>
 						<v-expansion-panels>
 							<v-expansion-panel
 								v-for="( item,i ) in items"
@@ -96,7 +112,7 @@
 							</v-expansion-panel>
 
 						</v-expansion-panels>
-        			</v-tab-item>
+        			</v-tab-item>-->
 					
     			</v-tabs-items>
 

@@ -214,7 +214,7 @@
 				</v-list-item>
             </v-list>
     	</v-navigation-drawer>
-
+		
 		<v-main
 			class="grey lighten-3"
 		>

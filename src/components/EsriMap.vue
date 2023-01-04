@@ -320,6 +320,7 @@
     import { FormatDate } from "../js/vanillaMoment"
     import GetNewRoute from "../js/getNewRoute"
     import GetRoadGraphics from "../js/getRoadGraphics"
+    import Query from "@arcgis/core/rest/support/Query"
                             
     export default {
         name: "themap",
@@ -1230,7 +1231,7 @@
                 ] ).then( ( [ bldg_lyr_view, stmxing_lyr_view, road_lyr_view ] ) => {
                     bldg_lyr_view.watch( "updating", value => {
                         if( !value ){
-                            bldg_lyr_view.queryFeatures(  )
+                            bldg_lyr_view.queryFeatures( )
                                 .then( bldg_rows => { 
                                     _this.flood_impact_details = { 0: bldg_rows.features.map( elem => elem.attributes ) } 
                                     
@@ -1242,7 +1243,11 @@
 
                     stmxing_lyr_view.watch( "updating", value => {
                         if( !value ){
-                            stmxing_lyr_view.queryFeatures(  )
+                            let query = new Query( )
+                            query.geometry = _this.map_view.extent
+                            query.spatialRelationship = "intersects"
+                            
+                            stmxing_lyr_view.queryFeatures( query )
                                 .then( stmxing_rows => {
                                     _this.flood_impact_details = { 1: stmxing_rows.features.map( elem => elem.attributes ) }
 

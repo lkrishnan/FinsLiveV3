@@ -1,5 +1,7 @@
 <template>
-    <div id="map">
+    <div id="map"
+        :style="is_mobile ? 'padding-top: 0;' : 'padding-top: 80px;'" 
+    >
         <v-tooltip left>
             <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -21,7 +23,7 @@
             </template>
             <span>Map Layers</span>
         </v-tooltip>
-    
+
         <v-tooltip left>
             <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -78,7 +80,7 @@
             </v-tooltip>
             
         </v-badge>
-        
+
         <v-tooltip left>
             <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -97,7 +99,7 @@
                 <v-icon 
                     color="primary"
                 >
-                   mdi-cached
+                mdi-cached
                 </v-icon>
                 </v-btn>
             </template>
@@ -125,19 +127,19 @@
             :style="is_mobile ? 'width:100%; bottom: 38px;' : 'width:430px; bottom: 10px;'"
             v-show="getSourceSwitch( 'radar' )"
         >
-           <RadarControl v-if="getSourceSwitch( 'radar' )"/>
+        <RadarControl v-if="getSourceSwitch( 'radar' )"/>
 
         </v-container>
-        
+
         <!-- Overlays Tab  -->
         <v-navigation-drawer
             id="overlay_drawer" 
             v-model="overlay_drawer" 
-			fixed 
-			:permanent="overlay_drawer" 
-			stateless 
-			right 
-			:width=drawer_width
+            fixed 
+            :permanent="overlay_drawer" 
+            stateless 
+            right 
+            :width=drawer_width
             v-touch="{ left: ( ) => { overlay_drawer=!overlay_drawer } }"
             style="z-index: 5 !important;"
             :style="is_mobile ? 'padding-top: 0px;' : 'padding-top: 80px;'"
@@ -166,7 +168,7 @@
                     </v-btn>
             
                 </v-col>
-        
+
             </v-row>
 
             <v-divider />
@@ -174,17 +176,17 @@
             <Overlays v-if="overlay_drawer || getSourceSwitch( 'radar' )" />
             <Alarms v-if="overlay_drawer && show_alarms" />
             
-		</v-navigation-drawer>
+        </v-navigation-drawer>
 
         <!-- Information Tab  -->
         <v-navigation-drawer
             id="info_drawer" 
             v-model="info_drawer" 
-			fixed
-			:permanent="info_drawer"
-			stateless 
-			left 
-			:width=drawer_width
+            fixed
+            :permanent="info_drawer"
+            stateless 
+            left 
+            :width=drawer_width
             v-touch="{ left: ( ) => { info_drawer=!info_drawer } }"
             style="z-index: 6 !important;"
             :style="is_mobile ? 'padding-top: 60px;' : 'padding-top: 140px;'"
@@ -194,35 +196,7 @@
             <FloodImpact v-if="info_drawer" />
             <WeatherForecast v-if="info_drawer" />  
             <About v-if="info_drawer"/>              
-		</v-navigation-drawer>
-
-        <!--<v-card
-            class="d-flex d-md-none mb-2 mr-5"
-            style="margin: 0; position: absolute; bottom: 0; right: 0; z-index: 4;"
-            elevation="2"
-            outlined
-        >
-            <v-btn-toggle
-                v-model="top_tab" 
-                tile
-                color="primary"
-                background-color="transparent"
-                group
-                @change="takeAction('Tab')"
-            >
-                <v-btn 
-                    v-for="(tab, i) in tabs"
-                	:key="'bottom_tab' + i"
-                    class="ma-0"
-                    :data-cy="'btmtab'+i"
-                    small
-                    >
-                    {{tab.short_label}}
-                    
-                </v-btn>
-            </v-btn-toggle>
-
-        </v-card>-->
+        </v-navigation-drawer>
 
         <div 
             class="d-flex justify-center align-center"
@@ -244,15 +218,15 @@
         </div>
 
         <v-dialog
-      		v-model="dialog.show"
-      		:width=dialog_width
+            v-model="dialog.show"
+            :width=dialog_width
             transition="dialog-bottom-transition"
             scrollable
-    	>
-      		<v-card>
-        		<v-card-title v-show="dialog.title">
-          			{{ dialog.title }}
-        		</v-card-title>
+        >
+            <v-card>
+                <v-card-title v-show="dialog.title">
+                    {{ dialog.title }}
+                </v-card-title>
                 <v-card-subtitle v-show="dialog.subtitle">
                     {{ dialog.subtitle }}
                 </v-card-subtitle>
@@ -269,36 +243,36 @@
                 
                 </v-carousel>
 
-        		<v-card-text>
+                <v-card-text>
                     <div class="text-body-2" v-show="dialog.headline">
-          			    {{ dialog.headline }}
+                        {{ dialog.headline }}
                     </div>
                     <div class="text-body-2" v-show="dialog.description">
-          			    {{ dialog.description }}
+                        {{ dialog.description }}
                     </div>
                     <div class="text-h6" v-show="dialog.instruction">
                         Instruction
                     </div>
                     <div class="text-body-2" v-show="dialog.instruction">
-          			    {{ dialog.instruction }}
+                        {{ dialog.instruction }}
                     </div>
-        		</v-card-text>
+                </v-card-text>
 
-        		<v-card-actions>
-          			<v-spacer></v-spacer>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
 
-					<v-btn
-						color="primary"
-						text
-						@click="dialog.show=false"
-					>
-            			Close
-          			</v-btn>
-        		</v-card-actions>
-      		
-			</v-card>
-    
-		</v-dialog>  
+                    <v-btn
+                        color="primary"
+                        text
+                        @click="dialog.show=false"
+                    >
+                        Close
+                    </v-btn>
+                </v-card-actions>
+            
+            </v-card>
+
+        </v-dialog>
 
     </div>
 
@@ -341,7 +315,7 @@
 
         mounted: function( ){
             //set the assets path. very important for ESRI JSAPI to load controls properly
-            esriConfig.assetsPath = ( process.env.NODE_ENV == "development" ? "/" : "//" + window.location.hostname + "/finslive/" ) + "assets"
+            esriConfig.assetsPath = ( process.env.NODE_ENV == "development" ? "/" : "//" + window.location.hostname + "/" ) + "assets"
 
             //initialize map
             this.initMap( )
@@ -899,7 +873,7 @@
                     name = _this.$router.currentRoute.name,
                     params = _this.$router.currentRoute.params
 
-                    if( _this.getDataFromAPI( name, params ) ){
+                if( _this.getDataFromAPI( name, params ) ){
                     _this.refreshid.gauge = window.clearInterval( _this.refreshid.gauge )
                     _this.map_loading = true
 
@@ -1309,13 +1283,19 @@
 
 <style>
     #map {
-        padding: 0;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box; 
+		-webkit-box-sizing: border-box;
         margin: 0;
         height: 100%;
-
+        
     }
 
     .esri-view .esri-view-surface--inset-outline:focus::after {  outline: none !important;}
+
+    @media screen and (max-width: 960px) {
+        .esri-zoom{ display: none; }
+    }
 
 
 </style>

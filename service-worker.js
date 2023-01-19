@@ -10,7 +10,7 @@
 workbox.core.setCacheNameDetails( { prefix: "finslive" } );
 
 //Change this value every time before you build
-const LATEST_VERSION = "v3.5.1"
+const LATEST_VERSION = "v3.6.0"
 
 self.addEventListener( "install", event => {
 	console.log( "Service worker is Installing." );

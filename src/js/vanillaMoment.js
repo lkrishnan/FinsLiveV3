@@ -128,6 +128,7 @@ export function FormatDate( fmt, dte=Date.now( ), utc=false ){
             return new Intl.DateTimeFormat( "en-US", { 
                 hour: "2-digit",
                 minute: "2-digit",
+                hour12: false,
 
             } ).format( GetDateAsEpoch( dte ) )
 
@@ -196,6 +197,13 @@ export function AsMilliSeconds( duration=1, unit ){
 
 export function SubtractFromDate( duration, unit, dte=new Date( ), ret_as_epoch=false ){
     const epoch = GetDateAsObj( dte ) - AsMilliSeconds( duration, unit )
+
+    return new Date( ret_as_epoch ? epoch : new Date( epoch ) )
+
+}
+
+export function AddToDate( duration, unit, dte=new Date( ), ret_as_epoch=false ){
+    const epoch = GetDateAsObj( dte ) + AsMilliSeconds( duration, unit )
 
     return new Date( ret_as_epoch ? epoch : new Date( epoch ) )
 

@@ -122,80 +122,42 @@
 									ref="menu3"
 									v-model="menu3"
 									:close-on-content-click="false"
-									:return-value.sync="period_date"
 									transition="scale-transition"
 									offset-y
+									max-width="290px"
 									min-width="auto"
 								>
 									<template v-slot:activator="{ on, attrs }">
-									<v-text-field
-										v-model="period_date"
-										label="Date"
-										prepend-icon="mdi-calendar"
-										readonly
-										v-bind="attrs"
-										v-on="on"
-									></v-text-field>
+										<v-text-field
+											v-model="period_date_frmt"
+											label="Date"
+											hint="MM/DD/YYYY format"
+											persistent-hint
+											v-bind="attrs"
+											v-on="on"
+										></v-text-field>
 									</template>
 									<v-date-picker
 										v-model="period_date"
 										no-title
-										scrollable
+										@input="menu3 = false"
 									>
-									<v-spacer></v-spacer>
-									<v-btn
-										text
-										color="primary"
-										@click="menu3 = false"
-									>
-										Cancel
-									</v-btn>
-									<v-btn
-										text
-										color="primary"
-										@click="$refs.menu3.save(date)"
-									>
-										OK
-									</v-btn>
 									</v-date-picker>
 
 								</v-menu>
+
+								
 
 							</v-col>
 
 							<v-col
 								md="4"
 							>
-								<v-menu
-									ref="menu4"
-									v-model="menu4"
-									:close-on-content-click="false"
-									:nudge-right="40"
-									:return-value.sync="period_time"
-									transition="scale-transition"
-									offset-y
-									max-width="290px"
-									min-width="290px"
-								>
-									<template v-slot:activator="{ on, attrs }">
-										<v-text-field
-											v-model="period_time"
-											label="Time"
-											prepend-icon="mdi-clock-time-four-outline"
-											type="period_time"
-											readonly
-											v-bind="attrs"
-											v-on="on"
-										></v-text-field>
-									</template>
-									<v-time-picker
-										v-if="menu4"
-										v-model="period_time"
-										full-width
-										@click:minute="$refs.menu4.save( period_time )"
-									></v-time-picker>
-								
-								</v-menu>
+								<v-text-field
+									v-model="period_time"	
+									label="Time"
+									type="time"
+								></v-text-field>
 		
 							</v-col>
 
@@ -248,7 +210,6 @@
 										label="Start Date"
 										hint="MM/DD/YYYY format"
 										persistent-hint
-										prepend-icon="mdi-calendar"
 										v-bind="attrs"
 										v-on="on"
 									></v-text-field>
@@ -282,7 +243,6 @@
 										label="End Date"
 										hint="MM/DD/YYYY format"
 										persistent-hint
-										prepend-icon="mdi-calendar"
 										v-bind="attrs"
 										v-on="on"
 									></v-text-field>
@@ -368,6 +328,7 @@
 			menu3: false,
 			menu4: false,
 			period_date: FormatDate( "YYYY-MM-DD" ),
+			period_date_frmt: FormatDate( "MM/DD/YYYY" ),
 			period_time: FormatDate( "hh:mm" ),
 			duration_rules: [
                 v => !!v || "Required",
@@ -410,14 +371,18 @@
 
 		watch: {
             start_date( val ){
-        		this.start_date_frmt = FormatDate( "MM/DD/YYYY", this.start_date )
+        		this.start_date_frmt = FormatDate( "MM/DD/YYYY", val )
 				
       		},
 
 			end_date( val ){
-        		this.end_date_frmt = FormatDate( "MM/DD/YYYY", this.end_date )
+				this.end_date_frmt = FormatDate( "MM/DD/YYYY", val + " 23:59" )
 
       		},
+
+	  	    period_date( val ){
+				this.period_date_frmt = FormatDate( "MM/DD/YYYY", val + " 23:59" )
+			}
 
 		},
 

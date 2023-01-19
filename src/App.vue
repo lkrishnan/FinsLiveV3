@@ -117,28 +117,6 @@
 							</v-btn>
 						</v-badge>
 
-						<v-btn 
-							outlined
-							class="ma-2 d-none d-lg-flex"  
-							color="amber darken-2"
-							@click="takeAction('Login')"
-							v-if="( auth === '' )"
-						>
-								<v-icon>mdi-login</v-icon>
-								Login
-						</v-btn>
-
-						<v-btn 
-							outlined
-							class="ma-2 d-none d-lg-flex"  
-							color="primary"
-							@click="takeAction('Logout')"
-							v-if="( auth !== '' )"
-						>
-								<v-icon>mdi-login</v-icon>
-								Logout
-						</v-btn>
-
 						<v-btn
 							class="mx-2"
 							fab
@@ -219,11 +197,10 @@
 			class="grey lighten-3"
 		>
 			<router-view/>
-			
 		</v-main>
 
 		<v-snackbar bottom right :value="updateExists" :timeout="-1" color="primary">
-    		An update is available
+    			An update is available
     		<v-btn text @click="refreshApp">Update</v-btn>
   		</v-snackbar>  
 
@@ -407,8 +384,8 @@ export default {
 						{ text: "Dashboard", icon: "mdi-view-dashboard", action: "Dashboard", },
 						{ text: "Help", icon: "mdi-help", action: "Help", },
 						{ text: "Data Download", icon: "mdi-download", action: "DownloadData", },
-						{ text: "Login", icon: "mdi-login", action: "Login", },
-
+						{ text: ( _this.auth === "" ? "Staff Login" : "Logout" ), icon: "mdi-login", action: "Login", },
+						
 					]
 
 			switch( name ){
@@ -430,6 +407,7 @@ export default {
 					break
 				
 				case "Login":
+
 					_this.nav_items = all.filter( item => item.action != "Login" )
 					break
 
@@ -498,12 +476,18 @@ export default {
 					break
 
 				case "Login":
-					_this.$router.push( { name: action } )
-					break
+					if( _this.auth === "" ){
+						_this.$router.push( { name: action } )
 
-				case "Logout":
-					localStorage.removeItem( "token" )
-          			_this.auth = ""
+					}else{
+						localStorage.removeItem( "token" )
+          				_this.auth = ""
+					}
+					const name = _this.$router.currentRoute.name,
+                    	params = _this.$router.currentRoute.params
+
+					_this.setNavItems( name, params )
+					
 					break
 
 				case "Tab":
@@ -554,6 +538,6 @@ export default {
 </script>
 
 <style>
-	html { overflow-y: auto; }
+	html { overflow-y: auto !important; }
 
 </style>

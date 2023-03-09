@@ -5,8 +5,14 @@ import router from "./router"
 import store from "./store"
 import Vue from "vue"
 import vuetify from "./plugins/vuetify"
+import VueAnalytics from "vue-analytics"
 
 Vue.config.productionTip = false
+
+// Configuration VueAnalytics
+Vue.use(VueAnalytics, {
+	id: 'UA-10808705-1'
+});
 
 new Vue( {
     router,  

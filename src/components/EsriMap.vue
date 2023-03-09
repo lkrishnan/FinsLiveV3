@@ -127,9 +127,18 @@
             :style="is_mobile ? 'width:100%; bottom: 38px;' : 'width:430px; bottom: 10px;'"
             v-show="getSourceSwitch( 'radar' )"
         >
-        <RadarControl v-if="getSourceSwitch( 'radar' )"/>
+            <RadarControl v-if="getSourceSwitch( 'radar' )"/>
 
         </v-container>
+
+        <div 
+            class="pa-1 yellow text-right text-subtitle-2"
+            style="position: absolute; z-index: 1; right: 10px;"
+            :style="is_mobile ? 'bottom: 38px;' : 'bottom: 10px;'"
+        >
+            If you experience slowness use our <a href="https://fins.mecknc.gov" target="_blank">alternate website</a>     
+            
+        </div>
 
         <!-- Overlays Tab  -->
         <v-navigation-drawer
@@ -295,6 +304,7 @@
     import GetNewRoute from "../js/getNewRoute"
     import GetRoadGraphics from "../js/getRoadGraphics"
     import Query from "@arcgis/core/rest/support/Query"
+    import OpenStreetMapLayer from "@arcgis/core/layers/OpenStreetMapLayer"
                             
     export default {
         name: "themap",
@@ -667,20 +677,20 @@
             initMap( ){
                 const _this = this
 
-                _this.map = new Map( { basemap: "gray-vector", } )
+                _this.map = new Map( {
+                    layers: [  new OpenStreetMapLayer() ] 
+                    
+                } )
 
                 _this.map_view = new MapView( {
                     container: "map",
                     map: _this.map,
-                    zoom: 9,
+                    zoom: 10,
                     center: [ -80.837, 35.270 ], //lon, lat
                          		        
                 } )
 
                 _this.map_view.when( ( ) => {
-                    //const ctx = _this.findFirstDescendant( "map", "canvas" ).getContext( "2d", { willReadFrequently: true } )
-                    //console.log( _this.findFirstDescendant( "map", "canvas" ).getContext('webgl') );
-
                     //initiate map sources
                     _this.map_sources = {
                         opaque: new MapImageLayer( {

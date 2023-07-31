@@ -17,19 +17,23 @@
       box-sizing: inherit;
     }
 
-    // Apply focus ring matching calcite components, for consistency.
-    &:focus-visible,
-    &:focus,
-    *:focus-visible,
-    *:focus {
-      outline: 2px solid var(--calcite-ui-brand);
-    }
-
     &#{&}--disabled {
       & > * {
         pointer-events: none;
         opacity: $opacity--disabled;
       }
+    }
+
+    /*
+     * Padding/spacing - should be respected by each widget
+     */
+    --esri-widget-padding-x: #{$side-spacing};
+    --esri-widget-padding-y: #{$cap-spacing};
+    --esri-widget-padding: var(--esri-widget-padding-y) var(--esri-widget-padding-x);
+
+    &.esri-widget--compact {
+      --esri-widget-padding-y: 0;
+      --esri-widget-padding-x: 0;
     }
   }
 
@@ -228,7 +232,7 @@
 
   .esri-input {
     background-color: $background-color;
-    border: 1px solid $border-color;
+    border: 1px solid $border-color--input;
     color: $font-color;
     font-family: $font-family;
     font-size: $font-size;
@@ -251,6 +255,9 @@
     &::-webkit-input-placeholder {
       color: $font-color--placeholder;
     }
+  }
+  calcite-combobox.esri-input {
+    border: none;
   }
 
   .esri-button {
@@ -384,7 +391,7 @@
     width: 100%;
     height: $button-height;
     color: $font-color;
-    border: 1px solid $border-color;
+    border: 1px solid $border-color--input;
     margin: 0;
     -webkit-appearance: none;
     -moz-appearance: none;

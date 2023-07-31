@@ -4,7 +4,7 @@
 
   .esri-feature-form {
     background-color: $panel-background-color;
-    padding: $cap-spacing $side-spacing;
+    padding: var(--esri-widget-padding);
   }
 
   .esri-feature-form__form {
@@ -36,12 +36,32 @@
     }
   }
 
+  .esri-feature-form__input-wrapper {
+    position: relative;
+    order: 3;
+    display: inline-flex;
+    flex: 1 1 0%;
+    align-items: center;
+  }
+
+  .esri-feature-form__input-loader {
+    inset-block-start: 5px;
+    inset-inline: 1px;
+    pointer-events: none;
+    position: absolute;
+    display: block;
+  }
+
   .esri-feature-form__input {
     margin-top: $cap-spacing--third;
     width: 100%;
-
     // for textarea
     resize: horizontal;
+
+    &:focus {
+      outline: 2px solid var(--calcite-ui-brand);
+      outline-offset: -2px;
+    }
   }
 
   .esri-feature-form__input--date,
@@ -50,7 +70,8 @@
   }
 
   .esri-feature-form__input--disabled {
-    opacity: $opacity--disabled;
+    background-color: var(--calcite-ui-background);
+    font-weight: var(--calcite-font-weight-medium);
   }
 
   .esri-feature-form__input--invalid {
@@ -76,27 +97,11 @@
 
   .esri-feature-form__date-input-container {
     display: flex;
-  }
-
-  .esri-feature-form__date-input-part {
-    width: 50%;
-    display: flex;
     flex-direction: column;
 
-    // only want to hide the border if there date/time inputs are side-by-side
-    &:nth-last-child(2) .esri-feature-form__input {
-      border-right: none;
+    .esri-feature-form__input {
+      border: none;
     }
-
-    &--lone {
-      width: 100%;
-    }
-  }
-
-  .esri-feature-form__date-format-hint {
-    color: $interactive-font-color;
-    font-size: $font-size--small;
-    padding: 0.5em 0.5em 0 0.5em;
   }
 
   .esri-feature-form__input--radio-group {

@@ -19,7 +19,7 @@
     "build-report": "vue-cli-service build --report"
   },
   "dependencies": {
-    "@arcgis/core": "^4.23.7",
+    "@arcgis/core": "^4.26.5",
     "@mdi/font": "^6.5.95",
     "@turf/interpolate": "^6.5.0",
     "axios": "^0.26.0",
@@ -36,11 +36,11 @@
     "vuex": "^3.4.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-pwa": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-plugin-vuex": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
+    "@vue/cli-plugin-babel": "^5.0.8",
+    "@vue/cli-plugin-pwa": "^5.0.8",
+    "@vue/cli-plugin-router": "^5.0.8",
+    "@vue/cli-plugin-vuex": "^5.0.8",
+    "@vue/cli-service": "^5.0.8",
     "sass": "~1.32.0",
     "sass-loader": "^10.0.0",
     "vue-analytics": "^5.22.1",

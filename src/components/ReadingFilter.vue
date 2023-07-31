@@ -141,6 +141,7 @@
 										v-model="period_date"
 										no-title
 										@input="menu3 = false"
+										:max="max_date"
 									>
 									</v-date-picker>
 
@@ -219,6 +220,7 @@
 									v-model="start_date"
 									no-title
 									@input="menu1 = false"
+									:max="end_date"
 								></v-date-picker>
 
         					</v-menu>
@@ -252,6 +254,7 @@
 									v-model="end_date"
 									no-title
 									@input="menu2 = false"
+									:max="max_date"
 								></v-date-picker>
 							
 							</v-menu>
@@ -319,9 +322,9 @@
 				{ text: "Year(s)", value: "Y" },
 				
 			],
-			start_date: FormatDate( "YYYY-MM-DD", SubtractFromDate( 1, "days" ) ),
+			start_date: FormatDate( "YYYY-MM-DD" ),
 			end_date: FormatDate( "YYYY-MM-DD" ),
-			start_date_frmt: FormatDate( "MM/DD/YYYY", SubtractFromDate( 1, "days" ) ),
+			start_date_frmt: FormatDate( "MM/DD/YYYY" ),
 			end_date_frmt: FormatDate( "MM/DD/YYYY" ),
 			menu1: false,
 			menu2: false,
@@ -336,8 +339,9 @@
 			],
 			valid: true,
 			chg_route: true,
-      
-		} ),
+			max_date:FormatDate( "YYYY-MM-DD" ),
+			min_date:FormatDate( "YYYY-MM-DD", SubtractFromDate( 1, "years" ) )
+      	} ),
       
       	computed: {
 			//app
@@ -371,7 +375,7 @@
 
 		watch: {
             start_date( val ){
-        		this.start_date_frmt = FormatDate( "MM/DD/YYYY", val )
+        		this.start_date_frmt = FormatDate( "MM/DD/YYYY", val + " 00:00" )
 				
       		},
 

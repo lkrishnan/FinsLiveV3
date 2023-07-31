@@ -502,9 +502,7 @@ export default {
 					_this.takeAction( "Tab" )
 					break
 
-				default:
-					console.log( action )
-					break
+				
 
 			}
  

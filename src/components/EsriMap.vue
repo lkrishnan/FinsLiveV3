@@ -296,6 +296,8 @@
     import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer"
     import FeatureLayer from "@arcgis/core/layers/FeatureLayer"
     import MapImageLayer from "@arcgis/core/layers/MapImageLayer"
+    import WMSLayer from "@arcgis/core/layers/WMSLayer"
+    //import ImageryLayer from "@arcgis/core/layers/ImageryLayer"
     import Locate from "@arcgis/core/widgets/Locate"
     import { GetAlertData, GetNWSDetail, GetStoredContrailData } from "../js/getFINSData"
     import { FormatAsGeoJSON, GetGeoJSONURL, GetGeoJSONTemplate, GetGeoJSONRenderer, GetGeoJSONLabelInfo, InterpolatePrcp} from "../js/geoJSON"
@@ -706,8 +708,11 @@
 
                         } ),
 
-                        radar: new MapImageLayer( {
-                            url: "https://nowcoast.noaa.gov/arcgis/rest/services/nowcoast/radar_meteo_imagery_nexrad_time/MapServer",
+                        /*radar: new MapImageLayer( {
+                            //https://nowcoast.noaa.gov/arcgis/rest/services/nowcoast/radar_meteo_imagery_nexrad_time/MapServer
+                            //https://nowcoast.noaa.gov/geoserver/observations/weather_radar/ows?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities
+                            //url: "https://nowcoast.noaa.gov/arcgis/rest/services/nowcoast/radar_meteo_imagery_nexrad_time/MapServer",
+                            url: "https://mapservices.weather.noaa.gov/eventdriven/rest/services/radar/radar_base_reflectivity/MapServer",
                             sublayers: [ { id: 3 } ],
                             opacity: 0.7,
                             dpi: 96,
@@ -716,10 +721,34 @@
                             useViewTime: false, // layer sets its time extent and will ignore view's timeExtent.
                             visible: _this.getSourceSwitch( "radar" ),
                             
+                        } ),*/
+
+                        /*radar: new ImageryLayer( {
+                            format: "png32",
+                            opacity: 0.7,
+                            refreshInterval: 3, // refresh the layer every 3 minutes
+                            url: "https://mapservices.weather.noaa.gov/eventdriven/rest/services/radar/radar_base_reflectivity_time/ImageServer",
+                            useViewTime: false, // layer sets its time extent and will ignore view's timeExtent.
+                            visible: _this.getSourceSwitch( "radar" ),
+                        } ),*/
+
+
+                        radar: new WMSLayer( {
+                            url: "https://nowcoast.noaa.gov/geoserver/observations/weather_radar/ows",
+                            sublayers: [
+                                {
+                                    name: "base_reflectivity_mosaic"
+                                }
+                            ],
+                            opacity: 0.7,
+                            refreshInterval: 3, // refresh the layer every 3 minutes
+                            useViewTime: false, // layer sets its time extent and will ignore view's timeExtent.
+                            visible: _this.getSourceSwitch( "radar" )
                         } ),
 
                         warn: new FeatureLayer( {
-                            url: "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Forecasts_Guidance_Warnings/watch_warn_adv/MapServer/0",
+                            //url: "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Forecasts_Guidance_Warnings/watch_warn_adv/MapServer/0",
+                            url: "https://mapservices.weather.noaa.gov/eventdriven/rest/services/WWA/watch_warn_adv/MapServer/0",
                             opacity: 0.5,
                             visible: _this.getSourceSwitch( "warn" ),
                             popupTemplate: GetNWSWarnTemplate( ),
@@ -727,7 +756,8 @@
                         } ),
 
                         watch: new FeatureLayer( {
-                            url: "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Forecasts_Guidance_Warnings/watch_warn_adv/MapServer/1",
+                            //url: "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Forecasts_Guidance_Warnings/watch_warn_adv/MapServer/1",
+                            url: "https://mapservices.weather.noaa.gov/eventdriven/rest/services/WWA/watch_warn_adv/MapServer/1",
                             opacity: 0.5,
                             visible: _this.getSourceSwitch( "watch" ),
                             popupTemplate: GetNWSWatchTemplate( ),

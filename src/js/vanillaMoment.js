@@ -189,6 +189,7 @@ export function AsMilliSeconds( duration=1, unit ){
         minutes: duration * 60 * 1000,
         hours: duration * 60 * 60 * 1000,
         days: duration * 24 * 60 * 60 * 1000,
+        years: duration * 365 * 24 * 60 * 60 * 1000,
     
     }
 

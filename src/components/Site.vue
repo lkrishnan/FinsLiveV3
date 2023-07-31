@@ -621,8 +621,6 @@
                                 return { ...ref, ...{ value : ( _this.use_msl ? ref.value : RoundNum( ref.value - site_info.msl, 2 ) ) } }  
                             } )
 
-                            console.log( site_info, chart_params.refs )
-                            
                             yscale_nums.push( ...site_info.ref_values.map( ref => ( _this.use_msl ? ref.value : RoundNum( ref.value - site_info.msl, 2 ) ) ) )
                             
                         }

@@ -53,8 +53,6 @@ export async function GetStoredContrailData( qrystr ){
 	  	url = `${store.getters[ "ws" ].fm}v1/lcs_readings`,
 		response = await axios_inst.get( `${ url }?${ JSONToURL( qrystr ) }` )
 
-		console.log( url )
-
 		return response.data 
 
 	}catch( error){
@@ -96,7 +94,7 @@ export function getContrailParams( qrystr, site_info ){
 		ret_val = { 
 			...ret_val, 
 			or_site_id: qrystr.uniqueid,
-			or_sensor_id: site_info.or_sensor_id, //or_sensor_is needs to be passed to get the readings with msl 
+			//or_sensor_id: site_info.or_sensor_id, //or_sensor_is needs to be passed to get the readings with msl 
 
 		}
 		

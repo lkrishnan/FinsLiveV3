@@ -202,7 +202,7 @@
         >
             <ReadingFilter v-if="filter_holder && [ 0, 1 ].includes( top_tab ) && info_drawer" />
             <Site />                
-            <FloodImpact v-if="info_drawer" />
+            <!--<FloodImpact v-if="info_drawer" />-->
             <WeatherForecast v-if="info_drawer" />  
             <About v-if="info_drawer"/>              
         </v-navigation-drawer>

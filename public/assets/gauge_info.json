@@ -8,8 +8,9 @@
         "label": "Briar Creek @ Park Rd FMP1", 
         "lat": 35.1581, 
         "lon": -80.8486, 
+        "reading_with_msl": 572.5, 
         "msl": 571.5, 
-        "or_sensor_id": "4"
+        "reading": 1.0
     }, 
     "989": {
         "unique_id": "989", 
@@ -20,8 +21,9 @@
         "label": "Little Sugar Creek at Wellingford St. FMP37", 
         "lat": 35.2591, 
         "lon": -80.7917, 
+        "reading_with_msl": 698.2, 
         "msl": 697.7, 
-        "or_sensor_id": "4"
+        "reading": 0.5
     }, 
     "905": {
         "unique_id": "905", 
@@ -32,8 +34,9 @@
         "label": "Mallard Creek at Mallard Creek Greenway FMB31", 
         "lat": 35.3252, 
         "lon": -80.7822, 
+        "reading_with_msl": 643.625, 
         "msl": 643.0, 
-        "or_sensor_id": "18", 
+        "reading": 0.625, 
         "ref_values": [
             {
                 "label": "at top of bank", 
@@ -68,8 +71,9 @@
         "label": "Mallard Creek at David Taylor Dr. FMB32", 
         "lat": 35.3219, 
         "lon": -80.7552, 
+        "reading_with_msl": 591.2083, 
         "msl": 590.8, 
-        "or_sensor_id": "5", 
+        "reading": 0.4083, 
         "ref_values": [
             {
                 "label": "at top of bank", 
@@ -95,53 +99,229 @@
             }
         ]
     }, 
-    "1037": {
-        "unique_id": "1037", 
-        "site_id": "019", 
-        "or_site_id": "1037", 
+    "1021": {
+        "unique_id": "1021", 
+        "site_id": "01312022", 
+        "or_site_id": "1021", 
         "gauge_type": "lcs", 
-        "site_name": "McAlpine Creek at Pineville-Matthews Rd. FMB84", 
-        "label": "McAlpine Creek at Pineville-Matthews Rd. FMB84", 
-        "lat": 35.0851, 
-        "lon": -80.8341, 
-        "msl": 534.1, 
-        "or_sensor_id": "9"
+        "site_name": "Little Sugar Creek at E 36th St. FMB39", 
+        "label": "Little Sugar Creek at E 36th St. FMB39", 
+        "lat": 35.2299, 
+        "lon": -80.7823, 
+        "reading_with_msl": 676.1396, 
+        "msl": 675.523, 
+        "reading": 0.6167
     }, 
-    "945": {
-        "unique_id": "945", 
-        "site_id": "022", 
-        "or_site_id": "945", 
+    "1065": {
+        "unique_id": "1065", 
+        "site_id": "017", 
+        "or_site_id": "1065", 
         "gauge_type": "lcs", 
-        "site_name": "Mallard Creek at W Sugar Creek Rd. FMB30", 
-        "label": "Mallard Creek at W Sugar Creek Rd. FMB30", 
-        "lat": 35.3287, 
-        "lon": -80.8012, 
-        "msl": 702.0, 
-        "or_sensor_id": "1", 
+        "site_name": "Little Sugar Creek at 6317 Birmingham Dr. FMB51", 
+        "label": "Little Sugar Creek at 6317 Birmingham Dr. FMB51", 
+        "lat": 35.1391, 
+        "lon": -80.8614, 
+        "reading_with_msl": 554.5833, 
+        "msl": 553.8, 
+        "reading": 0.7833
+    }, 
+    "6536": {
+        "unique_id": "6536", 
+        "site_id": "0212393300", 
+        "or_site_id": "179", 
+        "gauge_type": "stage", 
+        "site_name": "W. BR ROCKY RIVER bl MTH of S PRONG R nr CORNELIUS", 
+        "label": "6536: W. BR ROCKY RIVER bl MTH of S PRONG R nr CORNELIUS", 
+        "lat": 35.46778, 
+        "lon": -80.79028, 
+        "reading_with_msl": 639.63, 
+        "msl": 636.42, 
+        "reading": 3.21, 
         "ref_values": [
             {
-                "label": "at road surface", 
-                "value": 714.8
-            }, 
-            {
-                "label": "at top of bank", 
-                "value": 715.9
-            }
-        ], 
-        "alarms": [
-            {
-                "label": "alert", 
-                "value": 714.0
-            }, 
-            {
-                "label": "investigate", 
-                "value": 715.0
-            }, 
-            {
-                "label": "emergency", 
-                "value": 715.9
+                "label": "NWS floodstage", 
+                "value": 663.4
             }
         ]
+    }, 
+    "6533": {
+        "unique_id": "6533", 
+        "site_id": "02124080", 
+        "or_site_id": "180", 
+        "gauge_type": "stage", 
+        "site_name": "CLARKE CREEK at HARRIS ROAD nr HARRISBURG", 
+        "label": "6533: CLARKE CREEK at HARRIS ROAD nr HARRISBURG", 
+        "lat": 35.41417, 
+        "lon": -80.75194, 
+        "reading_with_msl": 611.96, 
+        "msl": 608.3, 
+        "reading": 3.66, 
+        "ref_values": [
+            {
+                "label": "NWS floodstage", 
+                "value": 627.33
+            }
+        ]
+    }, 
+    "6552": {
+        "unique_id": "6552", 
+        "site_id": "02124269", 
+        "or_site_id": "183", 
+        "gauge_type": "stage", 
+        "site_name": "BACK CREEK at SR1173 nr HARRISBURG", 
+        "label": "6552: BACK CREEK at SR1173 nr HARRISBURG", 
+        "lat": 35.30917, 
+        "lon": -80.67361, 
+        "reading_with_msl": 594.02, 
+        "msl": 591.13, 
+        "reading": 2.89
+    }, 
+    "6553": {
+        "unique_id": "6553", 
+        "site_id": "0212427947", 
+        "or_site_id": "184", 
+        "gauge_type": "stage", 
+        "site_name": "REEDY CREEK at SR2803", 
+        "label": "6553: REEDY CREEK at SR2803", 
+        "lat": 35.25639, 
+        "lon": -80.70056, 
+        "reading_with_msl": 637.29, 
+        "msl": 635.45, 
+        "reading": 1.84
+    }, 
+    "6550": {
+        "unique_id": "6550", 
+        "site_id": "0212430653", 
+        "or_site_id": "186", 
+        "gauge_type": "stage", 
+        "site_name": "McKEE CREEK at SR2804 nr WILGROVE", 
+        "label": "6550: McKEE CREEK at SR2804 nr WILGROVE", 
+        "lat": 35.25389, 
+        "lon": -80.64806, 
+        "reading_with_msl": 599.13, 
+        "msl": 597.09, 
+        "reading": 2.04, 
+        "ref_values": [
+            {
+                "label": "NWS floodstage", 
+                "value": 611.1
+            }
+        ]
+    }, 
+    "6530": {
+        "unique_id": "6530", 
+        "site_id": "0212466000", 
+        "or_site_id": "188", 
+        "gauge_type": "stage", 
+        "site_name": "CLEAR CREEK at SR3181 nr MINT HILL", 
+        "label": "6530: CLEAR CREEK at SR3181 nr MINT HILL", 
+        "lat": 35.20833, 
+        "lon": -80.58, 
+        "reading_with_msl": 561.21, 
+        "msl": 559.49, 
+        "reading": 1.72, 
+        "ref_values": [
+            {
+                "label": "NWS floodstage", 
+                "value": 573.3
+            }
+        ]
+    }, 
+    "6528": {
+        "unique_id": "6528", 
+        "site_id": "0212467451", 
+        "or_site_id": "189", 
+        "gauge_type": "stage", 
+        "site_name": "GOOSE CREEK at SR1524 nr INDIAN TRAIL", 
+        "label": "6528: GOOSE CREEK at SR1524 nr INDIAN TRAIL", 
+        "lat": 35.13042, 
+        "lon": -80.63118, 
+        "reading_with_msl": 597.11, 
+        "msl": 596.58, 
+        "reading": 0.53
+    }, 
+    "6529": {
+        "unique_id": "6529", 
+        "site_id": "0212467595", 
+        "or_site_id": "190", 
+        "gauge_type": "stage", 
+        "site_name": "GOOSE CREEK at SR1525 nr INDIAN TRAIL", 
+        "label": "6529: GOOSE CREEK at SR1525 nr INDIAN TRAIL", 
+        "lat": 35.125, 
+        "lon": -80.60278, 
+        "reading_with_msl": 551.16, 
+        "msl": 549.82, 
+        "reading": 1.34
+    }, 
+    "6548": {
+        "unique_id": "6548", 
+        "site_id": "02142654", 
+        "or_site_id": "193", 
+        "gauge_type": "stage", 
+        "site_name": "McDOWELL CREEK at GILEAD ROAD nr HUNTERSVILLE", 
+        "label": "6548: McDOWELL CREEK at GILEAD ROAD nr HUNTERSVILLE", 
+        "lat": 35.40694, 
+        "lon": -80.89056, 
+        "reading_with_msl": 661.29, 
+        "msl": 659.47, 
+        "reading": 1.82, 
+        "ref_values": [
+            {
+                "label": "NWS floodstage", 
+                "value": 689.5
+            }
+        ]
+    }, 
+    "6547": {
+        "unique_id": "6547", 
+        "site_id": "0214265808", 
+        "or_site_id": "194", 
+        "gauge_type": "stage", 
+        "site_name": "TORRENCE CREEK at BRADFORD HILL LANE nr HUNTERSVLLE", 
+        "label": "6547: TORRENCE CREEK at BRADFORD HILL LANE nr HUNTERSVLLE", 
+        "lat": 35.40361, 
+        "lon": -80.88278, 
+        "reading_with_msl": 665.28, 
+        "msl": 663.89, 
+        "reading": 1.39, 
+        "ref_values": [
+            {
+                "label": "NWS floodstage", 
+                "value": 679.0
+            }
+        ]
+    }, 
+    "6506": {
+        "unique_id": "6506", 
+        "site_id": "02142900", 
+        "or_site_id": "197", 
+        "gauge_type": "stage", 
+        "site_name": "LONG CREEK at OAKDALE ROAD nr PAW CREEK", 
+        "label": "6506: LONG CREEK at OAKDALE ROAD nr PAW CREEK", 
+        "lat": 35.32861, 
+        "lon": -80.90972, 
+        "reading_with_msl": 649.23, 
+        "msl": 647.69, 
+        "reading": 1.54, 
+        "ref_values": [
+            {
+                "label": "NWS floodstage", 
+                "value": 661.2
+            }
+        ]
+    }, 
+    "6546": {
+        "unique_id": "6546", 
+        "site_id": "0214676115", 
+        "or_site_id": "240", 
+        "gauge_type": "stage", 
+        "site_name": "McALPINE CREEK at SR2964 nr CAMP COX, SC", 
+        "label": "6546: McALPINE CREEK at SR2964 nr CAMP COX SC", 
+        "lat": 35.04083, 
+        "lon": -80.89167, 
+        "reading_with_msl": 499.67, 
+        "msl": 496.95, 
+        "reading": 2.72
     }, 
     "1123": {
         "unique_id": "1123", 
@@ -152,8 +332,9 @@
         "label": "Six Mile Creek @ Fawn Hill Rd FMP6", 
         "lat": 35.0575, 
         "lon": -80.753, 
+        "reading_with_msl": 638.8167, 
         "msl": 638.45, 
-        "or_sensor_id": "2"
+        "reading": 0.3667
     }, 
     "1071": {
         "unique_id": "1071", 
@@ -164,8 +345,9 @@
         "label": "McAlpine Creek at Carmel Country Club FMP83", 
         "lat": 35.1046, 
         "lon": -80.8171, 
+        "reading_with_msl": 531.925, 
         "msl": 531.5, 
-        "or_sensor_id": "3", 
+        "reading": 0.425, 
         "ref_values": [
             {
                 "label": "at top of bank", 
@@ -200,8 +382,9 @@
         "label": "Polk Ditch at Canvasback Dr on foot bridge FMP26", 
         "lat": 35.1003, 
         "lon": -80.9641, 
+        "reading_with_msl": 564.8666, 
         "msl": 564.5, 
-        "or_sensor_id": "1", 
+        "reading": 0.3667, 
         "ref_values": [
             {
                 "label": "at top of bank", 
@@ -236,8 +419,9 @@
         "label": "Briar Creek at Kildare Dr FMP57", 
         "lat": 35.2438, 
         "lon": -80.7651, 
+        "reading_with_msl": 681.1334, 
         "msl": 680.9, 
-        "or_sensor_id": "6", 
+        "reading": 0.2333, 
         "ref_values": [
             {
                 "label": "at top of bank", 
@@ -272,8 +456,9 @@
         "label": "Catawba River Trib at Riverside Dr. FMP062", 
         "lat": 35.3134, 
         "lon": -80.9922, 
+        "reading_with_msl": 570.625, 
         "msl": 570.6, 
-        "or_sensor_id": "2", 
+        "reading": 0.025, 
         "ref_values": [
             {
                 "label": "at greenway path", 
@@ -302,10 +487,11 @@
         "gauge_type": "lcs", 
         "site_name": "Paw Creek at Toddville Rd FMP10", 
         "label": "Paw Creek at Toddville Rd FMP10", 
-        "lat": 35.2557, 
-        "lon": -80.9275, 
+        "lat": 35.2556, 
+        "lon": -80.9272, 
+        "reading_with_msl": 655.0834, 
         "msl": 654.7, 
-        "or_sensor_id": "11"
+        "reading": 0.3833
     }, 
     "975": {
         "unique_id": "975", 
@@ -316,8 +502,9 @@
         "label": "Little Sugar Creek at Alexander St. Park Foot Bridge FMP43", 
         "lat": 35.2274, 
         "lon": -80.8272, 
+        "reading_with_msl": 640.9423, 
         "msl": 640.384, 
-        "or_sensor_id": "16", 
+        "reading": 0.5583, 
         "ref_values": [
             {
                 "label": "at top of bank", 
@@ -356,8 +543,9 @@
         "label": "Sugar Creek at Edgegreen Dr. FMP23", 
         "lat": 35.1596, 
         "lon": -80.9122, 
+        "reading_with_msl": 568.4916, 
         "msl": 567.5, 
-        "or_sensor_id": "8", 
+        "reading": 0.9917, 
         "ref_values": [
             {
                 "label": "at top of bank", 
@@ -392,8 +580,9 @@
         "label": "Irvins Creek at Apple Creek Dr. FMP97", 
         "lat": 35.1734, 
         "lon": -80.6724, 
+        "reading_with_msl": 677.5917, 
         "msl": 677.4, 
-        "or_sensor_id": "1"
+        "reading": 0.1917
     }, 
     "953": {
         "unique_id": "953", 
@@ -404,8 +593,9 @@
         "label": "Toby Creek UNCC Campus FMP33", 
         "lat": 35.3066, 
         "lon": -80.7386, 
+        "reading_with_msl": 596.3, 
         "msl": 595.5, 
-        "or_sensor_id": "5", 
+        "reading": 0.8, 
         "ref_values": [
             {
                 "label": "facilities football storage", 
@@ -466,8 +656,9 @@
         "label": "Walker Branch at Smith Rd. FMP27", 
         "lat": 35.097, 
         "lon": -80.9722, 
+        "reading_with_msl": 567.1917, 
         "msl": 566.325, 
-        "or_sensor_id": "3", 
+        "reading": 0.8667, 
         "ref_values": [
             {
                 "label": "at top of bank", 
@@ -502,8 +693,9 @@
         "label": "McMullen Creek at Johnny Cake Ln. FMP73", 
         "lat": 35.1333, 
         "lon": -80.8233, 
+        "reading_with_msl": 573.375, 
         "msl": 572.6, 
-        "or_sensor_id": "15", 
+        "reading": 0.775, 
         "ref_values": [
             {
                 "label": "at top of bank", 
@@ -542,8 +734,9 @@
         "label": "Four Mile Creek at Reverdy Lane FMP89", 
         "lat": 35.0976, 
         "lon": -80.7552, 
+        "reading_with_msl": 575.1167, 
         "msl": 574.2, 
-        "or_sensor_id": "4", 
+        "reading": 0.9167, 
         "ref_values": [
             {
                 "label": "at top of bank", 
@@ -565,42 +758,6 @@
             }
         ]
     }, 
-    "1023": {
-        "unique_id": "1023", 
-        "site_id": "0253", 
-        "or_site_id": "1023", 
-        "gauge_type": "lcs", 
-        "site_name": "Little Sugar Creek at Brandywine Rd. FMP46", 
-        "label": "Little Sugar Creek at Brandywine Rd. FMP46", 
-        "lat": 35.1728, 
-        "lon": -80.8467, 
-        "msl": 591.14, 
-        "or_sensor_id": "2", 
-        "ref_values": [
-            {
-                "label": "at top of bank", 
-                "value": 696.5
-            }, 
-            {
-                "label": "at road surface", 
-                "value": 697.8
-            }
-        ], 
-        "alarms": [
-            {
-                "label": "alert", 
-                "value": 696.0
-            }, 
-            {
-                "label": "investigate", 
-                "value": 697.0
-            }, 
-            {
-                "label": "emergency", 
-                "value": 698.0
-            }
-        ]
-    }, 
     "933": {
         "unique_id": "933", 
         "site_id": "0254", 
@@ -609,9 +766,10 @@
         "site_name": "Stewart Creek at Barlowe Rd. FMP11", 
         "label": "Stewart Creek at Barlowe Rd. FMP11", 
         "lat": 35.2559, 
-        "lon": -80.885, 
+        "lon": -80.8856, 
+        "reading_with_msl": 689.9833, 
         "msl": 689.8, 
-        "or_sensor_id": "14", 
+        "reading": 0.1833, 
         "ref_values": [
             {
                 "label": "at top of bank", 
@@ -650,8 +808,9 @@
         "label": "Torrence Creek at Wynfield Creek Pkwy FMP06", 
         "lat": 35.4119, 
         "lon": -80.8796, 
+        "reading_with_msl": 679.1767, 
         "msl": 679.01, 
-        "or_sensor_id": "1"
+        "reading": 0.1667
     }, 
     "1085": {
         "unique_id": "1085", 
@@ -662,8 +821,9 @@
         "label": "Sixmile Creek at Tom Short Rd. FMP079", 
         "lat": 35.0301, 
         "lon": -80.7927, 
+        "reading_with_msl": 587.8333, 
         "msl": 587.6, 
-        "or_sensor_id": "2"
+        "reading": 0.2333
     }, 
     "461": {
         "unique_id": "461", 
@@ -674,8 +834,9 @@
         "label": "Little Sugar Creek @ Park Rd FMP2", 
         "lat": 35.1599, 
         "lon": -80.849, 
+        "reading_with_msl": 574.7667, 
         "msl": 573.9, 
-        "or_sensor_id": "5"
+        "reading": 0.8667
     }, 
     "1121": {
         "unique_id": "1121", 
@@ -686,8 +847,9 @@
         "label": "Catawba River @ Riverhaven Dr. FMP101", 
         "lat": 35.3309, 
         "lon": -80.9797, 
-        "msl": 571.12, 
-        "or_sensor_id": "1"
+        "reading_with_msl": 571.22, 
+        "msl": 571.22, 
+        "reading": 0.125
     }, 
     "919": {
         "unique_id": "919", 
@@ -698,8 +860,9 @@
         "label": "Steele Creek at Westinghouse Blvd. FMP25", 
         "lat": 35.1322, 
         "lon": -80.9564, 
+        "reading_with_msl": 587.2333, 
         "msl": 587.2, 
-        "or_sensor_id": "22"
+        "reading": 0.0333
     }, 
     "1011": {
         "unique_id": "1011", 
@@ -710,8 +873,9 @@
         "label": "Little Hope Creek Tributary 1 at Bradbury Rd. FMP48", 
         "lat": 35.1693, 
         "lon": -80.8596, 
+        "reading_with_msl": 612.8033, 
         "msl": 612.745, 
-        "or_sensor_id": "20", 
+        "reading": 0.0583, 
         "ref_values": [
             {
                 "label": "at top of bank", 
@@ -737,41 +901,18 @@
             }
         ]
     }, 
-    "1033": {
-        "unique_id": "1033", 
-        "site_id": "0262", 
-        "or_site_id": "1033", 
+    "1027": {
+        "unique_id": "1027", 
+        "site_id": "0263", 
+        "or_site_id": "1027", 
         "gauge_type": "lcs", 
-        "site_name": "McAlpine Creek at Old Providence Rd. FMP81", 
-        "label": "McAlpine Creek at Old Providence Rd. FMP81", 
-        "lat": 35.1249, 
-        "lon": -80.7886, 
-        "msl": 541.3, 
-        "or_sensor_id": "7", 
-        "ref_values": [
-            {
-                "label": "at top of bank", 
-                "value": 559.8
-            }, 
-            {
-                "label": "at road surface", 
-                "value": 567.4
-            }
-        ], 
-        "alarms": [
-            {
-                "label": "alert", 
-                "value": 559.0
-            }, 
-            {
-                "label": "investigate", 
-                "value": 566.0
-            }, 
-            {
-                "label": "emergency", 
-                "value": 567.0
-            }
-        ]
+        "site_name": "McMullen Creek at Covey Hollow Rd. FMP75", 
+        "label": "McMullen Creek at Covey Hollow Rd. FMP75", 
+        "lat": 35.1013, 
+        "lon": -80.8468, 
+        "reading_with_msl": 531.1794, 
+        "msl": 531.171, 
+        "reading": 0.0083
     }, 
     "951": {
         "unique_id": "951", 
@@ -782,8 +923,9 @@
         "label": "Stewart Creek at Southwest Blvd. FMP12", 
         "lat": 35.2639, 
         "lon": -80.8688, 
+        "reading_with_msl": 663.8633, 
         "msl": 663.755, 
-        "or_sensor_id": "4"
+        "reading": 0.1083
     }, 
     "937": {
         "unique_id": "937", 
@@ -794,8 +936,9 @@
         "label": "Stewart Creek at Norwood Dr. FMP17", 
         "lat": 35.2489, 
         "lon": -80.8719, 
+        "reading_with_msl": 647.045, 
         "msl": 646.27, 
-        "or_sensor_id": "16"
+        "reading": 0.775
     }, 
     "939": {
         "unique_id": "939", 
@@ -806,8 +949,9 @@
         "label": "Stewart Creek at W Trade St. FMP13", 
         "lat": 35.2505, 
         "lon": -80.8662, 
+        "reading_with_msl": 646.796, 
         "msl": 646.071, 
-        "or_sensor_id": "17"
+        "reading": 0.725
     }, 
     "1069": {
         "unique_id": "1069", 
@@ -818,8 +962,9 @@
         "label": "Kings Branch at Arrowood Rd. FMP54", 
         "lat": 35.1368, 
         "lon": -80.886, 
+        "reading_with_msl": 582.8334, 
         "msl": 582.4, 
-        "or_sensor_id": "3"
+        "reading": 0.4333
     }, 
     "1045": {
         "unique_id": "1045", 
@@ -828,10 +973,11 @@
         "gauge_type": "lcs", 
         "site_name": "Mallard Creek at Mallard Creek WWTP FMB34", 
         "label": "Mallard Creek at Mallard Creek WWTP FMB34", 
-        "lat": 35.3319, 
-        "lon": -80.6972, 
+        "lat": 35.3323, 
+        "lon": -80.6995, 
+        "reading_with_msl": 567.7333, 
         "msl": 565.2, 
-        "or_sensor_id": "13"
+        "reading": 2.5333
     }, 
     "935": {
         "unique_id": "935", 
@@ -840,10 +986,11 @@
         "gauge_type": "lcs", 
         "site_name": "Stewart Creek at Rozzelles Ferry Rd. FMB16", 
         "label": "Stewart Creek at Rozzelles Ferry Rd. FMB16", 
-        "lat": 35.2473, 
-        "lon": -80.8685, 
+        "lat": 35.2474, 
+        "lon": -80.8687, 
+        "reading_with_msl": 642.7, 
         "msl": 642.7, 
-        "or_sensor_id": "15", 
+        "reading": 0.0, 
         "ref_values": [
             {
                 "label": "at top of bank", 
@@ -876,46 +1023,23 @@
         "gauge_type": "lcs", 
         "site_name": "Little Sugar Creek E 18th St. FMB42", 
         "label": "Little Sugar Creek E 18th St. FMB42", 
-        "lat": 35.2336, 
-        "lon": -80.8219, 
+        "lat": 35.2338, 
+        "lon": -80.8221, 
+        "reading_with_msl": 655.2473, 
         "msl": 654.764, 
-        "or_sensor_id": "2"
+        "reading": 0.4833
     }, 
-    "1065": {
-        "unique_id": "1065", 
-        "site_id": "045", 
-        "or_site_id": "1065", 
+    "949": {
+        "unique_id": "949", 
+        "site_id": "040", 
+        "or_site_id": "949", 
         "gauge_type": "lcs", 
-        "site_name": "Little Sugar Creek at 6317 Birmingham Dr. FMB51", 
-        "label": "Little Sugar Creek at 6317 Birmingham Dr. FMB51", 
-        "lat": 35.1391, 
-        "lon": -80.8614, 
-        "msl": 553.8, 
-        "or_sensor_id": "3", 
-        "ref_values": [
-            {
-                "label": "at top of bank", 
-                "value": 568.5
-            }, 
-            {
-                "label": "manhole", 
-                "value": 570.9
-            }
-        ], 
-        "alarms": [
-            {
-                "label": "alert", 
-                "value": 568.0
-            }, 
-            {
-                "label": "investigate", 
-                "value": 569.6
-            }, 
-            {
-                "label": "emergency", 
-                "value": 571.0
-            }
-        ]
+        "site_name": "McIntyre Creek Beatties Ford Rd. FMB9", 
+        "label": "McIntyre Creek Beatties Ford Rd. FMB9", 
+        "lat": 35.3195, 
+        "lon": -80.8648, 
+        "reading_with_msl": 730.8, 
+        "msl": 730.8
     }, 
     "1015": {
         "unique_id": "1015", 
@@ -924,10 +1048,11 @@
         "gauge_type": "lcs", 
         "site_name": "Briar Creek at Country Club Dr. FMB59", 
         "label": "Briar Creek at Country Club Dr. FMB59", 
-        "lat": 35.23, 
-        "lon": -80.7823, 
+        "lat": 35.2299, 
+        "lon": -80.7824, 
+        "reading_with_msl": 660.175, 
         "msl": 659.7, 
-        "or_sensor_id": "17"
+        "reading": 0.475
     }, 
     "929": {
         "unique_id": "929", 
@@ -938,8 +1063,9 @@
         "label": "Little Sugar Creek at Mellow Dr. FMB36", 
         "lat": 35.2613, 
         "lon": -80.7878, 
+        "reading_with_msl": 705.4333, 
         "msl": 705.1, 
-        "or_sensor_id": "12"
+        "reading": 0.3333
     }, 
     "1105": {
         "unique_id": "1105", 
@@ -950,8 +1076,46 @@
         "label": "McMullen Creek at Quail Hollow Rd. FMB98", 
         "lat": 35.117, 
         "lon": -80.8287, 
+        "reading_with_msl": 554.4083, 
         "msl": 553.8, 
-        "or_sensor_id": "1"
+        "reading": 0.6083
+    }, 
+    "1037": {
+        "unique_id": "1037", 
+        "site_id": "062", 
+        "or_site_id": "1037", 
+        "gauge_type": "lcs", 
+        "site_name": "McAlpine Creek at Pineville-Matthews Rd. FMB84", 
+        "label": "McAlpine Creek at Pineville-Matthews Rd. FMB84", 
+        "lat": 35.085, 
+        "lon": -80.8338, 
+        "reading_with_msl": 534.1, 
+        "msl": 534.1, 
+        "reading": 0.0, 
+        "ref_values": [
+            {
+                "label": "at walking path", 
+                "value": 625.8
+            }, 
+            {
+                "label": "at top of bank", 
+                "value": 625.9
+            }
+        ], 
+        "alarms": [
+            {
+                "label": "alert", 
+                "value": 625.0
+            }, 
+            {
+                "label": "investigate", 
+                "value": 626.0
+            }, 
+            {
+                "label": "emergency", 
+                "value": 628.0
+            }
+        ]
     }, 
     "1001": {
         "unique_id": "1001", 
@@ -962,8 +1126,9 @@
         "label": "Little Hope Creek at E Woodlawn Rd. FMB47", 
         "lat": 35.1723, 
         "lon": -80.8557, 
+        "reading_with_msl": 613.0787, 
         "msl": 612.762, 
-        "or_sensor_id": "10", 
+        "reading": 0.3167, 
         "ref_values": [
             {
                 "label": "at top of bank", 
@@ -998,8 +1163,9 @@
         "label": "Briar Creek at Perth Crt. FMP071", 
         "lat": 35.2445, 
         "lon": -80.7498, 
+        "reading_with_msl": 711.9667, 
         "msl": 711.3, 
-        "or_sensor_id": "2"
+        "reading": 0.6667
     }, 
     "985": {
         "unique_id": "985", 
@@ -1010,8 +1176,9 @@
         "label": "Briar Creek at Twiford Pl. FMP68", 
         "lat": 35.1873, 
         "lon": -80.8159, 
+        "reading_with_msl": 611.6433, 
         "msl": 610.91, 
-        "or_sensor_id": "2"
+        "reading": 0.7333
     }, 
     "941": {
         "unique_id": "941", 
@@ -1022,8 +1189,9 @@
         "label": "Kings Branch at Lexington Green Apartments FMB49", 
         "lat": 35.1519, 
         "lon": -80.8904, 
+        "reading_with_msl": 607.0417, 
         "msl": 605.9, 
-        "or_sensor_id": "18", 
+        "reading": 1.1417, 
         "ref_values": [
             {
                 "label": "at top of bank", 
@@ -1056,10 +1224,11 @@
         "gauge_type": "lcs", 
         "site_name": "McMullen Creek @ Fairview Rd FMP4", 
         "label": "McMullen Creek @ Fairview Rd FMP4", 
-        "lat": 35.1474, 
-        "lon": -80.8124, 
+        "lat": 35.1476, 
+        "lon": -80.8121, 
+        "reading_with_msl": 611.4417, 
         "msl": 610.8, 
-        "or_sensor_id": "4"
+        "reading": 0.6417
     }, 
     "1031": {
         "unique_id": "1031", 
@@ -1068,10 +1237,24 @@
         "gauge_type": "lcs", 
         "site_name": "Little Sugar Creek at Sharon Rd Greenway FMP52", 
         "label": "Little Sugar Creek at Sharon Rd Greenway FMP52", 
-        "lat": 35.1185, 
+        "lat": 35.1184, 
         "lon": -80.868, 
+        "reading_with_msl": 546.3583, 
         "msl": 545.6, 
-        "or_sensor_id": "6"
+        "reading": 0.7583
+    }, 
+    "1196": {
+        "unique_id": "1196", 
+        "site_id": "0696", 
+        "or_site_id": "1196", 
+        "gauge_type": "lcs", 
+        "site_name": "Stevens Creek @ Thompson Rd FMP99", 
+        "label": "Stevens Creek @ Thompson Rd FMP99", 
+        "lat": 35.1409, 
+        "lon": -80.6582, 
+        "reading_with_msl": 658.2, 
+        "msl": 658.0, 
+        "reading": 0.2
     }, 
     "967": {
         "unique_id": "967", 
@@ -1082,8 +1265,9 @@
         "label": "Irvins Creek at Lebanon Rd. FMP88", 
         "lat": 35.1663, 
         "lon": -80.6897, 
+        "reading_with_msl": 648.3, 
         "msl": 647.9, 
-        "or_sensor_id": "12"
+        "reading": 0.4
     }, 
     "961": {
         "unique_id": "961", 
@@ -1094,8 +1278,9 @@
         "label": "Edwards Branch at Commonwealth Ave. FMP63", 
         "lat": 35.208, 
         "lon": -80.7921, 
+        "reading_with_msl": 652.6166, 
         "msl": 652.3, 
-        "or_sensor_id": "9"
+        "reading": 0.3167
     }, 
     "1025": {
         "unique_id": "1025", 
@@ -1106,20 +1291,9 @@
         "label": "McMullen Creek at McMullen Creek Greenway at 485 FMP76", 
         "lat": 35.07469, 
         "lon": -80.86386, 
+        "reading_with_msl": 521.35, 
         "msl": 521.0, 
-        "or_sensor_id": "3"
-    }, 
-    "1101": {
-        "unique_id": "1101", 
-        "site_id": "0700", 
-        "or_site_id": "1101", 
-        "gauge_type": "lcs", 
-        "site_name": "McMullen Creek Trib@ Addison Rd FMP96", 
-        "label": "McMullen Creek Trib@ Addison Rd FMP96", 
-        "lat": 35.1723, 
-        "lon": -80.7871, 
-        "msl": 659.3, 
-        "or_sensor_id": "1"
+        "reading": 0.35
     }, 
     "479": {
         "unique_id": "479", 
@@ -1128,10 +1302,11 @@
         "gauge_type": "lcs", 
         "site_name": "McMullen Creek @ Providence Rd FMP3", 
         "label": "McMullen Creek @ Providence Rd FMP3", 
-        "lat": 35.1596, 
-        "lon": -80.8004, 
+        "lat": 35.1599, 
+        "lon": -80.7995, 
+        "reading_with_msl": 634.2416, 
         "msl": 633.8, 
-        "or_sensor_id": "4"
+        "reading": 0.4417
     }, 
     "979": {
         "unique_id": "979", 
@@ -1140,10 +1315,11 @@
         "gauge_type": "lcs", 
         "site_name": "Briar Creek at Ruth Dr FMP56", 
         "label": "Briar Creek at Ruth Dr FMP56", 
-        "lat": 35.2481, 
-        "lon": -80.7592, 
+        "lat": 35.2479, 
+        "lon": -80.7593, 
+        "reading_with_msl": 691.4484, 
         "msl": 691.34, 
-        "or_sensor_id": "18"
+        "reading": 0.1083
     }, 
     "513": {
         "unique_id": "513", 
@@ -1154,8 +1330,9 @@
         "label": "Briar Creek @ Galway Dr FMP100", 
         "lat": 35.24126, 
         "lon": -80.75842, 
+        "reading_with_msl": 696.7583, 
         "msl": 696.6, 
-        "or_sensor_id": "4"
+        "reading": 0.1583
     }, 
     "983": {
         "unique_id": "983", 
@@ -1166,8 +1343,9 @@
         "label": "Briar Creek at Randolph Rd. FMP67", 
         "lat": 35.1995, 
         "lon": -80.8128, 
+        "reading_with_msl": 618.5583, 
         "msl": 618.35, 
-        "or_sensor_id": "1"
+        "reading": 0.2083
     }, 
     "1049": {
         "unique_id": "1049", 
@@ -1178,8 +1356,9 @@
         "label": "Four Mile Creek at E Charles St. FMP95", 
         "lat": 35.1075, 
         "lon": -80.7076, 
+        "reading_with_msl": 673.7043, 
         "msl": 673.571, 
-        "or_sensor_id": "15"
+        "reading": 0.1333
     }, 
     "997": {
         "unique_id": "997", 
@@ -1190,8 +1369,74 @@
         "label": "Briar Creek at Masonic Dr. FMP62", 
         "lat": 35.2186, 
         "lon": -80.7955, 
+        "reading_with_msl": 642.6583, 
         "msl": 642.0, 
-        "or_sensor_id": "8"
+        "reading": 0.6583
+    }, 
+    "947": {
+        "unique_id": "947", 
+        "site_id": "0707", 
+        "or_site_id": "947", 
+        "gauge_type": "lcs", 
+        "site_name": "Irwin Creek at West Blvd. FMP20", 
+        "label": "Irwin Creek at West Blvd. FMP20", 
+        "lat": 35.2178, 
+        "lon": -80.8727, 
+        "reading_with_msl": 612.1083, 
+        "msl": 611.1, 
+        "reading": 1.0083
+    }, 
+    "1035": {
+        "unique_id": "1035", 
+        "site_id": "0708", 
+        "or_site_id": "1035", 
+        "gauge_type": "lcs", 
+        "site_name": "Little Sugar Creek at Pineville Place Apartment FMP55", 
+        "label": "Little Sugar Creek at Pineville Place Apartment FMP55", 
+        "lat": 35.0752, 
+        "lon": -80.886, 
+        "reading_with_msl": 528.9, 
+        "msl": 528.9, 
+        "reading": 0.0
+    }, 
+    "1033": {
+        "unique_id": "1033", 
+        "site_id": "0709", 
+        "or_site_id": "1033", 
+        "gauge_type": "lcs", 
+        "site_name": "McAlpine Creek at Old Providence Rd. FMP81", 
+        "label": "McAlpine Creek at Old Providence Rd. FMP81", 
+        "lat": 35.1249, 
+        "lon": -80.7886, 
+        "reading_with_msl": 542.2083, 
+        "msl": 541.3, 
+        "reading": 0.9083
+    }, 
+    "1023": {
+        "unique_id": "1023", 
+        "site_id": "0710", 
+        "or_site_id": "1023", 
+        "gauge_type": "lcs", 
+        "site_name": "Little Sugar Creek at Brandywine Rd. FMP46", 
+        "label": "Little Sugar Creek at Brandywine Rd. FMP46", 
+        "lat": 35.1728, 
+        "lon": -80.847, 
+        "reading_with_msl": 597.9984, 
+        "msl": 591.14, 
+        "reading": 6.8583
+    }, 
+    "945": {
+        "unique_id": "945", 
+        "site_id": "0711", 
+        "or_site_id": "945", 
+        "gauge_type": "lcs", 
+        "site_name": "Mallard Creek at W Sugar Creek Rd. FMP30", 
+        "label": "Mallard Creek at W Sugar Creek Rd. FMP30", 
+        "lat": 35.3286, 
+        "lon": -80.8012, 
+        "reading_with_msl": 702.7083, 
+        "msl": 702.0, 
+        "reading": 0.7083
     }, 
     "495": {
         "unique_id": "495", 
@@ -1200,21 +1445,11 @@
         "gauge_type": "lcs", 
         "site_name": "Little Sugar Creek @ E 4th St FMB5", 
         "label": "Little Sugar Creek @ E 4th St FMB5", 
-        "lat": 35.2172, 
+        "lat": 35.2171, 
         "lon": -80.8339, 
+        "reading_with_msl": 628.2167, 
         "msl": 627.4, 
-        "or_sensor_id": "4"
-    }, 
-    "1067": {
-        "unique_id": "1067", 
-        "site_id": "072", 
-        "or_site_id": "1067", 
-        "gauge_type": "lcs", 
-        "site_name": "Irwin Creek at Scottsdale Rd. FMB22", 
-        "label": "Irwin Creek at Scottsdale Rd. FMB22", 
-        "lat": 35.217, 
-        "lon": -80.834, 
-        "or_sensor_id": "3"
+        "reading": 0.8167
     }, 
     "963": {
         "unique_id": "963", 
@@ -1224,9 +1459,10 @@
         "site_name": "Irwin Creek at W Oaklawn Cemetery FMB14", 
         "label": "Irwin Creek at W Oaklawn Cemetery FMB14", 
         "lat": 35.2506, 
-        "lon": -80.8453, 
+        "lon": -80.8454, 
+        "reading_with_msl": 641.6917, 
         "msl": 641.2, 
-        "or_sensor_id": "10", 
+        "reading": 0.4917, 
         "ref_values": [
             {
                 "label": "at top of bank", 
@@ -1259,10 +1495,11 @@
         "gauge_type": "lcs", 
         "site_name": "McMullen Creek Tributary FMB70", 
         "label": "McMullen Creek Tributary FMB70", 
-        "lat": 35.179, 
-        "lon": -80.787, 
+        "lat": 35.1784, 
+        "lon": -80.7862, 
+        "reading_with_msl": 674.0333, 
         "msl": 673.3, 
-        "or_sensor_id": "14", 
+        "reading": 0.7333, 
         "ref_values": [
             {
                 "label": "at top of bank", 
@@ -1288,17 +1525,18 @@
             }
         ]
     }, 
-    "1035": {
-        "unique_id": "1035", 
+    "1101": {
+        "unique_id": "1101", 
         "site_id": "080", 
-        "or_site_id": "1035", 
+        "or_site_id": "1101", 
         "gauge_type": "lcs", 
-        "site_name": "Little Sugar Creek at Pineville Place Apartment FMB55", 
-        "label": "Little Sugar Creek at Pineville Place Apartment FMB55", 
-        "lat": 35.0751, 
-        "lon": -80.8862, 
-        "msl": 528.9, 
-        "or_sensor_id": "8", 
+        "site_name": "McMullen Creek Trib@ Addison Rd FMB96", 
+        "label": "McMullen Creek Trib@ Addison Rd FMB96", 
+        "lat": 35.1724, 
+        "lon": -80.787, 
+        "reading_with_msl": 659.7833, 
+        "msl": 659.3, 
+        "reading": 0.4833, 
         "ref_values": [
             {
                 "label": "at top of bank", 
@@ -1333,44 +1571,9 @@
         "label": "Derita Branch at Craighead Rd. FMB38", 
         "lat": 35.2645, 
         "lon": -80.8049, 
+        "reading_with_msl": 703.55, 
         "msl": 703.3, 
-        "or_sensor_id": "18"
-    }, 
-    "1073": {
-        "unique_id": "1073", 
-        "site_id": "086", 
-        "or_site_id": "1073", 
-        "gauge_type": "lcs", 
-        "site_name": "Flat Branch at Ardrey Kell Rd. FMB92", 
-        "label": "Flat Branch at Ardrey Kell Rd. FMB92", 
-        "lat": 35.0332, 
-        "lon": -80.8031, 
-        "msl": 584.3, 
-        "or_sensor_id": "2", 
-        "ref_values": [
-            {
-                "label": "at top of bank", 
-                "value": 587.7
-            }, 
-            {
-                "label": "at road surface", 
-                "value": 602.8
-            }
-        ], 
-        "alarms": [
-            {
-                "label": "alert", 
-                "value": 587.0
-            }, 
-            {
-                "label": "investigate", 
-                "value": 601.0
-            }, 
-            {
-                "label": "emergency", 
-                "value": 603.0
-            }
-        ]
+        "reading": 0.25
     }, 
     "1047": {
         "unique_id": "1047", 
@@ -1379,10 +1582,11 @@
         "gauge_type": "lcs", 
         "site_name": "Irvins Creek at Sam Newell Rd. FMB94", 
         "label": "Irvins Creek at Sam Newell Rd. FMB94", 
-        "lat": 35.1342, 
-        "lon": -80.7176, 
+        "lat": 35.1341, 
+        "lon": -80.7171, 
+        "reading_with_msl": 635.146, 
         "msl": 634.921, 
-        "or_sensor_id": "14", 
+        "reading": 0.225, 
         "ref_values": [
             {
                 "label": "at top of bank", 
@@ -1404,52 +1608,31 @@
             }
         ]
     }, 
-    "947": {
-        "unique_id": "947", 
-        "site_id": "093", 
-        "or_site_id": "947", 
+    "1073": {
+        "unique_id": "1073", 
+        "site_id": "089", 
+        "or_site_id": "1073", 
         "gauge_type": "lcs", 
-        "site_name": "Irwin Creek at West Blvd. FMB20", 
-        "label": "Irwin Creek at West Blvd. FMB20", 
-        "lat": 35.2178, 
-        "lon": -80.8727, 
-        "msl": 611.1, 
-        "or_sensor_id": "2", 
-        "ref_values": [
-            {
-                "label": "at top of bank", 
-                "value": 624.1
-            }, 
-            {
-                "label": "at road surface", 
-                "value": 629.3
-            }
-        ], 
-        "alarms": [
-            {
-                "label": "alert", 
-                "value": 624.0
-            }, 
-            {
-                "label": "investigate", 
-                "value": 628.0
-            }, 
-            {
-                "label": "emergency", 
-                "value": 629.6
-            }
-        ]
+        "site_name": "Flat Branch at Ardrey Kell Rd. FMB92", 
+        "label": "Flat Branch at Ardrey Kell Rd. FMB92", 
+        "lat": 35.0332, 
+        "lon": -80.8031, 
+        "reading_with_msl": 584.8833, 
+        "msl": 584.3, 
+        "reading": 0.5833
     }, 
-    "1200": {
-        "unique_id": "1200", 
-        "site_id": "6524", 
-        "or_site_id": "1200", 
+    "1083": {
+        "unique_id": "1083", 
+        "site_id": "090", 
+        "or_site_id": "1083", 
         "gauge_type": "lcs", 
-        "site_name": "McAlpine Creek at Idlewild Rd", 
-        "label": "McAlpine Creek at Idlewild Rd", 
-        "lat": 35.17583, 
-        "lon": -80.71917, 
-        "or_sensor_id": "3"
+        "site_name": "Sixmile Creek Trib at Providence Country Club Dr. FMB090", 
+        "label": "Sixmile Creek Trib at Providence Country Club Dr. FMB090", 
+        "lat": 35.0392, 
+        "lon": -80.786, 
+        "reading_with_msl": 609.8, 
+        "msl": 609.4, 
+        "reading": 0.4
     }, 
     "4501": {
         "unique_id": "4501", 
@@ -1459,8 +1642,7 @@
         "site_name": "Raingage Ken Hoffman Drive, Fire Station 27 (CRN-01)", 
         "label": "4501: Ken Hoffman Drive Fire Station 27 (CRN-01)", 
         "lat": 35.30306, 
-        "lon": -80.75, 
-        "or_sensor_id": "4"
+        "lon": -80.75
     }, 
     "4502": {
         "unique_id": "4502", 
@@ -1470,8 +1652,7 @@
         "site_name": "Raingage Old Statesville Road, Fire Station 28 (CRN-02)", 
         "label": "4502: Old Statesville Road Fire Station 28 (CRN-02)", 
         "lat": 35.33194, 
-        "lon": -80.82639, 
-        "or_sensor_id": "2"
+        "lon": -80.82639
     }, 
     "4503": {
         "unique_id": "4503", 
@@ -1481,8 +1662,7 @@
         "site_name": "Raingage Irwin Creek at Starita Road (CRN-03)", 
         "label": "4503: Irwin Creek at Starita Road (CRN-03)", 
         "lat": 35.27583, 
-        "lon": -80.82583, 
-        "or_sensor_id": "2"
+        "lon": -80.82583
     }, 
     "4504": {
         "unique_id": "4504", 
@@ -1492,8 +1672,7 @@
         "site_name": "Raingage Belle Oaks, Fire Station 30 (CRN-04)", 
         "label": "4504: Belle Oaks Fire Station 30 (CRN-04)", 
         "lat": 35.19222, 
-        "lon": -80.93972, 
-        "or_sensor_id": "2"
+        "lon": -80.93972
     }, 
     "4505": {
         "unique_id": "4505", 
@@ -1503,8 +1682,7 @@
         "site_name": "Raingage CMUD (CRN-05)", 
         "label": "4505: CMUD (CRN-05)", 
         "lat": 35.27833, 
-        "lon": -80.89278, 
-        "or_sensor_id": "2"
+        "lon": -80.89278
     }, 
     "4506": {
         "unique_id": "4506", 
@@ -1514,8 +1692,7 @@
         "site_name": "Raingage McAlpine Creek WWTP (CRN-06)", 
         "label": "4506: McAlpine Creek WWTP (CRN-06)", 
         "lat": 35.06639, 
-        "lon": -80.86972, 
-        "or_sensor_id": "2"
+        "lon": -80.86972
     }, 
     "4507": {
         "unique_id": "4507", 
@@ -1525,8 +1702,7 @@
         "site_name": "Raingage McKee Road, Fire Station 09 (CRN-07)", 
         "label": "4507: McKee Road Fire Station 09 (CRN-07)", 
         "lat": 35.05222, 
-        "lon": -80.76167, 
-        "or_sensor_id": "4"
+        "lon": -80.76167
     }, 
     "4508": {
         "unique_id": "4508", 
@@ -1536,8 +1712,7 @@
         "site_name": "Raingage St. Matthews Church (CRN-08)", 
         "label": "4508: St. Matthews Church (CRN-08)", 
         "lat": 35.05389, 
-        "lon": -80.81639, 
-        "or_sensor_id": "2"
+        "lon": -80.81639
     }, 
     "4509": {
         "unique_id": "4509", 
@@ -1547,8 +1722,7 @@
         "site_name": "Raingage Frontenac Road, Fire Station 15 (CRN-09)", 
         "label": "4509: Frontenac Road Fire Station 15 (CRN-09)", 
         "lat": 35.2375, 
-        "lon": -80.77528, 
-        "or_sensor_id": "2"
+        "lon": -80.77528
     }, 
     "4510": {
         "unique_id": "4510", 
@@ -1558,8 +1732,7 @@
         "site_name": "Raingage McAlpine Creek at Sardis Road (CRN-10)", 
         "label": "4510: McAlpine Creek at Sardis Road (CRN-10)", 
         "lat": 35.13747, 
-        "lon": -80.76851, 
-        "or_sensor_id": "4"
+        "lon": -80.76851
     }, 
     "4511": {
         "unique_id": "4511", 
@@ -1569,8 +1742,7 @@
         "site_name": "Raingage Remount Road, Fire Station 10 (CRN-11)", 
         "label": "4511: Remount Road Fire Station 10 (CRN-11)", 
         "lat": 35.22528, 
-        "lon": -80.88306, 
-        "or_sensor_id": "2"
+        "lon": -80.88306
     }, 
     "4512": {
         "unique_id": "4512", 
@@ -1580,8 +1752,7 @@
         "site_name": "Raingage Park South Drive, Fire Station 16 (CRN-12)", 
         "label": "4512: Park South Drive Fire Station 16 (CRN-12)", 
         "lat": 35.13972, 
-        "lon": -80.84806, 
-        "or_sensor_id": "2"
+        "lon": -80.84806
     }, 
     "4513": {
         "unique_id": "4513", 
@@ -1591,8 +1762,7 @@
         "site_name": "Raingage USGS Office (CRN-13)", 
         "label": "4513: USGS Office (CRN-13)", 
         "lat": 35.16306, 
-        "lon": -80.88028, 
-        "or_sensor_id": "4"
+        "lon": -80.88028
     }, 
     "4514": {
         "unique_id": "4514", 
@@ -1602,8 +1772,7 @@
         "site_name": "Raingage Little Rock Road, Fire Station 21 (CRN-14)", 
         "label": "4514: Little Rock Road Fire Station 21 (CRN-14)", 
         "lat": 35.26472, 
-        "lon": -80.93972, 
-        "or_sensor_id": "2"
+        "lon": -80.93972
     }, 
     "4515": {
         "unique_id": "4515", 
@@ -1613,8 +1782,7 @@
         "site_name": "Raingage CMGC (CRN-15)", 
         "label": "4515: CMGC (CRN-15)", 
         "lat": 35.22222, 
-        "lon": -80.84056, 
-        "or_sensor_id": "2"
+        "lon": -80.84056
     }, 
     "4516": {
         "unique_id": "4516", 
@@ -1624,8 +1792,7 @@
         "site_name": "Raingage Reedy Creek Park (CRN-16)", 
         "label": "4516: Reedy Creek Park (CRN-16)", 
         "lat": 35.26167, 
-        "lon": -80.71889, 
-        "or_sensor_id": "2"
+        "lon": -80.71889
     }, 
     "4517": {
         "unique_id": "4517", 
@@ -1635,8 +1802,7 @@
         "site_name": "Raingage Piney Grove Elementary (CRN-17)", 
         "label": "4517: Piney Grove Elementary (CRN-17)", 
         "lat": 35.17306, 
-        "lon": -80.7325, 
-        "or_sensor_id": "2"
+        "lon": -80.7325
     }, 
     "4518": {
         "unique_id": "4518", 
@@ -1646,8 +1812,7 @@
         "site_name": "Raingage USPS - Sunset Road (CRN-18)", 
         "label": "4518: USPS - Sunset Road (CRN-18)", 
         "lat": 35.32278, 
-        "lon": -80.90083, 
-        "or_sensor_id": "2"
+        "lon": -80.90083
     }, 
     "4519": {
         "unique_id": "4519", 
@@ -1657,8 +1822,7 @@
         "site_name": "Raingage Freedom Park (CRN-19)", 
         "label": "4519: Freedom Park (CRN-19)", 
         "lat": 35.19222, 
-        "lon": -80.84472, 
-        "or_sensor_id": "2"
+        "lon": -80.84472
     }, 
     "4520": {
         "unique_id": "4520", 
@@ -1668,8 +1832,7 @@
         "site_name": "Raingage Sharon Amity, Fire Station 14 (CRN-20)", 
         "label": "4520: Sharon Amity Fire Station 14 (CRN-20)", 
         "lat": 35.17556, 
-        "lon": -80.79778, 
-        "or_sensor_id": "2"
+        "lon": -80.79778
     }, 
     "4521": {
         "unique_id": "4521", 
@@ -1679,8 +1842,7 @@
         "site_name": "Raingage Kennedy Jr. High (CRN-21)", 
         "label": "4521: Kennedy Jr. High (CRN-21)", 
         "lat": 35.145, 
-        "lon": -80.95778, 
-        "or_sensor_id": "2"
+        "lon": -80.95778
     }, 
     "4522": {
         "unique_id": "4522", 
@@ -1690,8 +1852,7 @@
         "site_name": "Raingage Lake Wylie Elementary (CRN-22)", 
         "label": "4522: Lake Wylie Elementary (CRN-22)", 
         "lat": 35.09222, 
-        "lon": -80.98056, 
-        "or_sensor_id": "2"
+        "lon": -80.98056
     }, 
     "4523": {
         "unique_id": "4523", 
@@ -1701,8 +1862,7 @@
         "site_name": "Raingage Charles T. Myers Golf Course (CRN-23)", 
         "label": "4523: Charles T. Myers Golf Course (CRN-23)", 
         "lat": 35.22167, 
-        "lon": -80.68722, 
-        "or_sensor_id": "2"
+        "lon": -80.68722
     }, 
     "4524": {
         "unique_id": "4524", 
@@ -1712,8 +1872,7 @@
         "site_name": "Raingage McDowell Creek, Cornelius (CRN-24)", 
         "label": "4524: McDowell Creek Cornelius (CRN-24)", 
         "lat": 35.46389, 
-        "lon": -80.87639, 
-        "or_sensor_id": "2"
+        "lon": -80.87639
     }, 
     "4525": {
         "unique_id": "4525", 
@@ -1723,8 +1882,7 @@
         "site_name": "Raingage Gar Creek at SR2120 nr Oakdale (CRN-25)", 
         "label": "4525: Gar Creek at SR2120 nr Oakdale (CRN-25)", 
         "lat": 35.36306, 
-        "lon": -80.885, 
-        "or_sensor_id": "2"
+        "lon": -80.885
     }, 
     "4526": {
         "unique_id": "4526", 
@@ -1734,8 +1892,7 @@
         "site_name": "Raingage Bradford Airfield (CRN-26)", 
         "label": "4526: Bradford Airfield (CRN-26)", 
         "lat": 35.40861, 
-        "lon": -80.79444, 
-        "or_sensor_id": "2"
+        "lon": -80.79444
     }, 
     "4527": {
         "unique_id": "4527", 
@@ -1745,8 +1902,7 @@
         "site_name": "Raingage Hidden Valley Elementary (CRN-27)", 
         "label": "4527: Hidden Valley Elementary (CRN-27)", 
         "lat": 35.26806, 
-        "lon": -80.785, 
-        "or_sensor_id": "2"
+        "lon": -80.785
     }, 
     "4528": {
         "unique_id": "4528", 
@@ -1756,8 +1912,7 @@
         "site_name": "Raingage Crompton Street (CRN-28)", 
         "label": "4528: Crompton Street (CRN-28)", 
         "lat": 35.11306, 
-        "lon": -80.91361, 
-        "or_sensor_id": "2"
+        "lon": -80.91361
     }, 
     "4529": {
         "unique_id": "4529", 
@@ -1767,8 +1922,7 @@
         "site_name": "Raingage Belk Scout Camp (CRN-29)", 
         "label": "4529: Belk Scout Camp (CRN-29)", 
         "lat": 35.20541, 
-        "lon": -80.5532, 
-        "or_sensor_id": "2"
+        "lon": -80.5532
     }, 
     "4530": {
         "unique_id": "4530", 
@@ -1778,8 +1932,7 @@
         "site_name": "Raingage Rhyne Farm, Mint Hill (CRN-30)", 
         "label": "4530: Rhyne Farm Mint Hill (CRN-30)", 
         "lat": 35.24889, 
-        "lon": -80.62833, 
-        "or_sensor_id": "2"
+        "lon": -80.62833
     }, 
     "4531": {
         "unique_id": "4531", 
@@ -1789,8 +1942,7 @@
         "site_name": "Raingage Elon Parks and Rec (CRN-31)", 
         "label": "4531: Elon Parks and Rec (CRN-31)", 
         "lat": 35.01944, 
-        "lon": -80.83889, 
-        "or_sensor_id": "2"
+        "lon": -80.83889
     }, 
     "4532": {
         "unique_id": "4532", 
@@ -1800,8 +1952,7 @@
         "site_name": "Raingage Bain Elementary (CRN-32)", 
         "label": "4532: Bain Elementary (CRN-32)", 
         "lat": 35.17444, 
-        "lon": -80.64861, 
-        "or_sensor_id": "2"
+        "lon": -80.64861
     }, 
     "4533": {
         "unique_id": "4533", 
@@ -1811,8 +1962,7 @@
         "site_name": "Raingage Mallard Creek WWTP (CRN-33)", 
         "label": "4533: Mallard Creek WWTP (CRN-33)", 
         "lat": 35.33528, 
-        "lon": -80.69722, 
-        "or_sensor_id": "2"
+        "lon": -80.69722
     }, 
     "4534": {
         "unique_id": "4534", 
@@ -1822,8 +1972,7 @@
         "site_name": "Raingage Cowans Ford Dam (CRN-34)", 
         "label": "4534: Cowans Ford Dam (CRN-34)", 
         "lat": 35.42278, 
-        "lon": -80.96278, 
-        "or_sensor_id": "2"
+        "lon": -80.96278
     }, 
     "4535": {
         "unique_id": "4535", 
@@ -1833,8 +1982,7 @@
         "site_name": "Raingage Mountain Island Dam (CRN-35)", 
         "label": "4535: Mountain Island Dam (CRN-35)", 
         "lat": 35.33417, 
-        "lon": -80.98639, 
-        "or_sensor_id": "2"
+        "lon": -80.98639
     }, 
     "4536": {
         "unique_id": "4536", 
@@ -1844,8 +1992,7 @@
         "site_name": "Raingage West Fork Substation (CRN-36)", 
         "label": "4536: West Fork Substation (CRN-36)", 
         "lat": 35.48944, 
-        "lon": -80.79222, 
-        "or_sensor_id": "2"
+        "lon": -80.79222
     }, 
     "4537": {
         "unique_id": "4537", 
@@ -1855,8 +2002,7 @@
         "site_name": "Raingage Berryhill Elementary (CRN-37)", 
         "label": "4537: Berryhill Elementary (CRN-37)", 
         "lat": 35.21306, 
-        "lon": -80.99083, 
-        "or_sensor_id": "2"
+        "lon": -80.99083
     }, 
     "4538": {
         "unique_id": "4538", 
@@ -1866,8 +2012,7 @@
         "site_name": "Raingage Tega Cay, SC (CRN38)", 
         "label": "4538: Tega Cay SC (CRN38)", 
         "lat": 35.02436, 
-        "lon": -81.0002, 
-        "or_sensor_id": "2"
+        "lon": -81.0002
     }, 
     "4539": {
         "unique_id": "4539", 
@@ -1877,8 +2022,7 @@
         "site_name": "Raingage NCDOT, Matthews (CRN-39)", 
         "label": "4539: NCDOT Matthews (CRN-39)", 
         "lat": 35.1075, 
-        "lon": -80.685, 
-        "or_sensor_id": "3"
+        "lon": -80.685
     }, 
     "4540": {
         "unique_id": "4540", 
@@ -1888,19 +2032,17 @@
         "site_name": "Raingage WestPort Golf Course (4540)", 
         "label": "4540: WestPort Golf Course (4540)", 
         "lat": 35.50778, 
-        "lon": -80.985, 
-        "or_sensor_id": "3"
+        "lon": -80.985
     }, 
     "4541": {
         "unique_id": "4541", 
         "site_id": "4541", 
-        "or_site_id": "733", 
+        "or_site_id": "1202", 
         "gauge_type": "rain", 
-        "site_name": "Raingage McDowell Creek (CRN-41)", 
-        "label": "4541: McDowell Creek (CRN-41)", 
-        "lat": 35.38971, 
-        "lon": -80.921, 
-        "or_sensor_id": "1"
+        "site_name": "4541: McDowell Creek (CRN-41) (4541)", 
+        "label": "4541: 4541: McDowell Creek (CRN-41) (4541)", 
+        "lat": 35.3896, 
+        "lon": -80.9209
     }, 
     "4542": {
         "unique_id": "4542", 
@@ -1910,8 +2052,7 @@
         "site_name": "Raingage Norman Shores, Cornelius (CRN-42)", 
         "label": "4542: Norman Shores Cornelius (CRN-42)", 
         "lat": 35.50417, 
-        "lon": -80.87972, 
-        "or_sensor_id": "2"
+        "lon": -80.87972
     }, 
     "4543": {
         "unique_id": "4543", 
@@ -1921,8 +2062,7 @@
         "site_name": "Raingage Huntersville Elementary (CRN-43)", 
         "label": "4543: Huntersville Elementary (CRN-43)", 
         "lat": 35.41139, 
-        "lon": -80.84722, 
-        "or_sensor_id": "2"
+        "lon": -80.84722
     }, 
     "4544": {
         "unique_id": "4544", 
@@ -1932,8 +2072,7 @@
         "site_name": "Raingage Knox Farm nr Huntersville (CRN-44)", 
         "label": "4544: Knox Farm nr Huntersville (CRN-44)", 
         "lat": 35.45528, 
-        "lon": -80.81194, 
-        "or_sensor_id": "2"
+        "lon": -80.81194
     }, 
     "4545": {
         "unique_id": "4545", 
@@ -1943,8 +2082,7 @@
         "site_name": "Raingage Withers Cove Road (CRN-45)", 
         "label": "4545: Withers Cove Road (CRN-45)", 
         "lat": 35.15083, 
-        "lon": -81.0125, 
-        "or_sensor_id": "5"
+        "lon": -81.0125
     }, 
     "4546": {
         "unique_id": "4546", 
@@ -1954,8 +2092,7 @@
         "site_name": "Raingage Oehler Farm (CRN-46)", 
         "label": "4546: Oehler Farm (CRN-46)", 
         "lat": 35.36, 
-        "lon": -80.77222, 
-        "or_sensor_id": "2"
+        "lon": -80.77222
     }, 
     "4547": {
         "unique_id": "4547", 
@@ -1965,8 +2102,7 @@
         "site_name": "Raingage Winterfield Elementary (CRN-47)", 
         "label": "4547: Winterfield Elementary (CRN-47)", 
         "lat": 35.20806, 
-        "lon": -80.76722, 
-        "or_sensor_id": "2"
+        "lon": -80.76722
     }, 
     "4548": {
         "unique_id": "4548", 
@@ -1976,8 +2112,7 @@
         "site_name": "Raingage Olde Providence Elementary (CRN-48)", 
         "label": "4548: Olde Providence Elementary (CRN-48)", 
         "lat": 35.11028, 
-        "lon": -80.79889, 
-        "or_sensor_id": "2"
+        "lon": -80.79889
     }, 
     "4549": {
         "unique_id": "4549", 
@@ -1987,8 +2122,7 @@
         "site_name": "Raingage NorthMeck High (CRN-49)", 
         "label": "4549: NorthMeck High (CRN-49)", 
         "lat": 35.37333, 
-        "lon": -80.83472, 
-        "or_sensor_id": "2"
+        "lon": -80.83472
     }, 
     "4550": {
         "unique_id": "4550", 
@@ -1998,8 +2132,7 @@
         "site_name": "Raingage Beatties Ford Road (CRN-50)", 
         "label": "4550: Beatties Ford Road (CRN-50)", 
         "lat": 35.25111, 
-        "lon": -80.85556, 
-        "or_sensor_id": "2"
+        "lon": -80.85556
     }, 
     "4551": {
         "unique_id": "4551", 
@@ -2009,8 +2142,7 @@
         "site_name": "Raingage Concord Airport (CRN-51)", 
         "label": "4551: Concord Airport (CRN-51)", 
         "lat": 35.38306, 
-        "lon": -80.71444, 
-        "or_sensor_id": "2"
+        "lon": -80.71444
     }, 
     "4552": {
         "unique_id": "4552", 
@@ -2020,8 +2152,7 @@
         "site_name": "Raingage Ida Rankin Elementary (CRN-52)", 
         "label": "4552: Ida Rankin Elementary (CRN-52)", 
         "lat": 35.29778, 
-        "lon": -81.02028, 
-        "or_sensor_id": "2"
+        "lon": -81.02028
     }, 
     "4553": {
         "unique_id": "4553", 
@@ -2031,8 +2162,7 @@
         "site_name": "Raingage Harding High (CRN-53)", 
         "label": "4553: Harding High (CRN-53)", 
         "lat": 35.23667, 
-        "lon": -80.90333, 
-        "or_sensor_id": "2"
+        "lon": -80.90333
     }, 
     "4554": {
         "unique_id": "4554", 
@@ -2042,8 +2172,7 @@
         "site_name": "Raingage Turning Point Academy (CRN-54)", 
         "label": "4554: Turning Point Academy (CRN-54)", 
         "lat": 35.29528, 
-        "lon": -80.79611, 
-        "or_sensor_id": "2"
+        "lon": -80.79611
     }, 
     "4555": {
         "unique_id": "4555", 
@@ -2053,8 +2182,7 @@
         "site_name": "Raingage Hammond Farm, Fort Mill, SC (CRN-55)", 
         "label": "4555: Hammond Farm Fort Mill SC (CRN-55)", 
         "lat": 35.05667, 
-        "lon": -80.92167, 
-        "or_sensor_id": "2"
+        "lon": -80.92167
     }, 
     "4556": {
         "unique_id": "4556", 
@@ -2064,8 +2192,7 @@
         "site_name": "Raingage South Meck High (CRN-56)", 
         "label": "4556: South Meck High (CRN-56)", 
         "lat": 35.10944, 
-        "lon": -80.85917, 
-        "or_sensor_id": "2"
+        "lon": -80.85917
     }, 
     "4557": {
         "unique_id": "4557", 
@@ -2075,8 +2202,7 @@
         "site_name": "Raingage Lebanon Road Elementary (CRN-57)", 
         "label": "4557: Lebanon Road Elementary (CRN-57)", 
         "lat": 35.18583, 
-        "lon": -80.68917, 
-        "or_sensor_id": "2"
+        "lon": -80.68917
     }, 
     "4558": {
         "unique_id": "4558", 
@@ -2086,8 +2212,7 @@
         "site_name": "Raingage Mallard Elementary (CRN-58)", 
         "label": "4558: Mallard Elementary (CRN-58)", 
         "lat": 35.33528, 
-        "lon": -80.77472, 
-        "or_sensor_id": "2"
+        "lon": -80.77472
     }, 
     "4559": {
         "unique_id": "4559", 
@@ -2097,8 +2222,7 @@
         "site_name": "Raingage YMCA Camp Thunderbird (CRN-59)", 
         "label": "4559: YMCA Camp Thunderbird (CRN-59)", 
         "lat": 35.10667, 
-        "lon": -81.0425, 
-        "or_sensor_id": "4"
+        "lon": -81.0425
     }, 
     "4560": {
         "unique_id": "4560", 
@@ -2108,8 +2232,7 @@
         "site_name": "Raingage Collinswood Elementary (CRN-60)", 
         "label": "4560: Collinswood Elementary (CRN-60)", 
         "lat": 35.18444, 
-        "lon": -80.87167, 
-        "or_sensor_id": "2"
+        "lon": -80.87167
     }, 
     "4561": {
         "unique_id": "4561", 
@@ -2119,8 +2242,7 @@
         "site_name": "Raingage Coulwood Middle (CRN-61)", 
         "label": "4561: Coulwood Middle (CRN-61)", 
         "lat": 35.30472, 
-        "lon": -80.945, 
-        "or_sensor_id": "2"
+        "lon": -80.945
     }, 
     "4562": {
         "unique_id": "4562", 
@@ -2130,8 +2252,7 @@
         "site_name": "Raingage Cookson Dairy Farm (CRN-62)", 
         "label": "4562: Cookson Dairy Farm (CRN-62)", 
         "lat": 35.42306, 
-        "lon": -80.89833, 
-        "or_sensor_id": "2"
+        "lon": -80.89833
     }, 
     "4563": {
         "unique_id": "4563", 
@@ -2141,8 +2262,7 @@
         "site_name": "Raingage Odell Elementary (CRN-63)", 
         "label": "4563: Odell Elementary (CRN-63)", 
         "lat": 35.42806, 
-        "lon": -80.73806, 
-        "or_sensor_id": "2"
+        "lon": -80.73806
     }, 
     "4564": {
         "unique_id": "4564", 
@@ -2152,8 +2272,7 @@
         "site_name": "Raingage Hornets Nest Elementary (CRN-64)", 
         "label": "4564: Hornets Nest Elementary (CRN-64)", 
         "lat": 35.32444, 
-        "lon": -80.86556, 
-        "or_sensor_id": "2"
+        "lon": -80.86556
     }, 
     "4565": {
         "unique_id": "4565", 
@@ -2163,8 +2282,7 @@
         "site_name": "Raingage Reedy Creek Elementary (CRN-65)", 
         "label": "4565: Reedy Creek Elementary (CRN-65)", 
         "lat": 35.26, 
-        "lon": -80.685, 
-        "or_sensor_id": "2"
+        "lon": -80.685
     }, 
     "4566": {
         "unique_id": "4566", 
@@ -2174,8 +2292,7 @@
         "site_name": "Raingage Chantilly Elementary (CRN-66)", 
         "label": "4566: Chantilly Elementary (CRN-66)", 
         "lat": 35.20806, 
-        "lon": -80.80028, 
-        "or_sensor_id": "3"
+        "lon": -80.80028
     }, 
     "4567": {
         "unique_id": "4567", 
@@ -2185,8 +2302,7 @@
         "site_name": "Raingage Thompson Road, Mint Hill (CRN-67)", 
         "label": "4567: Thompson Road Mint Hill (CRN-67)", 
         "lat": 35.14889, 
-        "lon": -80.64278, 
-        "or_sensor_id": "2"
+        "lon": -80.64278
     }, 
     "4568": {
         "unique_id": "4568", 
@@ -2196,8 +2312,7 @@
         "site_name": "Raingage White Farm, Mint Hill (CRN-68)", 
         "label": "4568: White Farm Mint Hill (CRN-68)", 
         "lat": 35.19583, 
-        "lon": -80.62194, 
-        "or_sensor_id": "2"
+        "lon": -80.62194
     }, 
     "4569": {
         "unique_id": "4569", 
@@ -2207,8 +2322,7 @@
         "site_name": "Raingage Matthews Elementary (CRN-69)", 
         "label": "4569: Matthews Elementary (CRN-69)", 
         "lat": 35.11278, 
-        "lon": -80.72361, 
-        "or_sensor_id": "3"
+        "lon": -80.72361
     }, 
     "4570": {
         "unique_id": "4570", 
@@ -2218,8 +2332,7 @@
         "site_name": "Raingage Providence High (CRN-70)", 
         "label": "4570: Providence High (CRN-70)", 
         "lat": 35.11111, 
-        "lon": -80.76611, 
-        "or_sensor_id": "2"
+        "lon": -80.76611
     }, 
     "4571": {
         "unique_id": "4571", 
@@ -2229,8 +2342,7 @@
         "site_name": "Raingage Alexander Middle (CRN-71)", 
         "label": "4571: Alexander Middle (CRN-71)", 
         "lat": 35.16694, 
-        "lon": -80.83278, 
-        "or_sensor_id": "3"
+        "lon": -80.83278
     }, 
     "4572": {
         "unique_id": "4572", 
@@ -2240,8 +2352,7 @@
         "site_name": "Raingage Garrison Road (CRN-72)", 
         "label": "4572: Garrison Road (CRN-72)", 
         "lat": 35.19, 
-        "lon": -80.97, 
-        "or_sensor_id": "2"
+        "lon": -80.97
     }, 
     "6501": {
         "unique_id": "6501", 
@@ -2252,8 +2363,9 @@
         "label": "6501: IRWIN CREEK at WWTP nr CHARLOTTE", 
         "lat": 35.19722, 
         "lon": -80.90444, 
-        "msl": 591.53, 
-        "or_sensor_id": "3", 
+        "reading_with_msl": 592.06, 
+        "msl": 590.87, 
+        "reading": 1.19, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2270,8 +2382,9 @@
         "label": "6502: LITTLE SUGAR CREEK at ARCHDALE DRIVE", 
         "lat": 35.14798, 
         "lon": -80.85779, 
-        "msl": 566.064, 
-        "or_sensor_id": "5", 
+        "reading_with_msl": 566.57, 
+        "msl": 563.69, 
+        "reading": 2.88, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2288,8 +2401,9 @@
         "label": "6503: McALPINE CREEK at SARDIS ROAD", 
         "lat": 35.13778, 
         "lon": -80.7675, 
-        "msl": 553.414, 
-        "or_sensor_id": "3", 
+        "reading_with_msl": 553.75, 
+        "msl": 552.36, 
+        "reading": 1.39, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2323,8 +2437,9 @@
         "label": "6504: BRIAR CREEK ab COLONY ROAD", 
         "lat": 35.17528, 
         "lon": -80.83083, 
-        "msl": 600.257, 
-        "or_sensor_id": "1", 
+        "reading_with_msl": 600.61, 
+        "msl": 598.02, 
+        "reading": 2.59, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2351,8 +2466,9 @@
         "label": "6505: McALPINE CREEK bl McMULLEN CREEK nr PINEVILLE", 
         "lat": 35.0665, 
         "lon": -80.86985, 
-        "msl": 517.178, 
-        "or_sensor_id": "3", 
+        "reading_with_msl": 518.2, 
+        "msl": 515.51, 
+        "reading": 2.69, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2369,8 +2485,9 @@
         "label": "6507: SUGAR CREEK at NC-51 nr PINEVILLE", 
         "lat": 35.09167, 
         "lon": -80.89833, 
-        "msl": 522.023, 
-        "or_sensor_id": "3", 
+        "reading_with_msl": 522.99, 
+        "msl": 520.95, 
+        "reading": 2.04, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2405,8 +2522,9 @@
         "label": "6508: PAW CREEK at WILKINSON BLVD", 
         "lat": 35.24, 
         "lon": -80.97472, 
-        "msl": 569.9, 
-        "or_sensor_id": "3", 
+        "reading_with_msl": 570.61, 
+        "msl": 568.36, 
+        "reading": 2.25, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2423,8 +2541,9 @@
         "label": "6509: MALLARD CREEK bl STONY CREEK nr HARRISBURG", 
         "lat": 35.3325, 
         "lon": -80.71611, 
-        "msl": 571.26, 
-        "or_sensor_id": "3", 
+        "reading_with_msl": 572.05, 
+        "msl": 568.4, 
+        "reading": 3.65, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2459,8 +2578,9 @@
         "label": "6510: LITTLE SUGAR CREEK at CMC", 
         "lat": 35.20303, 
         "lon": -80.83712, 
-        "msl": 614.717, 
-        "or_sensor_id": "3", 
+        "reading_with_msl": 615.1, 
+        "msl": 612.82, 
+        "reading": 2.28, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2496,8 +2616,9 @@
         "label": "6511: LITTLE HOPE CREEK at SENECA PLACE", 
         "lat": 35.16472, 
         "lon": -80.85333, 
-        "msl": 600.217, 
-        "or_sensor_id": "3", 
+        "reading_with_msl": 600.56, 
+        "msl": 597.32, 
+        "reading": 3.24, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2532,8 +2653,9 @@
         "label": "6512: SIX MILE CREEK at MARVIN ROAD nr PINEVILLE", 
         "lat": 35.01036, 
         "lon": -80.82854, 
-        "msl": 562.466, 
-        "or_sensor_id": "1", 
+        "reading_with_msl": 562.7, 
+        "msl": 559.68, 
+        "reading": 3.02, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2550,8 +2672,9 @@
         "label": "6513: McMULLEN CREEK at SHARON VIEW ROAD", 
         "lat": 35.14222, 
         "lon": -80.82, 
-        "msl": 593.163, 
-        "or_sensor_id": "3", 
+        "reading_with_msl": 593.32, 
+        "msl": 592.31, 
+        "reading": 1.01, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2586,8 +2709,9 @@
         "label": "6514: LITTLE SUGAR CREEK at HWY-51 at PINEVILLE", 
         "lat": 35.085, 
         "lon": -80.88278, 
-        "msl": 533.673, 
-        "or_sensor_id": "4", 
+        "reading_with_msl": 534.39, 
+        "msl": 531.94, 
+        "reading": 2.45, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2604,8 +2728,9 @@
         "label": "6515: FOURMILE CREEK at ELM LANE", 
         "lat": 35.07667, 
         "lon": -80.82278, 
-        "msl": 532.21, 
-        "or_sensor_id": "3", 
+        "reading_with_msl": 532.92, 
+        "msl": 528.69, 
+        "reading": 4.23, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2620,10 +2745,11 @@
         "gauge_type": "stage", 
         "site_name": "BRIAR CREEK at SHAMROCK DRIVE", 
         "label": "6516: BRIAR CREEK at SHAMROCK DRIVE", 
-        "lat": 35.23472, 
-        "lon": -80.77, 
-        "msl": 673.21, 
-        "or_sensor_id": "3", 
+        "lat": 35.23596, 
+        "lon": -80.7709, 
+        "reading_with_msl": 673.33, 
+        "msl": 672.0, 
+        "reading": 1.33, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2658,8 +2784,9 @@
         "label": "6517: McDOWELL CREEK at BEATTIES FORD ROAD", 
         "lat": 35.38971, 
         "lon": -80.921, 
-        "msl": 648.335, 
-        "or_sensor_id": "4", 
+        "reading_with_msl": 648.67, 
+        "msl": 644.87, 
+        "reading": 3.8, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2676,8 +2803,9 @@
         "label": "6518: IRWIN CREEK at STATESVILLE AVENUE", 
         "lat": 35.26208, 
         "lon": -80.83686, 
-        "msl": 657.919, 
-        "or_sensor_id": "3", 
+        "reading_with_msl": 658.28, 
+        "msl": 656.04, 
+        "reading": 2.24, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2694,8 +2822,9 @@
         "label": "6519: STEELE CREEK at SR1441 nr PINEVILLE", 
         "lat": 35.10556, 
         "lon": -80.9525, 
-        "msl": 562.866, 
-        "or_sensor_id": "4", 
+        "reading_with_msl": 563.04, 
+        "msl": 561.83, 
+        "reading": 1.21, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2712,8 +2841,9 @@
         "label": "6520: TAGGART CREEK at WEST BLVD", 
         "lat": 35.20833, 
         "lon": -80.91722, 
-        "msl": 605.563, 
-        "or_sensor_id": "3", 
+        "reading_with_msl": 606.02, 
+        "msl": 604.27, 
+        "reading": 1.75, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2730,8 +2860,9 @@
         "label": "6521: LONG CREEK nr PINE ISLAND DRIVE nr RHYNE", 
         "lat": 35.30083, 
         "lon": -80.97361, 
-        "msl": 614.155, 
-        "or_sensor_id": "3", 
+        "reading_with_msl": 614.65, 
+        "msl": 612.45, 
+        "reading": 2.2, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2748,8 +2879,9 @@
         "label": "6522: COFFEY CREEK at HWY-49", 
         "lat": 35.14833, 
         "lon": -80.92667, 
-        "msl": 567.746, 
-        "or_sensor_id": "4", 
+        "reading_with_msl": 568.47, 
+        "msl": 565.72, 
+        "reading": 2.75, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2766,8 +2898,9 @@
         "label": "6523: IRVINS CREEK at SR3168 nr CHARLOTTE", 
         "lat": 35.15833, 
         "lon": -80.71306, 
-        "msl": 613.44, 
-        "or_sensor_id": "3", 
+        "reading_with_msl": 613.77, 
+        "msl": 612.56, 
+        "reading": 1.21, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2784,8 +2917,9 @@
         "label": "6524: McAlpine Creek at Idlewild Rd", 
         "lat": 35.17583, 
         "lon": -80.71917, 
-        "msl": 563.668, 
-        "or_sensor_id": "2", 
+        "reading_with_msl": 614.91, 
+        "msl": 612.86, 
+        "reading": 2.05, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2802,8 +2936,9 @@
         "label": "6525: CAMPBELL CREEK at IDLEWILD ROAD", 
         "lat": 35.18667, 
         "lon": -80.73611, 
-        "msl": 665.103, 
-        "or_sensor_id": "3", 
+        "reading_with_msl": 665.19, 
+        "msl": 663.92, 
+        "reading": 1.27, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2818,10 +2953,11 @@
         "gauge_type": "stage", 
         "site_name": "STEWART CREEK at STATE STREET", 
         "label": "6526: STEWART CREEK at STATE STREET", 
-        "lat": 35.24333, 
-        "lon": -80.86639, 
-        "msl": 631.402, 
-        "or_sensor_id": "3", 
+        "lat": 35.24025, 
+        "lon": -80.86814, 
+        "reading_with_msl": 631.58, 
+        "msl": 630.54, 
+        "reading": 1.04, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2852,8 +2988,9 @@
         "label": "6527: STEWART CREEK at MOREHEAD STREET", 
         "lat": 35.22944, 
         "lon": -80.86694, 
-        "msl": 618.613, 
-        "or_sensor_id": "3", 
+        "reading_with_msl": 618.82, 
+        "msl": 617.43, 
+        "reading": 1.39, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2887,8 +3024,9 @@
         "label": "6531: GAR CREEK at SR2074 nr CROFT", 
         "lat": 35.36139, 
         "lon": -80.8975, 
-        "msl": 659.738, 
-        "or_sensor_id": "4", 
+        "reading_with_msl": 659.7, 
+        "msl": 658.61, 
+        "reading": 1.09, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2905,8 +3043,9 @@
         "label": "6532: BEAVERDAM CREEK abv WINDY GAP ROAD nr SHOPTON", 
         "lat": 35.16972, 
         "lon": -80.98778, 
-        "msl": 567.994, 
-        "or_sensor_id": "4", 
+        "reading_with_msl": 568.1, 
+        "msl": 567.71, 
+        "reading": 0.39, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2923,8 +3062,9 @@
         "label": "6534: BRIAR CREEK bl EDWARDS BRANCH", 
         "lat": 35.20528, 
         "lon": -80.80778, 
-        "msl": 628.794, 
-        "or_sensor_id": "3", 
+        "reading_with_msl": 628.99, 
+        "msl": 627.52, 
+        "reading": 1.47, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2955,8 +3095,9 @@
         "label": "6535: LITTLE SUGAR CREEK at 36th STREET", 
         "lat": 35.25033, 
         "lon": -80.80854, 
-        "msl": 672.914, 
-        "or_sensor_id": "3", 
+        "reading_with_msl": 673.28, 
+        "msl": 672.52, 
+        "reading": 0.76, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2981,8 +3122,9 @@
         "label": "6537: EDWARDS BRANCH at SHEFFIELD DRIVE", 
         "lat": 35.20306, 
         "lon": -80.77139, 
-        "msl": 685.996, 
-        "or_sensor_id": "3", 
+        "reading_with_msl": 685.93, 
+        "msl": 685.18, 
+        "reading": 0.75, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -2999,8 +3141,9 @@
         "label": "6538: GUM BRANCH at GUM BRANCH ROAD nr THRIFT", 
         "lat": 35.29939, 
         "lon": -80.9463, 
-        "msl": 632.53, 
-        "or_sensor_id": "3", 
+        "reading_with_msl": 632.87, 
+        "msl": 630.77, 
+        "reading": 2.1, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -3017,8 +3160,9 @@
         "label": "6539: BRIAR CREEK at PROVIDENCE ROAD", 
         "lat": 35.18389, 
         "lon": -80.81917, 
-        "msl": 608.684, 
-        "or_sensor_id": "3", 
+        "reading_with_msl": 608.91, 
+        "msl": 607.52, 
+        "reading": 1.39, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -3042,8 +3186,9 @@
         "label": "6540: McMULLEN CREEK at LINCREST PLACE", 
         "lat": 35.17028, 
         "lon": -80.78556, 
-        "msl": 655.949, 
-        "or_sensor_id": "3", 
+        "reading_with_msl": 656.09, 
+        "msl": 654.84, 
+        "reading": 1.25, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -3078,8 +3223,9 @@
         "label": "6541: BRIAR CREEK at INDEPENDENCE BLVD", 
         "lat": 35.21139, 
         "lon": -80.79972, 
-        "msl": 635.928, 
-        "or_sensor_id": "3", 
+        "reading_with_msl": 636.07, 
+        "msl": 635.02, 
+        "reading": 1.05, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -3096,8 +3242,9 @@
         "label": "6542: LITTLE SUGAR CREEK at HILLSIDE AVENUE", 
         "lat": 35.17917, 
         "lon": -80.845, 
-        "msl": 596.382, 
-        "or_sensor_id": "3", 
+        "reading_with_msl": 596.8199, 
+        "msl": 595.41, 
+        "reading": 1.41, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -3125,25 +3272,15 @@
     "6543": {
         "unique_id": "6543", 
         "site_id": "6543", 
-        "or_site_id": "735", 
-        "gauge_type": "stage", 
-        "site_name": "McDOWELL CREEK TRIB at SR2131 nr HICKS CROSSROADS", 
-        "label": "6543: McDOWELL CREEK TRIB at SR2131 nr HICKS CROSSROADS", 
-        "lat": 35.40181, 
-        "lon": -80.91772, 
-        "msl": 664.417, 
-        "or_sensor_id": "1"
-    }, 
-    "6543X": {
-        "unique_id": "6543X", 
-        "site_id": "6543X", 
         "or_site_id": "44", 
         "gauge_type": "stage", 
         "site_name": "TRIB to BRIAR CREEK at RUNNYMEDE LANE", 
-        "label": "6543X: TRIB to BRIAR CREEK at RUNNYMEDE LANE", 
+        "label": "6543: TRIB to BRIAR CREEK at RUNNYMEDE LANE", 
         "lat": 35.16833, 
         "lon": -80.83611, 
-        "or_sensor_id": "3"
+        "reading_with_msl": 585.82, 
+        "msl": 584.62, 
+        "reading": 1.2
     }, 
     "6544": {
         "unique_id": "6544", 
@@ -3154,8 +3291,9 @@
         "label": "6544: REEDY CREEK bl I-485 nr PINE RIDGE", 
         "lat": 35.25861, 
         "lon": -80.66278, 
-        "msl": 597.577, 
-        "or_sensor_id": "1", 
+        "reading_with_msl": 598.026, 
+        "msl": 595.73, 
+        "reading": 2.296, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -3172,8 +3310,9 @@
         "label": "6549: SUGAR CREEK at ARROWOOD ROAD", 
         "lat": 35.14167, 
         "lon": -80.91028, 
-        "msl": 560.997, 
-        "or_sensor_id": "4", 
+        "reading_with_msl": 561.723, 
+        "msl": 560.26, 
+        "reading": 1.463, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
@@ -3190,204 +3329,15 @@
         "label": "6551: McALPINE CREEK at COLONY ROAD", 
         "lat": 35.11833, 
         "lon": -80.80667, 
-        "msl": 536.703, 
-        "or_sensor_id": "3", 
+        "reading_with_msl": 537.3, 
+        "msl": 534.76, 
+        "reading": 2.54, 
         "ref_values": [
             {
                 "label": "NWS floodstage", 
                 "value": 566.5
             }
         ]
-    }, 
-    "6536": {
-        "unique_id": "6536", 
-        "site_id": "6536", 
-        "or_site_id": "643", 
-        "gauge_type": "stage", 
-        "site_name": "W. BR ROCKY RIVER bl MTH of S PRONG R nr CORNELIUS", 
-        "label": "6536: W. BR ROCKY RIVER bl MTH of S PRONG R nr CORNELIUS", 
-        "lat": 35.46778, 
-        "lon": -80.79028, 
-        "msl": 636.42, 
-        "or_sensor_id": "2", 
-        "ref_values": [
-            {
-                "label": "NWS floodstage", 
-                "value": 663.4
-            }
-        ]
-    }, 
-    "6533": {
-        "unique_id": "6533", 
-        "site_id": "6533", 
-        "or_site_id": "645", 
-        "gauge_type": "stage", 
-        "site_name": "CLARKE CREEK at HARRIS ROAD nr HARRISBURG", 
-        "label": "6533: CLARKE CREEK at HARRIS ROAD nr HARRISBURG", 
-        "lat": 35.41417, 
-        "lon": -80.75194, 
-        "msl": 608.3, 
-        "or_sensor_id": "2", 
-        "ref_values": [
-            {
-                "label": "NWS floodstage", 
-                "value": 627.33
-            }
-        ]
-    }, 
-    "6552": {
-        "unique_id": "6552", 
-        "site_id": "6552", 
-        "or_site_id": "649", 
-        "gauge_type": "stage", 
-        "site_name": "BACK CREEK at SR1173 nr HARRISBURG", 
-        "label": "6552: BACK CREEK at SR1173 nr HARRISBURG", 
-        "lat": 35.30917, 
-        "lon": -80.67361, 
-        "msl": 591.13, 
-        "or_sensor_id": "2"
-    }, 
-    "6553": {
-        "unique_id": "6553", 
-        "site_id": "6553", 
-        "or_site_id": "651", 
-        "gauge_type": "stage", 
-        "site_name": "REEDY CREEK at SR2803", 
-        "label": "6553: REEDY CREEK at SR2803", 
-        "lat": 35.25639, 
-        "lon": -80.70056, 
-        "msl": 637.45, 
-        "or_sensor_id": "2"
-    }, 
-    "6550": {
-        "unique_id": "6550", 
-        "site_id": "6550", 
-        "or_site_id": "655", 
-        "gauge_type": "stage", 
-        "site_name": "McKEE CREEK at SR2804 nr WILGROVE", 
-        "label": "6550: McKEE CREEK at SR2804 nr WILGROVE", 
-        "lat": 35.25389, 
-        "lon": -80.64806, 
-        "msl": 597.09, 
-        "or_sensor_id": "2", 
-        "ref_values": [
-            {
-                "label": "NWS floodstage", 
-                "value": 611.1
-            }
-        ]
-    }, 
-    "6530": {
-        "unique_id": "6530", 
-        "site_id": "6530", 
-        "or_site_id": "657", 
-        "gauge_type": "stage", 
-        "site_name": "CLEAR CREEK at SR3181 nr MINT HILL", 
-        "label": "6530: CLEAR CREEK at SR3181 nr MINT HILL", 
-        "lat": 35.20833, 
-        "lon": -80.58, 
-        "msl": 558.29, 
-        "or_sensor_id": "2", 
-        "ref_values": [
-            {
-                "label": "NWS floodstage", 
-                "value": 573.3
-            }
-        ]
-    }, 
-    "6528": {
-        "unique_id": "6528", 
-        "site_id": "6528", 
-        "or_site_id": "659", 
-        "gauge_type": "stage", 
-        "site_name": "GOOSE CREEK at SR1524 nr INDIAN TRAIL", 
-        "label": "6528: GOOSE CREEK at SR1524 nr INDIAN TRAIL", 
-        "lat": 35.13042, 
-        "lon": -80.63118, 
-        "msl": 596.58, 
-        "or_sensor_id": "2"
-    }, 
-    "6529": {
-        "unique_id": "6529", 
-        "site_id": "6529", 
-        "or_site_id": "661", 
-        "gauge_type": "stage", 
-        "site_name": "GOOSE CREEK at SR1525 nr INDIAN TRAIL", 
-        "label": "6529: GOOSE CREEK at SR1525 nr INDIAN TRAIL", 
-        "lat": 35.125, 
-        "lon": -80.60278, 
-        "msl": 549.82, 
-        "or_sensor_id": "2"
-    }, 
-    "6548": {
-        "unique_id": "6548", 
-        "site_id": "6548", 
-        "or_site_id": "663", 
-        "gauge_type": "stage", 
-        "site_name": "McDOWELL CREEK at GILEAD ROAD nr HUNTERSVILLE", 
-        "label": "6548: McDOWELL CREEK at GILEAD ROAD nr HUNTERSVILLE", 
-        "lat": 35.40694, 
-        "lon": -80.89056, 
-        "msl": 659.47, 
-        "or_sensor_id": "2", 
-        "ref_values": [
-            {
-                "label": "NWS floodstage", 
-                "value": 689.5
-            }
-        ]
-    }, 
-    "6547": {
-        "unique_id": "6547", 
-        "site_id": "6547", 
-        "or_site_id": "665", 
-        "gauge_type": "stage", 
-        "site_name": "TORRENCE CREEK at BRADFORD HILL LANE nr HUNTERSVLLE", 
-        "label": "6547: TORRENCE CREEK at BRADFORD HILL LANE nr HUNTERSVLLE", 
-        "lat": 35.40361, 
-        "lon": -80.88278, 
-        "msl": 663.73, 
-        "or_sensor_id": "2", 
-        "ref_values": [
-            {
-                "label": "NWS floodstage", 
-                "value": 679.0
-            }
-        ]
-    }, 
-    "6506": {
-        "unique_id": "6506", 
-        "site_id": "6506", 
-        "or_site_id": "669", 
-        "gauge_type": "stage", 
-        "site_name": "LONG CREEK at OAKDALE ROAD nr PAW CREEK", 
-        "label": "6506: LONG CREEK at OAKDALE ROAD nr PAW CREEK", 
-        "lat": 35.32861, 
-        "lon": -80.90972, 
-        "msl": 647.69, 
-        "or_sensor_id": "2", 
-        "ref_values": [
-            {
-                "label": "NWS floodstage", 
-                "value": 661.2
-            }, 
-            {
-                "label": "at top of bank", 
-                "value": 658.0
-            }
-        ]
-    }, 
-    "6546": {
-        "unique_id": "6546", 
-        "site_id": "6546", 
-        "or_site_id": "723", 
-        "gauge_type": "stage", 
-        "site_name": "McALPINE CREEK at SR2964 nr CAMP COX, SC", 
-        "label": "6546: McALPINE CREEK at SR2964 nr CAMP COX SC", 
-        "lat": 35.04083, 
-        "lon": -80.89167, 
-        "msl": 496.95, 
-        "or_sensor_id": "2"
     }, 
     "8594": {
         "unique_id": "8594", 

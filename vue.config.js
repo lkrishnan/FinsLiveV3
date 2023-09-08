@@ -122,7 +122,7 @@ module.exports = {
   
 	  	},
 		workboxOptions: {
-			exclude: [ /\.htaccess$/, /web\.config$/, /\.(?:scss)$/ ]
+			exclude: [ /\.htaccess$/, /web\.config$/, /\.(?:scss)$/, /\.(?:json)$/ ]
 		
 	  	},
 	

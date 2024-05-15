@@ -282,7 +282,7 @@ const getGauges = ( input_list) => {
 			component: EsriMap,
 			beforeEnter( to, from, next ){
 				storeGaugeCamRoute( from )
-				
+
 				if( ValidateString( to.params.uniqueid, "isCamera" ) ){
 					next( )
 

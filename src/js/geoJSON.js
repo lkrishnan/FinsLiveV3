@@ -101,7 +101,20 @@ export function FormatAsGeoJSON( gauge_arr, data_arr, gauge_info ){
 
 	//store trend for stage gauges in the icon property
 	for( let unique_id in last_five ){
-		const max = Math.max( ...last_five[ unique_id ] ), 
+		if( last_five[ unique_id ].length > 1 ){
+			let lastest_val = last_five[ unique_id ][ 0 ]
+
+			if( last_five[ unique_id ].slice( 1, last_five[ unique_id ].length ).every( val => ( lastest_val - val ) >= 0.2 ) )
+				site_obj[ unique_id ].site_trend = "rising"		
+			else if( last_five[ unique_id ].slice( 1, last_five[ unique_id ].length ).every( val => ( val - lastest_val ) >= 0.2 ) )
+				site_obj[ unique_id ].site_trend = "falling"
+			else
+				site_obj[ unique_id ].site_trend = "steady"
+
+		}else
+			site_obj[ unique_id ].site_trend = "steady"
+
+		/*const max = Math.max( ...last_five[ unique_id ] ), 
 			min = Math.min( ...last_five[ unique_id ] )
 
 		if( max - min > 0.1 ){
@@ -113,7 +126,7 @@ export function FormatAsGeoJSON( gauge_arr, data_arr, gauge_info ){
 		}else{
 			site_obj[ unique_id ].site_trend = "steady"
 
-		}
+		}*/
 
 	}
 	

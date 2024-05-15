@@ -202,7 +202,9 @@
         >
             <ReadingFilter v-if="filter_holder && [ 0, 1 ].includes( top_tab ) && info_drawer" />
             <Site />                
-            <!--<FloodImpact v-if="info_drawer" />-->
+            <FloodImpact v-if="info_drawer" />
+
+            
             <WeatherForecast v-if="info_drawer" />  
             <About v-if="info_drawer"/>              
         </v-navigation-drawer>
@@ -696,13 +698,13 @@
                     //initiate map sources
                     _this.map_sources = {
                         opaque: new MapImageLayer( {
-                            url: "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/stormwater/finslive/MapServer",
+                            url: "https://meckags.mecklenburgcountync.gov/server/rest/services/StormWater/finslive/MapServer",
                             sublayers : _this.getSourceSwitch( "opaque" ),
                             
                         } ),
                         
                         strmxing: new FeatureLayer( {
-                            url: "https://maps.mecklenburgcountync.gov/agsadaptor/rest/services/stormwater/finslive/MapServer/6",
+                            url: "https://meckags.mecklenburgcountync.gov/server/rest/services/StormWater/finslive/MapServer/6",
                             visible: _this.getSourceSwitch( "strmxing" ),
                             popupTemplate: GetStrmXingTemplate( ),
 
@@ -792,6 +794,24 @@
                             
                         } ),
 
+                        noweventri: new FeatureLayer( {
+                            url: "https://edmsmapserver.mecklenburgcountync.gov/agsadaptor/rest/services/RARR_Storm/RARR_NowEvent/MapServer/4",
+                            visible: _this.getSourceSwitch( "noweventri" ),
+                            
+                        } ),
+
+                        nowinund: new FeatureLayer( {
+                            url: "https://edmsmapserver.mecklenburgcountync.gov/agsadaptor/rest/services/RARR_Storm/RARR_NowEvent/MapServer/2",
+                            visible: _this.getSourceSwitch( "nowinund" ),
+                            
+                        } ),
+
+                        nowforecastinund: new FeatureLayer( {
+                            url: "https://edmsmapserver.mecklenburgcountync.gov/agsadaptor/rest/services/RARR_Storm/RARR_NowEvent/MapServer/3",
+                            visible: _this.getSourceSwitch( "nowforecastinund" ),
+                            
+                        } ),
+
                         loc: new GraphicsLayer( { 
                             opacity: 1.0, 
                             
@@ -808,6 +828,7 @@
                         _this.map_sources.rarrbldg,
                         _this.map_sources.rarrroad,
                         _this.map_sources.rarrstrmxing, 
+                        _this.map_sources.noweventri,
                         _this.map_sources.loc,
                         
                     ] )
@@ -1049,7 +1070,7 @@
 
                 //add layer
                 _this.map_sources.gauge_cam = new GeoJSONLayer( {
-                        url: `${_this.ws.dbopen}v1/geojson/stormwater_webcams?geom_column=the_geom&columns=CASE WHEN key is NULL THEN 'CAM'||site_id ELSE site_id END as unique_id, name, key, 'cam' as icon, 'na' as site_trend&precision=9`,
+                        url: `${_this.ws.dbopen}v1/geojson/stormwater_webcams?geom_column=the_geom&columns=CASE WHEN regexp_like(site_id, '^[0-9]{1,2}$') THEN 'CAM'||site_id ELSE site_id END as unique_id, name, key, 'cam' as icon, 'na' as site_trend&precision=9`,
                         copyright: "Charlotte-Mecklenburg Storm Water Services",
                         popupTemplate: GetGeoJSONTemplate( "cam" ),
                         renderer: GetGeoJSONRenderer( "cam" ),

@@ -489,8 +489,8 @@
 					_this.readings = await GetAlertData( "lake", "readings", getAlertParams( { uniqueid: _this.data.unique_id, period: 'P1D' } ) )
                     													
 				}else if( ValidateString( _this.data.unique_id, "isLCSGauge" ) ){
-					_this.readings = _this.formatLCSReadings( await GetContrailData( "contrail", getContrailParams( { uniqueid: _this.data.unique_id, period: 'PT12H' }, _this.data ) ) )
-                    				
+					_this.readings = _this.formatLCSReadings( await GetContrailData( "contrail", getContrailParams( { period: 'PT12H' }, _this.data, (_this.use_msl ? "c57f3913-ac01-4aa7-b633-e8311f45f74a" : "a70cdf6d-8277-4840-9913-e87e2d195c0b" ) ) ), _this.use_msl )
+                                        				
 				}else if( ValidateString( _this.data.unique_id, "isCamera" ) ){
                     _this.snapshot = GetSnapshot( _this.data.site_id, ( _this.data.hasOwnProperty( "key" ) ? _this.data.key : null ) )
                                                         
@@ -651,16 +651,19 @@
       		
 			},
 
-            formatLCSReadings( readings ){ //lcs values are reported as inches (feet = inches / 12)
+            formatLCSReadings( readings, use_msl ){ //lcs values are reported as inches (feet = inches / 12)
                 return [ ...readings ]
+                        .filter( a => a.sensor_class === ( use_msl ? 382 : 20 ) )
                         .reverse( )
                         .map( a => {
                             const date_time_arr = a.data_time.split( " " )
 
                             return { 
                                 datetime: date_time_arr[ 0 ] + "T" + date_time_arr[ 1 ] + "Z", 
-                                reading: a.raw_value / 12,
-                                reading_with_msl: a.data_value, 
+                                //reading: a.raw_value / 12,
+                                //reading_with_msl: a.data_value, 
+                                reading: ( use_msl ? null : a.data_value ),
+                                reading_with_msl: ( use_msl ? a.data_value : null ), 
                             }
 
                         } )

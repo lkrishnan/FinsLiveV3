@@ -22,13 +22,22 @@ export async function GetAlertData( gauge, info, qrystr ){
 export async function GetContrailData( systm, qrystr ){
 	try{
 		const url = `${ store.getters[ "ws" ][ systm ] }?${ JSONToURL( qrystr ) }`,
-			response = await fetch( url ),
-			xml_str = await response.text( )
+			response = await fetch( url )
 
 		if( response.ok ){
-			const response = txml.simplify( txml.parse( xml_str ) ).onerain.response
+			if( qrystr?.format ){
+				const json_response = await response.json( )
 
-			return ( typeof response.general === "object" ? response.general.row : [ ] )
+				return json_response.response
+
+			}else{
+				const xml_str = await response.text( ),
+					xml_response = txml.simplify( txml.parse( xml_str ) ).onerain.response
+
+				return ( typeof xml_response.general === "object" ? xml_response.general.row : [ ] )
+
+			}
+
 							
 		}else{
 			throw Error( `${response.status} ${response.statusText}` )
@@ -50,8 +59,8 @@ export async function GetStoredContrailData( qrystr ){
 				"Pragma": "no-cache"  
 			}
 	  	} ),
-	  	url = `${store.getters[ "ws" ].fm}v1/lcs_readings`,
-		response = await axios_inst.get( `${ url }?${ JSONToURL( qrystr ) }` )
+		url = `${store.getters[ "ws" ].fins}v1/query/lcs/lastfive`,
+		response = await axios_inst.get( `${ url }` )
 
 		return response.data 
 
@@ -62,10 +71,10 @@ export async function GetStoredContrailData( qrystr ){
 	
 }
 
-export function getContrailParams( qrystr, site_info ){
+export function getContrailParams( qrystr, site_info, system_key="c9254111-e6c8-4689-9171-685eac46496b" ){
 	let ret_val = { 
 		method: "GetSensorData", 
-		system_key: "c9254111-e6c8-4689-9171-685eac46496b",
+		system_key: system_key
 		
 	}
 
@@ -74,6 +83,8 @@ export function getContrailParams( qrystr, site_info ){
 
 		ret_val = { 
 			...ret_val, 
+			site_id: site_info.site_id,
+			format: "json",
 			data_start: FormatDate( "YYYY-MM-DD HH:mm:ss", SubtractFromDate( duration_secs, "seconds", qrystr.enddate ), true ),
 			data_end: FormatDate( "YYYY-MM-DD HH:mm:ss", qrystr.enddate, true ),  
 
@@ -83,6 +94,7 @@ export function getContrailParams( qrystr, site_info ){
 	}else if( qrystr.hasOwnProperty( "startdate" ) & qrystr.hasOwnProperty( "enddate" ) ){
 		ret_val = { 
 			...ret_val, 
+			format: "json",
 			data_start: FormatDate( "YYYY-MM-DD HH:mm:ss", qrystr.startdate, true ),
 			data_end: FormatDate( "YYYY-MM-DD HH:mm:ss", qrystr.enddate, true ),  
 
@@ -93,7 +105,9 @@ export function getContrailParams( qrystr, site_info ){
 	if( qrystr.hasOwnProperty( "uniqueid" ) ){
 		ret_val = { 
 			...ret_val, 
-			or_site_id: qrystr.uniqueid,
+			//or_site_id: qrystr.uniqueid
+			site_id: site_info.site_id,
+			format: "json"
 			//or_sensor_id: site_info.or_sensor_id, //or_sensor_is needs to be passed to get the readings with msl 
 
 		}

@@ -431,6 +431,7 @@
                         
                         }, 180000 )    
 
+
                         _this.showData( params )
                         _this.addRefImages( params )
                         
@@ -494,7 +495,7 @@
                             return { 
                                 uniqueid: uniqueid, 
                                 gauge: "lcs", 
-                                readings: await GetContrailData( "contrail", getContrailParams( qrystr, site_info ) ) 
+                                readings: await GetContrailData( "contrail", getContrailParams( qrystr, site_info, (_this.use_msl ? "c57f3913-ac01-4aa7-b633-e8311f45f74a" : "a70cdf6d-8277-4840-9913-e87e2d195c0b" ) ) ) 
 
                             }
 
@@ -523,14 +524,15 @@
 
                         if( gauge_type === "lcs" ){
                             _this.readings = [ ...readings ]
+                                            .filter( a => a.sensor_class === ( _this.use_msl ? 382 : 20 ) )
                                             .reverse( )
                                             .map( a => {
                                                 const date_time_arr = a.data_time.split( " " )
 
                                                 return { 
                                                     datetime: date_time_arr[ 0 ] + "T" + date_time_arr[ 1 ] + "Z", 
-                                                    reading: a.raw_value/12,
-                                                    reading_with_msl: a.data_value, 
+                                                    reading: ( _this.use_msl ? null : a.data_value ),
+                                                    reading_with_msl: ( _this.use_msl ? a.data_value : null ), 
                                                 }
 
                                             } )
@@ -594,7 +596,8 @@
                     case "stage": case "lcs": 
                         chart_params = { 
                             x: d => new Date( d.datetime ),
-                            y: d => ( _this.use_msl ? parseFloat( d.reading ) + site_info.msl: parseFloat( d.reading ) ),
+                            //y: d => ( _this.use_msl ? parseFloat( d.reading ) + site_info.msl: parseFloat( d.reading ) ),
+                            y: d => ( _this.use_msl ? parseFloat( d.reading_with_msl ): parseFloat( d.reading ) ),
                             color: "#1976D2",
                             yLabel: "Stream Level" + ( _this.use_msl ? " above MSL": "" ) + " (ft)",
                             width: 320,
@@ -605,8 +608,10 @@
                         }
 
                         yscale_nums = [ 
-                            Math.min(..._this.readings.map( r => ( _this.use_msl ? RoundNum( parseFloat( r.reading ) + site_info.msl, 2 ): parseFloat( r.reading ) ) ) ), 
-                            Math.max(..._this.readings.map( r => ( _this.use_msl ? RoundNum( parseFloat( r.reading ) + site_info.msl, 2 ): parseFloat( r.reading )) ) ),
+                            //Math.min(..._this.readings.map( r => ( _this.use_msl ? RoundNum( parseFloat( r.reading ) + site_info.msl, 2 ): parseFloat( r.reading ) ) ) ), 
+                            //Math.max(..._this.readings.map( r => ( _this.use_msl ? RoundNum( parseFloat( r.reading ) + site_info.msl, 2 ): parseFloat( r.reading )) ) ),
+                            Math.min(..._this.readings.map( r => ( _this.use_msl ? RoundNum( parseFloat( r.reading_with_msl ), 2 ): parseFloat( r.reading ) ) ) ), 
+                            Math.max(..._this.readings.map( r => ( _this.use_msl ? RoundNum( parseFloat( r.reading_with_msl ), 2 ): parseFloat( r.reading )) ) ),
                             
                         ]
 
@@ -678,17 +683,29 @@
             },
 
             showSnapshot( params ){
-                const _this = this
+                const _this = this,
+                isNumeric = function( str ){
+		            const validChars = "0123456789."
+			            
+
+			        let isNumber = ( str.length > 0 ? true : false ), chr
+				
+                    for( let i = 0; i < str.length && isNumber == true; i++ ){ 
+                        chr = str.charAt( i ); 
+                            
+                        if( validChars.indexOf( chr ) == -1 ){
+                            isNumber = false;
+                        }	
+                    }
+                        
+                    return isNumber;
+                }
 
                 if( ValidateString( params.uniqueid, "isCamera" ) ){
                     const site_info = _this.gauge_info[ params.uniqueid ]
 
-                    _this.snapshot = ( site_info.hasOwnProperty( "key" ) ? 
-                        `${_this.ws.camera}?method=image&camera=${site_info.key}&api_key=55dcad90-e3ec-4954-b882-384bfd3bb9dd`: 
-                        `${_this.ws.fins}v1/creekcam/${site_info.site_id}` 
-
-                    )
-
+                    _this.snapshot = ( isNumeric(site_info.site_id  ) ? `${_this.ws.fins}v1/creekcam/${site_info.site_id}`: `${_this.ws.camera}?method=image&camera=${site_info.key}&api_key=55dcad90-e3ec-4954-b882-384bfd3bb9dd` )
+                    
                 }
 
                 _this.show_progress = false

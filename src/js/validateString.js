@@ -159,7 +159,7 @@ export default function validateString( str, type ){
 		},
 
 		isCamera: str => {
-			return ( str.match( /(^CAM[1-9][0-4]?$|\bM([C|Y]|OBILE))/ ) ? true : false ) 
+			return ( str.match( /(^CAM[1-9][0-4]?$|\bM([C|Y]|OBILE)|BD2A*|WBRR)/ ) ? true : false ) 
 
 		},
 
